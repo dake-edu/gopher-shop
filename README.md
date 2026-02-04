@@ -1,6 +1,6 @@
-# Gopher Shop 🐹📚
+# The Gopher Shop 🐹📚
 
-Welcome to the **Gopher Shop** — a professional, hands-on educational journey designed to transform Go beginners into **Middle-level Backend Engineers**.
+Welcome to the **The Gopher Shop** — a professional, hands-on educational journey designed to transform Go beginners into **Middle-level Backend Engineers**.
 
 ## 🚀 The Mission
 Our goal is to build a production-ready REST API for a digital book store from scratch. We don't just teach syntax; we teach **architecture, patterns, and logic**.
