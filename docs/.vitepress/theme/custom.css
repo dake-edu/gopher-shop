@@ -1,0 +1,30 @@
+:root {
+    --vp-c-brand-1: #00ADD8;
+    --vp-c-brand-2: #008CB0;
+    --vp-c-brand-3: #006B85;
+}
+
+.VPImage.image-src {
+    max-height: 250px;
+}
+
+/* Theme Switcher: Active state background */
+.VPSwitchAppearance .check {
+    background-color: #00ADD8 !important;
+}
+
+/* Visual Anchor Blocks (TIPs) */
+.custom-block.tip {
+    background-color: #00ADD8;
+    border-color: #00ADD8;
+    color: white;
+}
+
+.custom-block.tip .custom-block-title {
+    color: white;
+}
+
+.custom-block.tip a {
+    color: white;
+    text-decoration: underline;
+}
