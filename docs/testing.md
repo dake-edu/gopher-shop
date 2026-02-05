@@ -1,25 +1,39 @@
 # 15. The Safety Net (Testing)
 
-You wouldn't drive a car that hasn't been crash-tested. Don't ship code that hasn't been unit-tested.
-
-## 15.1 The Crash Test Dummy (Unit Tests)
-A **Unit Test** checks one small part of the machine in isolation.
-In Go, test files end in `_test.go`.
+## 15.1 Table-Driven Tests
+In other languages, you might write 10 separate test functions for 10 cases.
+In Go, we use a **Table**. It's cleaner.
 
 ```go
-func TestAddRef(t *testing.T) {
-    result := Add(2, 2)
-    if result != 4 {
-        t.Errorf("Expected 4, got %d", result)
+func TestAdd(t *testing.T) {
+    // The Table
+    cases := []struct {
+        A, B, Expected int
+    }{
+        {1, 1, 2},
+        {5, 0, 5},
+        {-1, 1, 0},
+    }
+
+    // The Loop
+    for _, tc := range cases {
+        result := Add(tc.A, tc.B)
+        if result != tc.Expected {
+            t.Errorf("Add(%d, %d) = %d; want %d", tc.A, tc.B, result, tc.Expected)
+        }
     }
 }
 ```
 
-## 15.2 Mocking (The Stunt Double)
-When testing the Web Handler, we don't want to connect to a real Database (it's slow and risky).
-We use a **Mock** (a fake database) that pretends to work.
+### Anatomy of `t *testing.T`
+- **`t`**: The Controller.
+- **`t.Errorf`**: "Mark this test as Failed, log the message, but **Continue** running other tests."
+- **`t.Fatal`**: "Stop now. This is critical."
 
-- **Real DB**: "I will connect to port 5432..."
-- **Mock DB**: "I will just return 'Success' immediately."
+## 15.2 Mocks (The Stunt Double)
+Why do we mock?
+If your test actually connects to GitHub, and your internet is down, your test fails.
+Code logic didn't break; the internet did.
+**Tests must confirm LOGIC, not INFRASTRUCTURE.**
 
-This allows us to test the *Logic* without the *Infrastructure*.
+We create a fake struct that "looks like" the real dependency (satisfies the Interface) but just returns dummy data.

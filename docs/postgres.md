@@ -1,29 +1,29 @@
 # 13. The Warehouse (PostgreSQL)
 
-Memory is fast, but it forgets. For a real business, we need a **Steel Vault**.
+## 13.1 The Low-Level Driver
+To talk to a SQL database, Go uses the standard package `database/sql`.
+However, `database/sql` is just a **Manager**. It needs a worker (Driver) to speak the specific language of PostgreSQL.
 
-## 13.1 SQL (The Language of Data)
-Structured Query Language (SQL) is the standard way to talk to databases.
-- `CREATE TABLE`: Build a shelf.
-- `INSERT`: Put a box on the shelf.
-- `SELECT`: Find a box.
-
-## 13.2 The Driver (`lib/pq`)
-Go doesn't speak SQL natively. It needs a translator, called a **Driver**.
-We use `lib/pq` to talk to Postgres.
-
-## 13.3 Docker (The Container)
-Installing Postgres on every developer's laptop is a pain.
-We use **Docker** to run Postgres in a lightweight container.
-
-```yaml
-services:
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_PASSWORD: secret
+We import the driver **Blankly**:
+```go
+import _ "github.com/lib/pq"
 ```
+### Anatomy of the Blank Import (`_`)
+1.  **`import`**: Bring in code.
+2.  **`_` (Underscore)**: "I am not going to call this package directly in my code."
+    - *Why?* We only want the package's `init()` function to run.
+    - Inside `lib/pq`, the `init()` function registers itself with Go's SQL Manager: "Hey, I know how to talk to Postgres!"
 
-**Visual Anchor**:
-- **Memory**: A Whiteboard (Fast, Erased easily).
-- **Postgres**: A Steel Safe (Secure, Persists forever).
+## 13.2 Connection Pooling (`sql.Open`)
+```go
+db, err := sql.Open("postgres", "user=dake dbname=shop...")
+```
+**Crucial Concept**: `sql.Open` does NOT establish a connection.
+It prepares a **Connection Pool**.
+- It opens connections only when needed.
+- It keeps them open for reuse (Performance).
+- It handles network drops automatically.
+
+Comparison:
+- **Python/Django**: Often opens a new connection per request (Slow).
+- **Go**: Maintains a pool of long-lived connections (Fast).

@@ -1,25 +1,47 @@
 # 14. The Onion (Middleware)
 
-In a professional web server, you need to do things *around* the main logic:
-- Log every request.
-- Check security headers.
-- Handle crashes (Panic Recovery).
+This is one of the most advanced concepts in Go web servers.
+Let's dissect it carefully.
 
-## 14.1 Layers of the Onion
-**Middleware** wraps your handler like layers of an onion.
-The Request must pass through all outer layers to get to the center (Your Logic), and then pass back out.
+## 14.1 Functions as Values
+In Go, a function is a value. You can:
+1.  Store it in a variable.
+2.  Pass it as an argument.
+3.  Return it from another function.
 
-**Request** $\rightarrow$ [Logger] $\rightarrow$ [Security] $\rightarrow$ **(Handler)** $\rightarrow$ [Security] $\rightarrow$ [Logger] $\rightarrow$ **Response**
-
-## 14.2 The Chainer
-In Go, middleware is a function that takes a Handler and returns a Handler.
-
+## 14.2 The Middleware Signature
 ```go
-func LoggingMiddleware(next http.Handler) http.Handler {
-    return http.HandlerFunc(func(w, r) {
-        fmt.Println("Request started...")
-        next.ServeHTTP(w, r) // Pass to next layer
-        fmt.Println("Request finished.")
+func Logging(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        // Pre-Processing
+        fmt.Println("Start")
+        
+        next.ServeHTTP(w, r) // Pass the baton
+        
+        // Post-Processing
+        fmt.Println("End")
     })
 }
 ```
+
+### Line-by-Line Anatomy
+1.  **`func Logging(next http.Handler) http.Handler`**:
+    - Input: The **Next** layer of the onion (the inner handler).
+    - Output: A **New** handler that wraps the old one.
+2.  **`return http.HandlerFunc(...)`**:
+    - We are building a new handler on the fly.
+3.  **`func(w, r)`**:
+    - This is the **Closure**. It captures the `next` variable from outside.
+4.  **`next.ServeHTTP(w, r)`**:
+    - **Crucial**: This calls the original handler.
+    - If you forget this line, the request stops here. The User never gets a response.
+
+## 14.3 Visualizing the Chain
+When we wrap handlers: `Logging(Auth(HomeHandler))`
+
+1.  Request arrives $\rightarrow$ **Logging** starts.
+2.  Logging calls `next` $\rightarrow$ **Auth** starts.
+3.  Auth calls `next` $\rightarrow$ **HomeHandler** (Business Logic).
+4.  HomeHandler returns.
+5.  **Auth** finishes.
+6.  **Logging** finishes.

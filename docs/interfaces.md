@@ -1,32 +1,44 @@
 # 12. The Architect (Interfaces)
 
-As your shop grows, you need flexibility. You might want to switch from Memory storage to PostgreSQL, or File storage.
-You don't want to rewrite your entire app every time.
+## 12.1 The Implicit Contract (Duck Typing)
+In strict languages (Java, C++), you must **explicitly** sign the contract.
+`class MyStore implements BookRepository`.
 
-## 12.1 The Universal Plug
-An **Interface** is like a standard wall socket.
-- The Wall Socket doesn't care if you plug in a Lamp, a TV, or a Vacuum.
-- It just guarantees: "I provide electricity."
+In Go, the contract is **implicit**. This is called "Duck Typing".
+> *"If it walks like a duck and quacks like a duck, it is a duck."*
 
-## 12.2 Defining the Contract
-In Go, an interface defines **Behavior** (what it *does*), not Data.
+If your struct has the methods `GetAll()` and `GetByID()`, Go automatically considers it a `BookRepository`.
 
+### Anatomy of an Interface
 ```go
 type BookRepository interface {
     GetAll() ([]Book, error)
     GetByID(id string) (Book, error)
 }
 ```
+1.  **`type`**: New Type Definition.
+2.  **`BookRepository`**: The name (Contract Name).
+3.  **`interface`**: The Kind. It contains only Method Signatures, no code.
+4.  **`GetByID`**: Method Name.
+5.  **`(id string)`**: Usage requirements (Input).
+6.  **`(Book, error)`**: Expected result (Output).
 
-Any tool that has these two methods "satisfies" the interface and can be plugged in.
+## 12.2 Dependency Injection (DI)
+Big phrase, simple concept.
+**Don't build your tools inside your house. Buy them and bring them in.**
 
-## 12.3 Dependency Injection
-Instead of the app creating the storage, we **give** the storage to the app.
-
+**Bad (Tight Coupling)**:
 ```go
-// "Hole in the wall"
-type Handler struct {
-    repo BookRepository
+func NewHandler() *Handler {
+    repo := PostgresStore{} // Hardcoded! Can't switch to Memory.
+    return &Handler{repo: repo}
 }
 ```
-Now we can plug in *anything* that fits the `BookRepository` shape.
+
+**Good (Dependency Injection)**:
+```go
+func NewHandler(repo BookRepository) *Handler {
+    return &Handler{repo: repo} // Flexible! Accepts any repo.
+}
+```
+Now `main.go` decides which tool to use.
