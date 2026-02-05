@@ -6,7 +6,7 @@ hero:
   text: "Level Up Your Go Skills"
   tagline: "A hands-on journey from Junior to Middle-level Backend Engineer."
   image:
-    src: /gopher.png
+    src: /gopher-shop/gopher.png
     alt: Gopher Mascot
   actions:
     - theme: brand

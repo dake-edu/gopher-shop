@@ -1,7 +1,8 @@
 export default {
+  base: '/gopher-shop/',
   title: 'The Gopher Shop',
   description: 'From Junior to Middle-level Go Backend Engineer.',
-  head: [['link', { rel: 'icon', href: '/gopher.png' }]],
+  head: [['link', { rel: 'icon', href: '/gopher-shop/gopher.png' }]],
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
