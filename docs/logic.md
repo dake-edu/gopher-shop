@@ -1,39 +1,68 @@
-# Logic: The Fork in the Road
+# 5. The Decision Maker (Logic)
 
-Websites aren't just static posters. They change. They think.
-To make your code "think", you use **Logic**.
+Code that runs in a straight line is boring. Smart programs make decisions.
 
-## The Boolean (The Switch)
-A **Boolean** (`bool`) is the simplest type. It can only be `true` (ON) or `false` (OFF).
+## 5.1 The Judge (Comparison Operators)
+Before we make a decision, we need to judge the situation. The result is always a **Boolean** (`true` / `false`).
+
+| Operator | Meaning | Example | Result |
+| :--- | :--- | :--- | :--- |
+| `==` | Equal to | `5 == 5` | `true` |
+| `!=` | Not Equal | `5 != 3` | `true` |
+| `<` | Less than | `10 < 5` | `false` |
+| `>=` | Greater or Equal | `10 >= 10` | `true` |
+
+## 5.2 The Circuit (Boolean Algebra)
+Sometimes you need to check multiple things.
+
+### AND (`&&`)
+**Both** must be true.
+> "I will buy the car if it is **Red** AND **Fast**."
+- `true && true` $\rightarrow$ `true`
+- `true && false` $\rightarrow$ `false`
+
+### OR (`||`)
+**at least One** must be true.
+> "I will eat if I am **Hungry** OR **Bored**."
+- `true || false` $\rightarrow$ `true`
+- `false || false` $\rightarrow$ `false`
+
+### NOT (`!`)
+**Flip** the result.
+- `!true` $\rightarrow$ `false`
+
+## 5.3 The Fork (If / Else)
+We use `if` to control the flow.
 
 ```go
-var isOpen bool = true
-```
+isOpen := true
+isHoliday := false
 
-## The If/Else Statement (The Fork)
-Imagine you are walking down a road. You see a sign: **"Is the Shop Open?"**.
-
-- **YES (True)**: You turn **Left** and enter the shop.
-- **NO (False)**: You turn **Right** and go home.
-
-In Go, we write this "Fork in the Road" like this:
-
-```go
-if isOpen {
-    // Left Path: Show the books
-    fmt.Println("Welcome!")
+if !isOpen {
+    // Stop here if closed
+    fmt.Println("Come back tommorow.")
+} else if isHoliday {
+    // Open, but holiday
+    fmt.Println("Holiday hours.")
 } else {
-    // Right Path: Go home
-    fmt.Println("Closed.")
+    // Normal flow
+    fmt.Println("Welcome!")
 }
 ```
 
-## Your Mission
-1. Open `lessons/03-conditionals/main.go`.
-2. Run it: `go run lessons/03-conditionals/main.go`.
-3. Visit `http://localhost:8081` — You should see the books.
-4. **Change the code**: Set `isOpen := false`.
-5. Restart the server.
-6. Refresh the page — You should see the "Closed" message.
+## 5.4 The Switch (Cleaner Logic)
+If you have many conditions, `if/else` gets messy. Use `switch`.
 
-You just made your website dynamic!
+```go
+role := "admin"
+
+switch role {
+case "admin":
+    fmt.Println("Full Access")
+case "user":
+    fmt.Println("Limited Access")
+default:
+    fmt.Println("Access Denied")
+}
+```
+*Think of it as a railway switchyard, directing the train to the correct track.*

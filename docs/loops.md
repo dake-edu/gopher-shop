@@ -1,39 +1,54 @@
-# The Conveyor Belt (Loops)
+# 6. Collections and Iteration
 
-Imagine you work in a warehouse. You have a huge shelf full of boxes (a **Slice**).
-Your boss tells you: *"Put a price tag on every single box."*
+Managing one variable is easy. Managing a thousand is hard. We need containers.
 
-You don't run to the shelf and jump on all the boxes at once.
-You use a **Conveyor Belt**.
-
-1. The belt brings **one box** to you.
-2. You stick the tag on it.
-3. The belt moves, creating the **next box**.
-4. You repeat this until the shelf is empty.
-
-## Loops in Go (`for range`)
-
-In Go, the `for` loop is your conveyor belt.
+## 6.1 The Egg Carton (Arrays)
+An **Array** is a fixed-size container.
+- **Rule**: When you buy an egg carton for 12 eggs, it always has 12 slots. You cannot magically stretch it to hold 13.
+- **Syntax**: `[3]int` (An array of exactly 3 integers).
 
 ```go
-// The Shelf
-library := []Book{book1, book2, book3}
+var carton [3]int
+carton[0] = 10
+carton[1] = 20
+// carton[3] = 30 // ERROR! Index out of bounds.
+```
+*Arrays are rarely used directly because they are too rigid.*
 
-// The Loop (Conveyor Belt)
-for _, book := range library {
-    // Processing ONE item at a time
-    fmt.Println(book.Title)
+## 6.2 The Magic Shelf (Slices)
+A **Slice** is a window into an underlying array. Ideally, it feels like a dynamic list that can grow.
+- **Syntax**: `[]int` (No number).
+
+```go
+shelf := []string{"Book A", "Book B"}
+shelf = append(shelf, "Book C") // Magic! It grows.
+```
+
+## 6.3 The Conveyor Belt (For Loops)
+How do we process 1,000 items? We don't write 1,000 lines of code.
+We use a **Loop**.
+
+### The Standard Loop
+"Init; Condition; Post"
+```go
+// Start at 0; Keep going while i < 5; Add 1 to i after each step
+for i := 0; i < 5; i++ {
+    fmt.Println(i)
 }
 ```
 
-- `library`: The big collection (The Shelf).
-- `book`: The single item currently in front of you (The Box).
-- `range`: The motor that moves the belt.
+### The Range Loop (Best for Libraries)
+Ideal for Slices. It gives you the **Index** (Position) and the **Value** (Copy of the item).
 
-## Your Mission
-1. Open `lessons/04-loops/main.go`.
-2. Notice how we use the loop to build an HTML Table row (`<tr>`) for every book.
-3. Run it: `go run lessons/04-loops/main.go`.
-4. Visit `http://localhost:8081`.
+```go
+library := []string{"Go", "Rust", "Python"}
 
-You successfully converted data into a structured table!
+for index, title := range library {
+    fmt.Printf("%d: %s\n", index, title)
+}
+```
+
+**Visual Anchor**:
+- **Array**: Solid concrete block with slots.
+- **Slice**: A flexible viewing window.
+- **Loop**: A factory conveyor belt processing items one by one.

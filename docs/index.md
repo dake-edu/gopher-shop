@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /junior-path
+      link: /intro
     - theme: alt
       text: View on GitHub
       link: https://github.com/dake-edu/gopher-shop

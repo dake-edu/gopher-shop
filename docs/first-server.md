@@ -1,42 +1,51 @@
-# Your First Web Server
+# 7. Talking to the World (HTTP)
 
-In Step 0, we printed books to the console. Now, let's share them with the world using a Web Server.
+Your Go program is fast and smart. But it is lonely.
+To let users verify it, we need **HTTP** (HyperText Transfer Protocol).
 
-## The Visual Anchor: The Waiter
+## 7.1 The Conversation
+The web works on a simple conversation model:
+1.  **Client (Browser)**: "Hey, give me the homepage." (**Request**)
+2.  **Server (Go)**: "Here is the HTML." (**Response**)
 
-Web servers can seem magical, but they work just like a restaurant.
-
-### 1. The Customer (Client)
-Your Web Browser (Chrome, Safari) is the customer. It wants information (a web page).
-
-### 2. The Order (Request)
-When you type `http://localhost:8081` and hit Enter, the browser sends a **Request** to the server. It says: *"I would like the homepage, please."*
-
-### 3. The Waiter (Handler)
-This is the Go code we write. We tell Go: *"When you get an order for '/', run this function."*
-The function takes the order, looks at our bookshelf (Slice), and prepares the "food".
-
-### 4. The Food (Response)
-The server sends back an **HTML Response**. The browser receives this and displays it as a formatted web page.
-
-## The Code
-
-We use the standard `net/http` package. No external tools needed!
+## 7.2 The Handler (The Worker)
+In Go, we define a function to handle this conversation.
 
 ```go
-// "Hiring" the waiter for the root path "/"
-http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-    // Writing the response (The Food)
-    fmt.Fprintf(w, "<h1>Hello World!</h1>")
-})
-
-// Opening the restaurant on port 8081
-http.ListenAndServe(":8081", nil)
+func handler(w http.ResponseWriter, r *http.Request) {
+    // Logic goes here
+}
 ```
 
-### Try it out!
-1. Run the server:
-   ```bash
-   go run lessons/02-web-basics/main.go
-   ```
-2. Open your browser and go to `http://localhost:8081`.
+### `w` (The Output Stream)
+`http.ResponseWriter`
+- Think of this as a **Pipe** connected to the user's browser.
+- Whatever you write into this pipe (`fmt.Fprint(w, ...)`) appears on their screen.
+
+### `r` (The Envelope)
+`*http.Request`
+- This is the letter the user sent you.
+- It contains:
+    - **Method**: GET (Read), POST (Write).
+    - **URL**: What page they want.
+    - **Body**: Data they sent.
+
+## 7.3 The Switchboard (Multiplexer)
+You need to tell Go which function handles which page.
+
+```go
+// "If they ask for '/', call the Home function"
+http.HandleFunc("/", HomeHandler)
+
+// "If they ask for '/about', call the About function"
+http.HandleFunc("/about", AboutHandler)
+```
+
+## 7.4 The Loop (ListenAndServe)
+Finally, the server needs to start listening. It enters an infinite loop, waiting for phone calls.
+
+```go
+// Listen on port 8081
+http.ListenAndServe(":8081", nil)
+```
+*This program never ends until you kill it.*
