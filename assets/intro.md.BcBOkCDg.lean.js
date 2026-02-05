@@ -1,0 +1,1 @@
+import{_ as e,o,c as l,ae as a}from"./chunks/framework.CfVLvsAT.js";const f=JSON.parse('{"title":"The Story of Go","description":"","frontmatter":{},"headers":[],"relativePath":"intro.md","filePath":"intro.md"}'),s={name:"intro.md"};function n(r,t,i,g,d,h){return o(),l("div",null,[...t[0]||(t[0]=[a("",15)])])}const u=e(s,[["render",n]]);export{f as __pageData,u as default};
