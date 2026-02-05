@@ -34,3 +34,15 @@ jobs:
 If `go test` exits with code `0` (Success), the build is Green.
 If it exits with `1` (Error), the build is Red, and GitHub turns the Merge Button grey (if configured).
 This saves you from breaking the Main branch.
+
+## 16.3 The Identity Card (Favicon)
+You might notice a small image in your browser tab. That is the **Favicon**.
+- **Think of it as**: An ID Card.
+- **Without it**: Your site looks like a stranger.
+- **With it**: Your site has an identity.
+
+In our docs, we configure it in `config.mjs`:
+```javascript
+head: [['link', { rel: 'icon', href: '/gopher.png' }]]
+```
+This tells the browser: "When you see my site, show this picture."

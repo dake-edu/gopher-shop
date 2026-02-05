@@ -5,8 +5,8 @@
 <div class="col-md-9">
 
     <!-- Hero Warning -->
-    <div class="alert alert-warning shadow-sm" role="alert">
-        <h4 class="alert-heading">🚧 Demo Mode</h4>
+    <div class="alert alert-warning" role="alert">
+        <h5 class="alert-heading">🚧 Demo Mode</h5>
         <p>This data interacts with `internal/store/inmem.go`. It is stored in RAM. If you restart the server, the data
             resets.</p>
     </div>
@@ -26,19 +26,19 @@
                     <label class="form-label">Author</label>
                     <input type="text" name="author" class="form-control" placeholder="Jane Doe" required>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">Price ($)</label>
+                <div class="col-md-6">
+                    <label class="form-label">Price</label>
                     <input type="number" step="0.01" name="price" class="form-control" placeholder="19.99" required>
                 </div>
-                <div class="col-12 text-end">
-                    <button type="submit" class="btn btn-success">Add Book +</button>
+                <div class="col-md-6 text-end">
+                    <button type="submit" class="btn btn-outline-primary mt-4">Add Book +</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Book Grid -->
-    <h3 class="mb-3">Available Books</h3>
+    <h5 class="mb-3">Available Books</h5>
     <div class="row row-cols-1 row-cols-md-2 g-4">
         {{range .Books}}
         <div class="col">
@@ -50,7 +50,7 @@
                         Price: <strong>${{.Price}}</strong>
                     </p>
                 </div>
-                <div class="card-footer bg-transparent border-top-0 text-end">
+                <div class="card-footer bg-transparent border-top-0 pt-0 text-end">
                     <button class="btn btn-outline-primary btn-sm">View Details</button>
                 </div>
             </div>

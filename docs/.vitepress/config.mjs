@@ -5,6 +5,7 @@ export default {
   head: [['link', { rel: 'icon', href: '/gopher-shop/gopher.png' }]],
   themeConfig: {
     logo: '/gopher.png',
+    head: [['link', { rel: 'icon', href: '/gopher-shop/gopher.png' }]],
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/junior-path' }

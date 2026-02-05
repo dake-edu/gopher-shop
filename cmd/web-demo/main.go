@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"time"
 
 	"github.com/dake-edu/gopher-shop/internal/models"
 	"github.com/dake-edu/gopher-shop/internal/store"
@@ -14,6 +15,7 @@ import (
 // PageData creates a standard payload for our templates
 type PageData struct {
 	Title string
+	Year  int
 	Books []models.Book
 }
 
@@ -44,8 +46,12 @@ func main() {
 			return
 		}
 
+		// ⚓ PEDAGOGY: Dynamic Data
+		// Hardcoding dates (e.g., "2026") is a maintenance trap.
+		// Always let the system handle time.
 		data := PageData{
 			Title: "Home",
+			Year:  time.Now().Year(),
 			Books: books,
 		}
 
