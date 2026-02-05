@@ -1,32 +1,62 @@
 # The Gopher Shop 🐹📚
 
-Welcome to the **The Gopher Shop** — a professional, hands-on educational journey designed to transform Go beginners into **Middle-level Backend Engineers**.
+Welcome to **The Gopher Shop** — a professional, hands-on educational journey designed to transform Go beginners into **Middle-level Backend Engineers**.
 
 ## 🚀 The Mission
 Our goal is to build a production-ready REST API for a digital book store from scratch. We don't just teach syntax; we teach **architecture, patterns, and logic**.
 
 ## 🧠 Learning Methodology
-This course uses a unique **Visual Anchor System**. Instead of long walls of text, we provide:
-* **Core Signals:** Concise visual diagrams that represent complex logic.
-* **Large-Block Learning:** We introduce the "Big Picture" first, then dive into the details.
-* **Iteration Cycles:** The project evolves from a simple monolith to a sophisticated system.
+This course uses a unique **Visual Anchor System**. Instead of long walls of text, we provide consistent metaphors:
 
-## 🛠 Tech Stack
-* **Language:** Go (Golang)
-* **API:** RESTful with Clean Architecture
-* **Documentation:** VitePress
-* **Database:** PostgreSQL & Redis (later stages)
+| Concept | Visual Anchor | Meaning |
+| :--- | :--- | :--- |
+| **Variable** | 📦 The Box | A labeled storage container. |
+| **Slice** | 📚 The Shelf | A window into a growable list. |
+| **Map** | 🎫 The Coat Check | Key-Value lookup (Ticket -> Coat). |
+| **Validation** | 🛡️ The Quality Gate | Rejecting bad data immediately. |
+| **Interface** | 🔌 The Universal Plug | Accepting any tool that fits the socket. |
 
-## 🌐 Documentation
-Explore the full educational content and step-by-step guides:
-* **Local:** [http://localhost:5173](http://localhost:5173) (Run `npm run docs:dev`)
-* **Online:** [View Documentation](https://dake-edu.github.io/gopher-shop/)
+## 🗺 Curriculum Roadmap
 
-## 🗺 Roadmap
-1. **Phase 1: The Monolith** (Basic API, In-memory storage)
-2. **Phase 2: Persistence** (SQL, Migrations, Docker)
-3. **Phase 3: The Middle Level** (Middleware, JWT, Unit Testing)
-4. **Phase 4: Scalability** (Caching, Observability, CI/CD)
+### Level 1: The Junior (Foundations)
+*Syntax, Memory operations, Logic, Loops, and Basic HTTP.*
+- **Landing Page**: [Junior Path](./docs/junior-path.md)
+- **Goal**: Write a program that listens and responds.
+
+### Level 2: The Apprentice (Building)
+*Structs, JSON, Configuration, In-Memory Storage.*
+- **Focus**: Building the "Components" of the shop.
+- **Key Skill**: Separation of Concerns.
+
+### Level 3: The Professional (Production)
+*Interfaces, PostgreSQL, Middleware, Testing, CI/CD.*
+- **Focus**: Making the shop reliable and production-ready.
+- **Key Skill**: Dependency Injection and Automation.
+
+## 🛠 How to Run
+
+### 1. View the Documentation
+Read the course material locally.
+```bash
+npm install
+npm run docs:dev
+# Visit http://localhost:5173
+```
+
+### 2. Run the Educational Demo
+A standalone, single-file web app to visualize the final goal (UI + In-Memory Store).
+```bash
+go run cmd/web-demo/main.go
+# Visit http://localhost:8082
+```
+
+### 3. Run the Main API (Capstone)
+The final production backend (requires Docker for PostgreSQL).
+```bash
+docker-compose up -d
+go run cmd/api/main.go
+# Visit http://localhost:8080/health
+```
 
 ---
 *Built with ❤️ for the Go Community.*
