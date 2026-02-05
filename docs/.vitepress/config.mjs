@@ -15,6 +15,7 @@ export default {
           { text: 'Introduction to Go', link: '/junior-path' },
           { text: 'Your First Web Server', link: '/first-server' },
           { text: 'Logic: The Fork in the Road', link: '/logic' },
+          { text: 'The Conveyor Belt (Loops)', link: '/loops' },
         ]
       },
       {
