@@ -6,12 +6,12 @@ hero:
   text: "Level Up Your Go Skills"
   tagline: "A hands-on journey from Junior to Middle-level Backend Engineer."
   image:
-    src: /gopher-shop/gopher.png
+    src: /gopher.png
     alt: Gopher Mascot
   actions:
     - theme: brand
       text: Get Started
-      link: /database
+      link: /junior-path
     - theme: alt
       text: View on GitHub
       link: https://github.com/dake-edu/gopher-shop

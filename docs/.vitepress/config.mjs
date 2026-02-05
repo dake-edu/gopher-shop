@@ -6,7 +6,7 @@ export default {
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Guide', link: '/database' }
+      { text: 'Guide', link: '/junior-path' }
     ],
 
     sidebar: [
