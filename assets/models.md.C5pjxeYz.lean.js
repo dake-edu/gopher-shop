@@ -1,0 +1,1 @@
+import{_ as a,o as e,c as i,ae as t}from"./chunks/framework.BD9pLfSD.js";const k=JSON.parse('{"title":"Domain Models","description":"","frontmatter":{},"headers":[],"relativePath":"models.md","filePath":"models.md"}'),n={name:"models.md"};function o(l,s,r,d,h,p){return e(),i("div",null,[...s[0]||(s[0]=[t("",5)])])}const m=a(n,[["render",o]]);export{k as __pageData,m as default};
