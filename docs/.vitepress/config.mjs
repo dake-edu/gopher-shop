@@ -6,17 +6,20 @@ export default {
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Guide', link: '/junior-path' }
+      { text: 'Guide', link: '/intro' }
     ],
 
     sidebar: [
       {
         text: 'Junior Path: The Foundations',
         items: [
-          { text: 'Introduction to Go', link: '/junior-path' },
-          { text: 'Your First Web Server', link: '/first-server' },
-          { text: 'Logic: The Fork in the Road', link: '/logic' },
-          { text: 'The Conveyor Belt (Loops)', link: '/loops' },
+          { text: '1. The Origin Story', link: '/intro' },
+          { text: '2. The Workbench (Setup)', link: '/setup' },
+          { text: '3. The Anatomy of Code', link: '/anatomy' },
+          { text: '4. Variables & Data', link: '/junior-path' },
+          { text: '5. Logic (If/Else)', link: '/logic' },
+          { text: '6. Loops (Conveyor Belt)', link: '/loops' },
+          { text: '7. Your First Web Server', link: '/first-server' },
         ]
       },
       {
