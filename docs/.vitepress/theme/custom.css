@@ -8,6 +8,12 @@
     max-height: 250px;
 }
 
+/* Navbar Logo Size Limit */
+.VPNavBarTitle .logo {
+    height: 40px;
+    width: auto;
+}
+
 /* Theme Switcher: Active state background */
 .VPSwitchAppearance .check {
     background-color: #007d9c !important;

@@ -4,6 +4,7 @@ export default {
   description: 'From Junior to Middle-level Go Backend Engineer.',
   head: [['link', { rel: 'icon', href: '/gopher-shop/gopher.png' }]],
   themeConfig: {
+    logo: '/gopher.png',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/intro' }
