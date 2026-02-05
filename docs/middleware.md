@@ -1,27 +1,25 @@
-# Middleware & The "Onion" Architecture
+# 14. The Onion (Middleware)
 
-## The Onion Pattern
+In a professional web server, you need to do things *around* the main logic:
+- Log every request.
+- Check security headers.
+- Handle crashes (Panic Recovery).
 
-> [!TIP]
-> ⚓ **Visual Anchor:** The Onion
+## 14.1 Layers of the Onion
+**Middleware** wraps your handler like layers of an onion.
+The Request must pass through all outer layers to get to the center (Your Logic), and then pass back out.
 
-Middleware wraps your application logic like layers of an onion.
-A request must pass through **Logger** and **Recoverer** layers *before* reaching the core handlers.
+**Request** $\rightarrow$ [Logger] $\rightarrow$ [Security] $\rightarrow$ **(Handler)** $\rightarrow$ [Security] $\rightarrow$ [Logger] $\rightarrow$ **Response**
 
-```mermaid
-graph LR
-    Request --> Logger
-    Logger --> Recoverer
-    Recoverer --> Handler[Core Handler]
-    Handler --> Recoverer
-    Recoverer --> Logger
-    Logger --> Response
+## 14.2 The Chainer
+In Go, middleware is a function that takes a Handler and returns a Handler.
+
+```go
+func LoggingMiddleware(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w, r) {
+        fmt.Println("Request started...")
+        next.ServeHTTP(w, r) // Pass to next layer
+        fmt.Println("Request finished.")
+    })
+}
 ```
-
-## "Eyes and Ears" (Pedagogy)
-
-Why Log?
-- **Eyes**: See what's happening (Path, Status, Duration).
-- **Ears**: Hear when things break (Panics).
-
-A Middle-level engineer doesn't fly blind. They implement observability from Day 1.

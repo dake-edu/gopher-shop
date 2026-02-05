@@ -1,23 +1,25 @@
-# Unit Testing & Mocking
+# 15. The Safety Net (Testing)
 
-## The Testing Pyramid
+You wouldn't drive a car that hasn't been crash-tested. Don't ship code that hasn't been unit-tested.
 
-> [!TIP]
-> ⚓ **Visual Anchor:** The Pyramid
+## 15.1 The Crash Test Dummy (Unit Tests)
+A **Unit Test** checks one small part of the machine in isolation.
+In Go, test files end in `_test.go`.
 
-Stable software is built like a pyramid:
-1.  **Unit Tests (Base)**: Fast, cheap, covers individual functions (e.g., `Book.Validate`).
-2.  **Integration Tests (Middle)**: Covers interactions (e.g., Database queries).
-3.  **e2e Tests (Top)**: Slow, covers full user flows.
+```go
+func TestAddRef(t *testing.T) {
+    result := Add(2, 2)
+    if result != 4 {
+        t.Errorf("Expected 4, got %d", result)
+    }
+}
+```
 
-We focus heavily on the **Base** (Unit Tests) because they give instant feedback.
+## 15.2 Mocking (The Stunt Double)
+When testing the Web Handler, we don't want to connect to a real Database (it's slow and risky).
+We use a **Mock** (a fake database) that pretends to work.
 
-## Tests as "Living Documentation"
+- **Real DB**: "I will connect to port 5432..."
+- **Mock DB**: "I will just return 'Success' immediately."
 
-Tests are better than comments because they **never lie**.
-If you want to know how `Book.Validate` works, look at `internal/models/book_test.go`. The test cases show exactly what is allowed and what is rejected.
-
-## Mocking
-
-To test the API handlers without a real database, we use **Mocking**.
-The `internal/store/mock.go` file allows us to simulate the database behavior, making our tests deterministic and fast.
+This allows us to test the *Logic* without the *Infrastructure*.

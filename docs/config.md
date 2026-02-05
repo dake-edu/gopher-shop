@@ -1,19 +1,30 @@
-# Centralized Configuration
+# 9. The Wiring (Configuration)
 
-## Single Source of Truth
+A professional machine has a Control Panel. We don't hardwire settings deep inside the engine.
 
-> [!TIP]
-> ⚓ **Visual Anchor:** The Control Room
+## 9.1 The Control Room
+In our app, the `internal/config` package is the **Control Room**.
+Instead of writing `port := "8081"` inside `main.go`, we ask the centralized configuration.
 
-The `internal/config` package acts as the **Control Room** for the entire application.
-Instead of having settings scattered across multiple files (hardcoded strings), everything is managed in one place.
+## 9.2 The "Twelve-Factor App" Rule
+Professional apps follow the **12-Factor Methodology**.
+**Rule #3**: Store config in the **Environment**, not in the code.
 
-## Security & The "Twelve-Factor App"
+### Why?
+1.  **Security**: You don't want Database Passwords committed to GitHub!
+2.  **Flexibility**: You can change the Port or Database URL without recompiling the code.
 
-We strictly use **Environment Variables** for configuration.
-- **Code** goes to GitHub (Public/Private).
-- **Secrets** (Passwords, Keys) stay on the Server.
+## 9.3 Environment Variables
+We use `os.Getenv` to read from the system.
 
-**Why?**
-If you hardcode a password in Go code and push it to GitHub, it's leaked forever.
-By using `os.Getenv`, the code remains clean and safe.
+```go
+func LoadConfig() Config {
+    return Config{
+        Port: os.Getenv("PORT"), // Reads from the machine's settings
+    }
+}
+```
+
+**Visual Anchor**:
+- **Hardcoding**: Welding a switch in the "On" position.
+- **Config**: Installing a switch that can be flipped from outside.

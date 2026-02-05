@@ -1,26 +1,18 @@
-# Professional Tools: The Auto-Pilot
+# 16. The Robot (CI/CD)
 
-Professional developers don't check everything manually. They use tools to do it for them.
+The most professional developers don't deploy manually. They have a robot do it.
 
-## The "Green Build"
+## 16.1 Continuous Integration (CI)
+**"The Gatekeeper"**
+Every time you push code to GitHub, a robot (GitHub Actions) wakes up.
+1. It downloads your code.
+2. It tries to build it (`go build`).
+3. It runs all tests (`go test`).
 
-When you save your game, you want to know if you made progress or if you broke something.
-In coding, we have a **Continuous Integration (CI)** pipeline.
+If *anything* fails, the robot blocks the Merge. **Green Build** = Safe Code.
 
-### What is it?
-Ideally, every time you send your code to GitHub, a robot wakes up and:
-1. **Tries to Build it**: Does the code even compile?
-2. **Tests it**: Do all the tests passed?
+## 16.2 Continuous Deployment (CD)
+**"The Delivery Truck"**
+If the CI is Green, the CD robot takes the artifact (the binary or documentation) and ships it to the world (Production Server or GitHub Pages).
 
-If everything is good, the robot gives you a **Green Checkmark** ✅. This is a "Green Build".
-If something is wrong, you get a **Red X** ❌.
-
-## Our Setup
-
-We have configured a robot (GitHub Actions) in `.github/workflows/go-check.yml`.
-It runs:
-- `go build ./...` (Structure Check)
-- `go test ./...` (Functionality Check)
-
-### Why is this important?
-It gives you **CONFIDENCE**. You can sleep effectively knowing that the robot checked your work.
+We are using CD right now to publish this documentation site!
