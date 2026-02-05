@@ -3,47 +3,58 @@
 To ensure "No Dark Zones", we use consistent visual metaphors throughout the course.
 This catalog tracks every signal used to explain an abstract concept.
 
-## The Collection
+## 1. The Container (Structs)
+*A Blueprint for a composite object.*
+
+```mermaid
+classDiagram
+    class Box {
+      +ID: int
+      +Value: string
+    }
+    note for Box "A Struct is a custom Shape."
+```
+
+## 2. The Shelf (Slices)
+*A window into a growing array.*
+
+```mermaid
+graph LR
+    A[Index 0] --- B[Index 1] --- C[Index 2]
+    style A fill:#f9f,stroke:#333
+    style B fill:#f9f,stroke:#333
+    style C fill:#fff,stroke:#333,stroke-dasharray: 5 5
+    note[Slice View]
+```
+
+## 3. The Conveyor Belt (Loops)
+*Processing items one by one.*
+
+```mermaid
+graph LR
+    Input[Items] --> Process((Range Loop))
+    Process --> Output[Item 1]
+    Process --> Output2[Item 2]
+```
+
+## 4. The Quality Gate (Validation)
+*Previously "The Club Bouncer"*
+*Rejects bad data immediately.*
 
 ```mermaid
 graph TD
-    A[Concepts] --> B(Variables)
-    A --> C(Logic)
-    A --> D(Data)
-    A --> E(Architecture)
-
-    B --> B1["📦 The Box (Memory Cell)"]
-    B --> B2["🏷️ The Sticker (Variable Name)"]
-    B --> B3["🗿 The Stone Tablet (Constants)"]
-    
-    C --> C1["⚖️ The Scales (Comparison)"]
-    C --> C2["🛤️ The Railroad Switch (If/Else)"]
-    
-    D --> D1["📚 The Shelf (Array)"]
-    D --> D2["🏗️ The Blueprint (Struct)"]
-    D --> D3["🎫 The Coat Check (Map)"]
-    D --> D4["📝 The Address Card (Pointer)"]
-    
-    E --> E1["🔌 The Universal Plug (Interface)"]
-    E --> E2["🛡️ The Quality Gate (Validation)"]
-    E --> E3["🧅 The Onion (Middleware)"]
-    E --> E4["🏭 The Warehouse (Database)"]
+    Data[Incoming Data] --> Gate{Quality Gate}
+    Gate -- Valid --> Warehouse[(Database)]
+    Gate -- Invalid --> Reject[Return Error]
+    style Gate fill:#007d9c,color:white
 ```
 
-## Detailed Explanations
+## 5. The Universal Plug (Interfaces)
+*Dependency Injection.*
 
-### 1. The Quality Gate (Validation)
-*Formerly "The Bouncer"*
-- **Concept**: Guard Clauses.
-- **Signal**: A factory gate that rejects defective parts immediately.
-- **Why**: Explains why we check specific errors at the top of the function.
-
-### 2. The Universal Plug (Interfaces)
-- **Concept**: Dependency Injection.
-- **Signal**: A wall socket that accepts any device.
-- **Why**: Explains why `BookRepository` is an interface, not a concrete struct.
-
-### 3. The Coat Check (Maps)
-- **Concept**: Key-Value Stores.
-- **Signal**: You give a ticket (Key), getting a specific item (Value).
-- **Why**: Explains that maps are not ordered like arrays (Shelves).
+```mermaid
+graph LR
+    Socket((Interface))
+    Plug1[Postgres] --> Socket
+    Plug2[Memory] --> Socket
+```

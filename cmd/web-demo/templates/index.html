@@ -1,0 +1,69 @@
+{{template "header.html" .}}
+{{template "sidebar.html" .}}
+
+<!-- Main Content -->
+<div class="col-md-9">
+
+    <!-- Hero Warning -->
+    <div class="alert alert-warning shadow-sm" role="alert">
+        <h4 class="alert-heading">🚧 Demo Mode</h4>
+        <p>This data interacts with `internal/store/inmem.go`. It is stored in RAM. If you restart the server, the data
+            resets.</p>
+    </div>
+
+    <!-- Add Book Form -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Add a New Book</h5>
+        </div>
+        <div class="card-body">
+            <form action="/add" method="POST" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="e.g., Intro to Go" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Author</label>
+                    <input type="text" name="author" class="form-control" placeholder="Jane Doe" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Price ($)</label>
+                    <input type="number" step="0.01" name="price" class="form-control" placeholder="19.99" required>
+                </div>
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-success">Add Book +</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Book Grid -->
+    <h3 class="mb-3">Available Books</h3>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {{range .Books}}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{.Title}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{.Author}}</h6>
+                    <p class="card-text">
+                        Price: <strong>${{.Price}}</strong>
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-top-0 text-end">
+                    <button class="btn btn-outline-primary btn-sm">View Details</button>
+                </div>
+            </div>
+        </div>
+        {{else}}
+        <div class="col-12">
+            <div class="alert alert-secondary text-center">
+                No books available yet. Add one above!
+            </div>
+        </div>
+        {{end}}
+    </div>
+
+</div>
+
+{{template "footer.html" .}}

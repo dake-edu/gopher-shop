@@ -1,44 +1,62 @@
 package store
 
-import "github.com/dake-edu/gopher-shop/internal/models"
+import (
+	"errors"
+	"sync"
 
-// InMemoryBookStore implements BookRepository using a slice.
+	"github.com/dake-edu/gopher-shop/internal/models"
+)
+
+// InMemoryBookStore is a simple thread-safe store for the demo.
+// It matches the "Repository Pattern" but keeps data in RAM.
 type InMemoryBookStore struct {
-	books []models.Book
+	books  []models.Book
+	nextID int
+	mu     sync.Mutex
 }
 
-// NewInMemoryBookStore creates a new store with sample data.
+// NewInMemoryBookStore creates a store with some initial data.
 func NewInMemoryBookStore() *InMemoryBookStore {
 	return &InMemoryBookStore{
 		books: []models.Book{
-			{ID: 1, Title: "The Go Programming Language", Author: "Alan A. A. Donovan", Price: 35.99},
-			{ID: 2, Title: "Clean Architecture", Author: "Robert C. Martin", Price: 28.50},
-			{ID: 3, Title: "Domain-Driven Design", Author: "Eric Evans", Price: 42.00},
+			{ID: 1, Title: "The Go Gopher", Author: "Rob Pike", Price: 25.00},
+			{ID: 2, Title: "Concurrency in Go", Author: "Katherine Cox-Buday", Price: 30.00},
 		},
+		nextID: 3,
 	}
 }
 
-// GetAll returns all books.
+// GetAll returns a copy of all books (to avoid race conditions).
 func (s *InMemoryBookStore) GetAll() ([]models.Book, error) {
-	return s.books, nil
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	// Return a copy, not the original slice
+	result := make([]models.Book, len(s.books))
+	copy(result, s.books)
+	return result, nil
 }
 
-// GetByID returns a book by ID.
-func (s *InMemoryBookStore) GetByID(id int) (*models.Book, bool, error) {
-	for _, book := range s.books {
-		if book.ID == id {
-			return &book, true, nil
-		}
-	}
-	return nil, false, nil
-}
-
-// Create adds a new book to the in-memory store.
+// Create adds a new book to the store.
 func (s *InMemoryBookStore) Create(book *models.Book) error {
-	book.ID = len(s.books) + 1
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	book.ID = s.nextID
+	s.nextID++
 	s.books = append(s.books, *book)
 	return nil
 }
 
-// Kept for backward compatibility during refactor if needed, or remove.
-// We will simply replace the usage in main.go, so I'll remove the global var to force the refactor.
+// GetByID returns a single book.
+func (s *InMemoryBookStore) GetByID(id int) (models.Book, bool, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	for _, b := range s.books {
+		if b.ID == id {
+			return b, true, nil
+		}
+	}
+	return models.Book{}, false, errors.New("not found")
+}

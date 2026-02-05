@@ -7,7 +7,7 @@ export default {
     logo: '/gopher.png',
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Guide', link: '/intro' }
+      { text: 'Guide', link: '/junior-path' }
     ],
 
     sidebar: [

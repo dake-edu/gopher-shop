@@ -11,14 +11,14 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /intro
+      link: /junior-path
     - theme: alt
       text: View on GitHub
       link: https://github.com/dake-edu/gopher-shop
 
 features:
   - title: Visual Anchor System
-    details: Learn complex concepts through memorable visual metaphors like "The Onion" and "The Bouncer".
+    details: Learn complex concepts through memorable visual metaphors like "The Onion" and "The Quality Gate".
   - title: Clean Architecture
     details: Build a production-ready Monolith using Repository Pattern, Middleware, and Dependency Injection.
   - title: Test-Driven Mindset
