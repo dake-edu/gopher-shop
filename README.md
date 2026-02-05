@@ -20,7 +20,7 @@ This course uses a unique **Visual Anchor System**. Instead of long walls of tex
 ## 🌐 Documentation
 Explore the full educational content and step-by-step guides:
 * **Local:** [http://localhost:5173](http://localhost:5173) (Run `npm run docs:dev`)
-* **Online:** [View Documentation](https://dake-edu.github.io/gopher-shop/) *(Coming Soon)*
+* **Online:** [View Documentation](https://dake-edu.github.io/gopher-shop/)
 
 ## 🗺 Roadmap
 1. **Phase 1: The Monolith** (Basic API, In-memory storage)
