@@ -39,6 +39,7 @@ export default {
           { text: '14. The Onion (Middleware)', link: '/middleware' },
           { text: '15. The Safety Net (Testing)', link: '/testing' },
           { text: '16. The Robot (CI/CD)', link: '/workflow' },
+          { text: '17. The Grand Assembly', link: '/assembly' },
         ]
       }
     ],
