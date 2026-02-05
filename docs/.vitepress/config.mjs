@@ -10,6 +10,20 @@ export default {
 
     sidebar: [
       {
+        text: 'Junior Path: The Foundations',
+        items: [
+          { text: 'Introduction to Go', link: '/junior-path' },
+          { text: 'Your First Web Server', link: '/first-server' },
+          { text: 'Logic: The Fork in the Road', link: '/logic' },
+        ]
+      },
+      {
+        text: 'Professional Tools',
+        items: [
+          { text: 'The Auto-Pilot (CI/CD)', link: '/workflow' },
+        ]
+      },
+      {
         text: 'Architecture & Persistence',
         items: [
           { text: 'Introduction', link: '/' },

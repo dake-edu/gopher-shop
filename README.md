@@ -17,6 +17,11 @@ This course uses a unique **Visual Anchor System**. Instead of long walls of tex
 * **Documentation:** VitePress
 * **Database:** PostgreSQL & Redis (later stages)
 
+## 🌐 Documentation
+Explore the full educational content and step-by-step guides:
+* **Local:** [http://localhost:5173](http://localhost:5173) (Run `npm run docs:dev`)
+* **Online:** [View Documentation](https://dake-edu.github.io/gopher-shop/) *(Coming Soon)*
+
 ## 🗺 Roadmap
 1. **Phase 1: The Monolith** (Basic API, In-memory storage)
 2. **Phase 2: Persistence** (SQL, Migrations, Docker)
