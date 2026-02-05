@@ -64,6 +64,26 @@ You cannot put water in a cardboard box. You cannot put a distinct text in a mat
 3.  **`bool`**: Truth (true/false). *For logic.*
 4.  **`string`**: Text ("Hello"). *For communication.*
 
+
+## 4.5 Constants (The Stone Tablets)
+Variables can change (`age = 25`, then `age = 26`).
+**Constants** cannot.
+
+```go
+const Pi = 3.14159
+```
+*Metaphor*: Carved in stone. You cannot overwrite it.
+
+## 4.6 Basic Math (The Calculator)
+Computer = Compute.
+
+- `+` (Add): `10 + 5` -> `15`
+- `-` (Sub): `10 - 5` -> `5`
+- `*` (Mul): `10 * 5` -> `50`
+- `/` (Div): `10 / 2` -> `5`
+    - *Note*: `10 / 3` (Integers) -> `3` (Cuts off decimal).
+- `%` (Mod): `10 % 3` -> `1` (The Remainder).
+
 ---
 **Visual Anchor**:
 > A Variable is a **Labeled Box** at a specific **Address** in the memory warehouse.

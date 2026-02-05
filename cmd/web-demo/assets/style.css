@@ -1,0 +1,18 @@
+/* Custom Styles to augment Bootstrap */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 125, 156, 0.1); /* Gopher Brand Color Light */
+}
+
+.btn-success {
+    background-color: #007d9c; /* Gopher Brand Color */
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #005F75;
+}

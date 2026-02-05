@@ -48,6 +48,20 @@ for index, title := range library {
 }
 ```
 
+
+## 6.4 Maps (The Keychains)
+Arrays are ordered lists (1st, 2nd, 3rd).
+**Maps** are labelled storage (Key -> Value).
+
+```go
+// [Key] -> Value
+menu := make(map[string]float64)
+menu["Coffee"] = 2.50
+```
+
+*Metaphor*: A Coat Check. You give a ticket (Key), you get the coat (Value).
+You don't say "Give me the 5th coat". You say "Give me the coat for ticket 'Coffee'".
+
 **Visual Anchor**:
 - **Array**: Solid concrete block with slots.
 - **Slice**: A flexible viewing window.

@@ -22,7 +22,7 @@ func check(price int) error {
 }
 ```
 
-## 11.2 Guard Clauses (The Bouncer Pattern)
+## 11.2 Guard Clauses (The "Quality Gate" Pattern)
 We handle errors immediately at the top of the function.
 
 ```go
