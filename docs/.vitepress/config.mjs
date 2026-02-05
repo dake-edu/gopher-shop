@@ -11,38 +11,34 @@ export default {
 
     sidebar: [
       {
-        text: 'Junior Path: The Foundations',
+        text: 'Level 1: The Junior (Foundations)',
         items: [
           { text: '1. The Origin Story', link: '/intro' },
           { text: '2. The Workbench (Setup)', link: '/setup' },
           { text: '3. The Anatomy of Code', link: '/anatomy' },
           { text: '4. Operations with Memory', link: '/variables' },
-          { text: '5. Logic (If/Else)', link: '/logic' },
-          { text: '6. Loops (Conveyor Belt)', link: '/loops' },
-          { text: '7. Your First Web Server', link: '/first-server' },
+          { text: '5. The Decision Maker', link: '/logic' },
+          { text: '6. Collections & Iteration', link: '/loops' },
+          { text: '7. Talking to the World', link: '/first-server' },
         ]
       },
       {
-        text: 'Professional Tools',
+        text: 'Level 2: The Apprentice (Building)',
         items: [
-          { text: 'The Auto-Pilot (CI/CD)', link: '/workflow' },
+          { text: '8. The Blueprint (Models)', link: '/models' },
+          { text: '9. The Wiring (Config)', link: '/config' },
+          { text: '10. The Memory (Store)', link: '/memory-store' },
+          { text: '11. The Inspector (Validation)', link: '/validation' },
         ]
       },
       {
-        text: 'Architecture & Persistence',
+        text: 'Level 3: The Professional (Production)',
         items: [
-          { text: 'Introduction', link: '/' },
-          { text: 'Database & Repository', link: '/database' },
-          { text: 'Configuration', link: '/config' },
-        ]
-      },
-      {
-        text: 'Logic & Reliability',
-        items: [
-          { text: 'Validation (Guard Clauses)', link: '/validation' },
-          { text: 'Middleware (The Onion)', link: '/middleware' },
-          { text: 'Testing (The Pyramid)', link: '/testing' },
-          { text: 'Lifecycle (Cleanup Crew)', link: '/lifecycle' },
+          { text: '12. The Architect (Interfaces)', link: '/interfaces' },
+          { text: '13. The Warehouse (Postgres)', link: '/postgres' },
+          { text: '14. The Onion (Middleware)', link: '/middleware' },
+          { text: '15. The Safety Net (Testing)', link: '/testing' },
+          { text: '16. The Robot (CI/CD)', link: '/workflow' },
         ]
       }
     ],
