@@ -57,7 +57,7 @@ const htmlTmpl = `
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="text-center mb-4">
-                    <img src="https://go.dev/blog/go-brand/Go-Logo/PNG/Go-Logo_Blue.png" alt="Go Logo" height="60">
+                    <img src="/assets/gopher.png" alt="Gopher Shop Logo" height="80">
                     <h1 class="mt-3">The Gopher Shop</h1>
                     <p class="text-muted">A Simple In-Memory Bookstore</p>
                 </div>
