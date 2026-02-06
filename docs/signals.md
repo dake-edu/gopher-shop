@@ -43,10 +43,11 @@ graph LR
 
 ```mermaid
 graph TD
-    Data[Incoming Data] --> Gate{Quality Gate}
-    Gate -- Valid --> Warehouse[(Database)]
-    Gate -- Invalid --> Reject[Return Error]
+    Input[Incoming Data] --> Gate{Is Valid?}
+    Gate -- No --> Reject[🛑 Error 400]
+    Gate -- Yes --> Warehouse[(✅ Database)]
     style Gate fill:#007d9c,color:white
+    style Reject fill:#d9534f,color:white
 ```
 
 ## 5. The Universal Plug (Interfaces)
