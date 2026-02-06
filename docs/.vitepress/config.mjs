@@ -17,11 +17,12 @@ export default {
         items: [
           { text: '1. The Origin Story', link: '/intro' },
           { text: '2. The Workbench (Setup)', link: '/setup' },
-          { text: '3. The Anatomy of Code', link: '/anatomy' },
-          { text: '4. Operations with Memory', link: '/variables' },
-          { text: '5. The Decision Maker', link: '/logic' },
-          { text: '6. Collections & Iteration', link: '/loops' },
-          { text: '7. Talking to the World', link: '/first-server' },
+          { text: '3. Level 1: The Server', link: '/lessons/01-server' },
+          { text: '4. Level 2: Structure', link: '/lessons/02-structure' },
+          { text: '5. Level 3: Data', link: '/lessons/03-data' },
+          { text: '6. Level 4: Interaction', link: '/lessons/04-interaction' },
+          { text: '7. Level 5: Maps', link: '/lessons/05-maps' },
+          { text: '8. The Bridge', link: '/bridge' },
         ]
       },
       {
