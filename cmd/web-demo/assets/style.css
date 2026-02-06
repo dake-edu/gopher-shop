@@ -1,4 +1,10 @@
 /* Custom Styles to augment Bootstrap */
+
+a {
+    color: #007d9c;
+    text-decoration: none;
+}
+
 body {
     background-color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

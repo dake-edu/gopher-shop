@@ -55,7 +55,8 @@ func main() {
 		author := r.FormValue("author")
 
 		// 🛡️ THE QUALITY GATE (Validation)
-		// Reject bad data immediately.
+		// Why? Never trust user input. It could be empty, malicious, or wrong.
+		// We reject bad data BEFORE it touches our database.
 		if title == "" {
 			http.Error(w, "Title cannot be empty!", http.StatusBadRequest)
 			return

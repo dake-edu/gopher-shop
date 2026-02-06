@@ -10,13 +10,15 @@ import (
 // Goal: Display dynamic data using Structs (Boxes) and Slices (Shelves).
 
 // 1. The Box (Struct)
+// Why Struct? It lets us group related data (Title + Price) into a single object.
 type Book struct {
 	Title  string
 	Author string
-	Price  float64
+	Price  float64 // Why float64? Go's standard for decimal numbers (double precision).
 }
 
 // 2. The Shelf (Slice)
+// Why Slice? Arrays are fixed size (e.g., [5]int). Slices can grow as we add books.
 var books = []Book{
 	{"The Go Gopher", "Rob Pike", 25.00},
 	{"Concurrency in Go", "Katherine Cox-Buday", 30.00},
