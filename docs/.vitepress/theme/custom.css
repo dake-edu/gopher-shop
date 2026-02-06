@@ -19,6 +19,15 @@
     background-color: #007d9c !important;
 }
 
+/* Theme Switcher: Border and Icons */
+.VPSwitch {
+    border-color: #007d9c !important;
+}
+
+.VPSwitch .icon {
+    color: #ffffff !important;
+}
+
 /* Visual Anchor Blocks (TIPs) */
 .custom-block.tip {
     background-color: #007d9c;
