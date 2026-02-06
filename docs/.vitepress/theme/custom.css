@@ -48,3 +48,20 @@
     color: white;
     text-decoration: underline;
 }
+
+/* Knowledge Check Accordion (Details) */
+.custom-block.details {
+    border: 1px solid #007d9c !important;
+    background-color: #f0f9fb !important; /* Very light teal */
+    color: #333;
+}
+
+.custom-block.details summary {
+    font-weight: 700;
+    color: #007d9c !important;
+    cursor: pointer;
+}
+
+.custom-block.details summary:hover {
+    color: #005F75 !important;
+}
