@@ -42,3 +42,8 @@ func NewHandler(repo BookRepository) *Handler {
 }
 ```
 Now `main.go` decides which tool to use.
+
+::: details 🎓 Knowledge Check: Why do we use Interfaces for Dependency Injection?
+**Answer**: To decouple our code. If `Handler` depends on an `Interface`, we can swap the real database for a "Fake Database" (Mock) during testing, or switch from Postgres to MySQL without rewriting the Handler.
+:::
+

@@ -39,3 +39,8 @@ func GetBook() Book   // Returns a Value (Photocopy)
 | **Python** | Everything is a Reference (Pointer-like). |
 | **Java** | Objects are References. Primitives (`int`) are Values. |
 | **Go** | Everything is a **Value** (Copy) by default. You must explicitly ask for a Pointer (`*`). |
+
+::: details 🎓 Knowledge Check: If I pass a `Book` (not `*Book`) to a function and change its title, what happens to the original book?
+**Answer**: Nothing! You only changed the **photocopy**. The original book remains untouched. To change the original, you must pass a **Pointer** (`*Book`).
+:::
+

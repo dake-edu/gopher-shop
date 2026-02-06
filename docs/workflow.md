@@ -46,3 +46,8 @@ In our docs, we configure it in `config.mjs`:
 head: [['link', { rel: 'icon', href: '/gopher.png' }]]
 ```
 This tells the browser: "When you see my site, show this picture."
+
+::: details 🎓 Knowledge Check: What does a "Green Build" mean in CI/CD?
+**Answer**: It means the robot ran all your tests, and they passed (Exit Code 0). Ideally, you should only merge code to `main` if the build is Green.
+:::
+

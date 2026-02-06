@@ -35,3 +35,10 @@ The robot reads the tag:
 > *"Oh, the human called this field `ID` in Go, but when I turn it into text for the browser, I should label it `id` (lowercase)."*
 
 If you omit tags, the JSON output will look like `{"ID": "123"}`, which is not standard for web APIs (which prefer `snake_case` or `camelCase`).
+
+::: details 🎓 Knowledge Check: What is the difference between `ID` and `id` in a struct field?
+**Answer**: 
+*   **`ID` (Capitalized)**: Public (Exported). Visible to other packages and JSON encoders.
+*   **`id` (Lowercase)**: Private (Unexported). Hidden from everyone outside this package.
+:::
+

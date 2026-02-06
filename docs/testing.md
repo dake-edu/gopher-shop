@@ -37,3 +37,8 @@ Code logic didn't break; the internet did.
 **Tests must confirm LOGIC, not INFRASTRUCTURE.**
 
 We create a fake struct that "looks like" the real dependency (satisfies the Interface) but just returns dummy data.
+
+::: details 🎓 Knowledge Check: Why do we use "Table-Driven Tests"?
+**Answer**: To avoid code duplication. Instead of writing 10 separate test functions for 10 scenarios, we write **one** logic loop and feed it a slice (Table) of inputs and expected outputs.
+:::
+

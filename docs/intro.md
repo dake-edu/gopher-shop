@@ -36,3 +36,8 @@ Go was built for the **Real World**, not for academic theory.
 
 ## Conclusion
 You are learning Go because you want to build **professional, high-performance systems** that are easy to maintain. You are joining the ranks of engineers at Google, Netflix, Uber, and Twitch.
+
+::: details 🎓 Knowledge Check: Why is Go compared to a "Fast Car" that is easy to drive?
+**Answer**: Go combines the speed of C++ (Raw Power) with the simplicity of Python (Easy Handling). It hides complex memory management but runs extremely fast.
+:::
+

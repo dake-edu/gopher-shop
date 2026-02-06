@@ -38,3 +38,8 @@ Here is how your Single File concept maps to the Professional Project Structure:
 ## Next Steps
 Now that you understand **WHAT** we are building (The Shop), let's learn **HOW** to build it professionally.
 Proceed to **Phase 3: The Professional**.
+
+::: details 🎓 Knowledge Check: What is special about the `internal/` directory?
+**Answer**: Go treats `internal/` as **private**. Other projects cannot import code from it. This protects your core logic from being misused by the outside world.
+:::
+

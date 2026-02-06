@@ -45,3 +45,8 @@ When we wrap handlers: `Logging(Auth(HomeHandler))`
 4.  HomeHandler returns.
 5.  **Auth** finishes.
 6.  **Logging** finishes.
+
+::: details 🎓 Knowledge Check: What happens if a middleware forgets to call `next.ServeHTTP(w, r)`?
+**Answer**: The request **stops** there! It never reaches the next middleware or your business logic. The user will likely see a blank screen or a timeout.
+:::
+

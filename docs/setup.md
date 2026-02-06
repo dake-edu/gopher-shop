@@ -41,3 +41,8 @@ This creates a permanent binary file (executable). You can send this file to a f
 
 ---
 **Next**: Now that the shop is open, let's learn how to read the blueprints.
+
+::: details 🎓 Knowledge Check: What command do we use to initialize a new Go module?
+**Answer**: `go mod init <module-name>`. This creates the `go.mod` file, which is like the ID card for your project.
+:::
+

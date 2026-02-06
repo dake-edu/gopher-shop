@@ -70,3 +70,8 @@ You have built a modular, professional-grade REST API.
 
 If you can say **YES** to all these, you are no longer a Junior.
 **Welcome to the Professional Tier.**
+
+::: details 🎓 Knowledge Check: Why shouldn't we put business logic in `cmd/api/main.go`?
+**Answer**: Separation of Concerns. `cmd/` is only for **wiring** (starting the engine). Logic belongs in `internal/` so it can be tested in isolation and reused.
+:::
+

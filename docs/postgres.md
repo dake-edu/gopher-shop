@@ -27,3 +27,8 @@ It prepares a **Connection Pool**.
 Comparison:
 - **Python/Django**: Often opens a new connection per request (Slow).
 - **Go**: Maintains a pool of long-lived connections (Fast).
+
+::: details 🎓 Knowledge Check: Does `sql.Open` connect to the database immediately?
+**Answer**: **No!** It only initializes the **Connection Pool** and config. The actual connection happens lazily when you first try to query the DB (e.g., `db.Ping()`).
+:::
+

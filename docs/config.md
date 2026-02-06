@@ -36,3 +36,8 @@ if port == "" {
     port = "8081" // Default fallback
 }
 ```
+
+::: details 🎓 Knowledge Check: Why do we read configuration from "Environment Variables"?
+**Answer**: To follow the **12-Factor App** methodology. This allows us to change settings (changing ports, database passwords) without changing the code itself or recompiling.
+:::
+
