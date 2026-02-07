@@ -4,6 +4,10 @@
     --vp-c-brand-3: #005F75;
 }
 
+a {
+    color: #007d9c;
+}
+
 .VPImage.image-src {
     max-height: 250px;
 }
