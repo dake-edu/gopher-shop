@@ -1,6 +1,6 @@
-# Chapter 16: Configuration
+# Chapter 19: Configuration
 
-## 16.1 The "Twelve-Factor" Philosophy
+## 19.1 The "Twelve-Factor" Philosophy
 Why do we do this?
 Hardcoding values (like `port = 8080`) is the mark of a beginner.
 Professional apps follow the **12-Factor App** methodology.
@@ -13,7 +13,7 @@ Professional apps follow the **12-Factor App** methodology.
 | **Java** | `application.properties` | System Properties / Env Vars |
 | **Go** | `const Port = ":8080"` | `os.Getenv("PORT")` |
 
-## 16.2 Reading the Environment
+## 19.2 Reading the Environment
 ```go
 func LoadConfig() Config {
     return Config{

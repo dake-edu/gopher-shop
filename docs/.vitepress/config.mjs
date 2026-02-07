@@ -24,37 +24,45 @@ export default {
           { text: '07. Arrays & Slices', link: '/lessons/03-data' },
           { text: '08. Maps', link: '/lessons/05-maps' },
           { text: '09. Functions', link: '/lessons/04-interaction' },
-          { text: '10. Debugging', link: '/debugging' },
+          { text: '10. Errors (Guard Rails)', link: '/lessons/10-errors' },
+          { text: '11. JSON (Translator)', link: '/lessons/11-json' },
+          { text: '12. Visual Signals', link: '/signals' },
+          { text: '13. Debugging', link: '/debugging' },
         ]
       },
       {
         text: 'Level 2: The Apprentice',
         items: [
-          { text: '11. The Basic Server', link: '/lessons/01-server' },
-          { text: '12. Project Structure', link: '/lessons/02-structure' },
-          { text: '13. HTML Sorting & Layouts', link: '/lessons/07-templating' },
-          { text: '14. Structures & Models', link: '/models' },
-          { text: '15. Interfaces', link: '/interfaces' },
-          { text: '16. Configuration', link: '/config' },
-          { text: '17. In-Memory Store', link: '/memory-store' },
-          { text: '18. Validation', link: '/validation' },
+          { text: '14. The Basic Server', link: '/lessons/01-server' },
+          { text: '15. Project Structure', link: '/lessons/02-structure' },
+          { text: '16. HTML Sorting & Layouts', link: '/lessons/07-templating' },
+          { text: '17. Structures & Models', link: '/models' },
+          { text: '18. Interfaces', link: '/interfaces' },
+          { text: '19. Configuration', link: '/config' },
+          { text: '20. In-Memory Store', link: '/memory-store' },
+          { text: '21. Validation', link: '/validation' },
         ]
       },
       {
         text: 'Level 3: The Professional',
         items: [
-          { text: '19. Concurrency', link: '/concurrency' },
-          { text: '20. Postgres (The Safe)', link: '/postgres' },
-          { text: '21. Middleware (The Onion)', link: '/middleware' },
-          { text: '22. Testing', link: '/testing' },
-          { text: '23. CI/CD Workflow', link: '/workflow' },
-          { text: '24. Grand Assembly', link: '/assembly' },
+          { text: '22. Concurrency', link: '/concurrency' },
+          { text: '23. Postgres (The Safe)', link: '/postgres' },
+          { text: '24. Middleware (The Onion)', link: '/middleware' },
+          { text: '25. Testing', link: '/testing' },
+          { text: '26. CI/CD Workflow', link: '/workflow' },
+          { text: '27. Grand Assembly', link: '/assembly' },
         ]
       }
     ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/dake-edu/gopher-shop' }
-    ]
+    ],
+
+    docFooter: {
+      prev: 'Previous Page',
+      next: 'Next Page'
+    }
   }
 }

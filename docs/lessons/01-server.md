@@ -1,4 +1,4 @@
-# Chapter 11: The Basic Server
+# Chapter 14: The Basic Server
 
 **Goal**: Make the computer listen and talk back.
 **Concept**: `net/http` is the standard library for web servers.

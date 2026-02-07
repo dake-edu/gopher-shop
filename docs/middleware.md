@@ -1,15 +1,15 @@
-# Chapter 21: Middleware (The Onion)
+# Chapter 24: Middleware (The Onion)
 
 This is one of the most advanced concepts in Go web servers.
 Let's dissect it carefully.
 
-## 21.1 Functions as Values
+## 24.1 Functions as Values
 In Go, a function is a value. You can:
 1.  Store it in a variable.
 2.  Pass it as an argument.
 3.  Return it from another function.
 
-## 21.2 The Middleware Signature
+## 24.2 The Middleware Signature
 ```go
 func Logging(next http.Handler) http.Handler {
     return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +39,7 @@ func Logging(next http.Handler) http.Handler {
 If `Transport` talks to `Service`, and `Service` talks to `Repository`... who checks if the user is logged in? Who measures speed?
 This is the **Middleware**.
 
-## 21.3 The Matryoshka (Russian Doll)
+## 24.3 The Matryoshka (Russian Doll)
 Middleware is like a Matryoshka doll. You put your Handler inside a Logger. You put the Logger inside an Authenticator.
 When a request comes in, it has to drill through all the outer layers to reach the center (your logic).
 

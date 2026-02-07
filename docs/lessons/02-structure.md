@@ -1,4 +1,4 @@
-# Chapter 12: Project Structure
+# Chapter 15: Project Structure
 
 **Goal**: Serve HTML (The Storefront) instead of plain text.
 **Concept**: `html/template` allows us to inject data into HTML.

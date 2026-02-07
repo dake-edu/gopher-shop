@@ -1,6 +1,6 @@
-# Chapter 15: Interfaces
+# Chapter 18: Interfaces
 
-## 15.1 The Implicit Contract (Duck Typing)
+## 18.1 The Implicit Contract (Duck Typing)
 In strict languages (Java, C++), you must **explicitly** sign the contract.
 `class MyStore implements BookRepository`.
 
@@ -23,7 +23,7 @@ type BookRepository interface {
 5.  **`(id string)`**: Usage requirements (Input).
 6.  **`(Book, error)`**: Expected result (Output).
 
-## 15.2 Dependency Injection (DI)
+## 18.2 Dependency Injection (DI)
 Big phrase, simple concept.
 **Don't build your tools inside your house. Buy them and bring them in.**
 

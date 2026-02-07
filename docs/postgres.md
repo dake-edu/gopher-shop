@@ -1,6 +1,6 @@
-# Chapter 20: Postgres (The Safe)
+# Chapter 23: Postgres (The Safe)
 
-## 20.1 The Low-Level Driver
+## 23.1 The Low-Level Driver
 To talk to a SQL database, Go uses the standard package `database/sql`.
 However, `database/sql` is just a **Manager**. It needs a worker (Driver) to speak the specific language of PostgreSQL.
 
@@ -28,7 +28,7 @@ db.Query("SELECT * FROM users WHERE id = " + id)
 db.Query("SELECT * FROM users WHERE id = $1", id)
 ```
 
-### 20.2 Connect & Ping
+### 23.2 Connect & Ping
 on Pooling (`sql.Open`)
 ```go
 db, err := sql.Open("postgres", "user=dake dbname=shop...")

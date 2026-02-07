@@ -8,26 +8,27 @@ In this tier, we do not build the shop yet. We build the **Tools** to build the 
 1.  **[The Origin Story](./intro.md)**: Why Go?
 2.  **[The Workbench](./setup.md)**: Installing Go and VS Code.
 
-### Phase 1: The Foundations
-*Before we build, we must know our tools.*
-- **Basic Types**:
-  - `int`: Whole numbers (e.g., `10`, `500`).
-  - `float64`: Decimals (e.g., `19.99`). *Why 64? It's more precise.*
-  - `bool`: True/False logic.
-  - `string`: Text.
-- **Constants**:
-  - `const TaxRate = 0.05`. *Why? Because it should never change.*
-- **Arrays vs Slices**:
-  - **Array**: Fixed size. Like a physical pill organizer (7 slots).
-  - **Slice**: Dynamic. Use this 99% of the time. Like a Bookshelf (expandable).
+### Phase 1: Level 1 (The Junior)
+*The Foundation. Before we build, we must know our tools.*
+1.  **[Origin & Setup](./intro.md)**: Why Go?
+2.  **[Anatomy](./anatomy.md)**: `package`, `import`, `func`.
+3.  **[Variables & Data](./variables.md)**: `int`, `string`, Arrays, Slices.
+4.  **[Logic & Loops](./logic.md)**: `if`, `for`, `range`.
+5.  **[Maps](./lessons/05-maps.md)**: The "Catalog Index".
 
-### Phase 2: The Build
-3.  **[Level 1: The Server](./lessons/01-server.md)**: Making it talk.
-4.  **[Level 2: Structure](./lessons/02-structure.md)**: Templates & CSS.
-5.  **[Level 3: Data](./lessons/03-data.md)**: Structs & Slices.
-6.  **[Level 4: Interaction](./lessons/04-interaction.md)**: Forms & Validation.
-7.  **[Level 5: Maps](./lessons/05-maps.md)**: The Catalog Index.
-8.  **[The Bridge](./bridge.md)**: Crossing to Professional Engineering.
+### Phase 2: Level 2 (The Apprentice)
+*The Build. We create the shop.*
+6.  **[Ch 11: The Server](./lessons/01-server.md)**: HTTP Basics.
+7.  **[Ch 12: Structure](./lessons/02-structure.md)**: Project Layout.
+8.  **[Ch 13: Templating](./lessons/07-templating.md)**: Dynamic HTML.
+9.  **[Ch 14: Models](./models.md)**: Data Structures.
+10. **[Ch 15-18: Core Mechanics](./interfaces.md)**: Config, Store, Validation.
+
+### Phase 3: Level 3 (The Professional)
+*The Polish. We make it production-ready.*
+11. **[Ch 19: Concurrency](./concurrency.md)**: Goroutines.
+12. **[Ch 20: SQL Database](./postgres.md)**: PostgreSQL.
+13. **[Ch 21-24: Operations](./middleware.md)**: Middleware, Testing, CI/CD.
 
 ## The Goal
-By the end of this path, you will be able to write a simple program that listens for HTTP requests and responds with text.
+By the end of this path, you will have built a complete, interactive E-Commerce store.

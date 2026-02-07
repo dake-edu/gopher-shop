@@ -1,11 +1,11 @@
-# Chapter 13: HTML Sorting & Layouts
+# Chapter 16: HTML Sorting & Layouts
 
 > **"Don't build a new house for every guest. Just change the furniture."**
 
 In the "Basic Server" chapter, we served simple HTML. But what if we want to show 100 books? We can't write 100 HTML files.
 We need **Templates**.
 
-## 13.1 The Mechanic: `html/template`
+## 16.1 The Mechanic: `html/template`
 Go has a powerful standard library for this. It takes a skeleton (Template) and data (Go Struct), and merges them.
 
 ```go
@@ -19,7 +19,7 @@ User{Name: "Alice"}
 <h1>Hello, Alice!</h1>
 ```
 
-## 13.2 Structure: The Layout Pattern
+## 16.2 Structure: The Layout Pattern
 Professional apps don't copy-paste the `<head>` and `<footer>` into every file.
 We use the **Layout Pattern** (The Sandwich).
 
@@ -46,7 +46,7 @@ We use the **Layout Pattern** (The Sandwich).
 {​{end}}
 ```
 
-## 13.3 The Dot (`.`)
+## 16.3 The Dot (`.`)
 You will see `.` everywhere.
 `{​{template "footer" .}}`
 
@@ -57,7 +57,7 @@ The Dot is the **Data** you passed to the template.
 
 When you include a partial: `{​{template "footer" .}}`, you are passing the **same data** down to the footer. If you wrote `{​{template "footer"}}` (no dot), the footer would receive **nothing** and crash if it tried to print the Year.
 
-## 13.4 Practice: Refactoring
+## 16.4 Practice: Refactoring
 We have refactored our `cmd/web-demo` to use this structure.
 - `layouts/base.html`
 - `pages/home.html`
