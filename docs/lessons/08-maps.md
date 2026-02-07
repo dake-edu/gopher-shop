@@ -45,12 +45,14 @@ if !ok {
 }
 ```
 
-## 8.4 Practice: The Inventory
-In our shop, we might use a map to store the stock count for each book ID.
+**Visual Anchor**:
+> **The Library Card Catalog**:
+> - You don't walk through every shelf looking for "Harry Potter" (Looping).
+> - You go to the Catalog (Map), look up "Harry Potter" (Key), and it tells you exactly "Aisle 4, Shelf B" (Value).
+> - You walk straight there.
 
-<<< @/../lessons/05-maps/main.go
-
-::: details 🎓 Knowledge Check: What two values does a map lookup return?
+::: details 🎓 Knowledge Check
+: What two values does a map lookup return?
 **Answer**:
 1.  **Value**: The data you asked for (e.g., the price).
 2.  **Exists**: A boolean (`true`/`false`) telling you if the key was actually found. Always check this!

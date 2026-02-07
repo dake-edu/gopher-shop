@@ -8,10 +8,20 @@ In this tier, we do not build the shop yet. We build the **Tools** to build the 
 ### Phase 1: Level 1 (The Junior)
 *The Foundation. Before we build, we must know our tools.*
 1.  **[Origin & Setup](./lessons/01-intro.md)**: Why Go?
-2.  **[Anatomy](./lessons/03-anatomy.md)**: `package`, `import`, `func`.
-3.  **[Variables & Data](./lessons/04-variables.md)**: `int`, `string`, Arrays, Slices.
-4.  **[Logic & Loops](./lessons/05-logic.md)**: `if`, `for`, `range`.
-5.  **[Maps](./lessons/08-maps.md)**: The "Catalog Index".
+2.  **[Setup](./lessons/02-setup.md)**: Installation & Tools.
+3.  **[Anatomy](./lessons/03-anatomy.md)**: `package`, `import`, `func`.
+4.  **[Variables & Data](./lessons/04-variables.md)**: `int`, `string`, Zero Values.
+5.  **[Logic (If/Else)](./lessons/05-logic.md)**: Branching paths.
+6.  **[Loops](./lessons/06-loops.md)**: `for`, `range`.
+7.  **[Arrays & Slices](./lessons/07-arrays-slices.md)**: Lists of data.
+8.  **[Maps](./lessons/08-maps.md)**: Key-Value pairs.
+9.  **[Functions](./lessons/09-functions.md)**: Inputs & Outputs.
+10. **[Errors](./lessons/10-errors.md)**: The "Guard Rail" philosophy.
+11. **[JSON](./lessons/11-json.md)**: The Translator.
+13. **[Debugging](./lessons/13-debugging.md)**: The Magnifying Glass.
+
+### Interlude
+*   **[The Bridge](./lessons/bridge.md)**: Crossing to Professional Engineering.
 
 ### Phase 2: Level 2 (The Apprentice)
 *The Build. We create the shop.*

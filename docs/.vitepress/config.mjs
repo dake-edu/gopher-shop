@@ -28,6 +28,7 @@ export default {
           { text: '11. JSON (Translator)', link: '/lessons/11-json' },
           { text: '12. Visual Signals', link: '/lessons/12-signals' },
           { text: '13. Debugging', link: '/lessons/13-debugging' },
+          { text: 'The Bridge', link: '/lessons/bridge' },
         ]
       },
       {

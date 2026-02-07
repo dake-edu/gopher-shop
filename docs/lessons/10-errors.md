@@ -44,10 +44,13 @@ Imagine a railroad switch.
 
 Every time you call a function that returns an error, you are at a switch. You MUST decide where the train goes.
 
-## 4. Why is this better?
-It forces you to think about failure **immediately**.
--   **Java/Python**: "I'll try this block and maybe catch exceptions later." (Implicit failure)
--   **Go**: "This function *might* fail. I must handle that right now." (Explicit failure)
+## 4. Why is this better? (The Guard Rail Philosophy)
+Imagine a highway on a cliff.
+-   **Exceptions** are like driving without guard rails. If you make a mistake (divide by zero), you fall off the cliff (crash) unless someone put a net at the bottom (try/catch).
+-   **Go's Errors** are **Guard Rails**.
+    -   Every time the road turns (a function call), there is a visible barrier.
+    -   You *must* acknowledge the barrier (`if err != nil`) to turn the wheel.
+    -   It forces you to drive safely at every single turn, rather than hoping for a net at the bottom.
 
 ## Checkpoint
 -   Errors are values.

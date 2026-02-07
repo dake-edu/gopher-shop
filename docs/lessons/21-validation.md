@@ -42,6 +42,14 @@ Go believes exceptions hide control flow. By forcing you to check `if err != nil
 - **Explicit**: You see exactly where things can go wrong.
 - **Reliable**: You handle the error right there, instead of bubbling it up 10 layers.
 
+```mermaid
+flowchart LR
+    Input[Data] --> Gate{Is Valid?}
+    Gate -- No --> Error[Return Error]
+    Gate -- Yes --> Success[Continue Logic]
+    style Gate fill:#f9f,stroke:#333
+```
+
 ::: details 🎓 Knowledge Check: Why doesn't Go use "Exceptions" (try/catch)?
 **Answer**: Go prefers **Errors as Values**. Exceptions hide control flow (you don't know where they might explode). Returning an error forces you to handle it explicitly (`if err != nil`), making code safer and more readable.
 :::

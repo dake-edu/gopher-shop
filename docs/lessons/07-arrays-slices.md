@@ -20,6 +20,23 @@ carton[2] = "Egg 3"
 
 ## 7.2 The Magic Bag (Slice)
 A **Slice** is a window into an underlying array. It can grow and shrink.
+
+```mermaid
+graph TD
+    subgraph Array [Underlying Array]
+        Slot1[Slot 1]
+        Slot2[Slot 2]
+        Slot3[Slot 3]
+        Slot4[Slot 4 (Hidden)]
+    end
+    subgraph Slice [The Window]
+        Slot1
+        Slot2
+        Slot3
+    end
+    style Slice fill:#eef,stroke:#333,stroke-dasharray: 5 5
+```
+
 - **Rule**: If you need more space, Go automatically buys a bigger bag and moves your stuff there.
 - **Syntax**: `[]int` (Note: No number inside `[]`).
 

@@ -5,6 +5,15 @@ To be a professional engineer, you must understand what happens inside the machi
 
 ## 4.1 The Memory Cell (The Box)
 Imagine your computer's RAM (Random Access Memory) as a giant warehouse filled with millions of small numbered boxes.
+
+```mermaid
+graph LR
+    subgraph RAM [Memory Warehouse]
+        Box1[Address: 0x01<br>Value: 10]
+        Box2[Address: 0x02<br>Value: "Hello"]
+    end
+```
+
 Each box has:
 1.  **An Address**: A unique number (e.g., `0x001`).
 2.  **A Value**: What is inside (e.g., `10`).
@@ -14,12 +23,6 @@ When you create a **Variable**, you are claiming one of these boxes and giving i
 ```go
 var age int = 25
 ```
-
-- **`var`**: "Hey Computer, I need a box."
-- **`age`**: "Label this box 'age'."
-- **`int`**: "Make sure this box is the right shape for an Integer (Whole Number)."
-- **`=`**: "Put this value inside."
-- **`25`**: The value.
 
 ## 4.2 Declaration Styles (Why two ways?)
 In Go, you will see two ways to create variables.
@@ -45,10 +48,13 @@ In many languages (Java, Python), if you create a variable but don't give it a v
 
 **Go is safer.** In Go, variables **always** have a value. If you don't provide one, Go gives it a "Zero Value".
 
-- **`int`** $\rightarrow$ `0`
-- **`float64`** $\rightarrow$ `0.0`
-- **`bool`** $\rightarrow$ `false`
-- **`string`** $\rightarrow$ `""` (Empty string, like a blank paper)
+| Type | Zero Value | Meaning |
+| :--- | :--- | :--- |
+| `int` | `0` | Empty Count |
+| `float64` | `0.0` | Empty Account |
+| `bool` | `false` | Default Off |
+| `string` | `""` | Blank Paper |
+| `pointer` | `nil` | No Address |
 
 ```go
 var count int
@@ -56,13 +62,15 @@ fmt.Println(count) // Output: 0
 ```
 *The box is not missing. The box is just empty (contains 0).*
 
-## 4.4 Basic Types (The Shapes)
-You cannot put water in a cardboard box. You cannot put a distinct text in a math equation.
+## 4.4 Basic Types (The Shop Objects)
+Let's map Go types to real-world objects in our Gopher Shop.
 
-1.  **`int`**: Whole numbers (-1, 0, 1, 42). *For counting.*
-2.  **`float64`**: Decimals (3.14, -0.01). *For math/money.*
-3.  **`bool`**: Truth (true/false). *For logic.*
-4.  **`string`**: Text ("Hello"). *For communication.*
+| Go Type | Shop Concept | Example |
+| :--- | :--- | :--- |
+| `int` | **Inventory Count** | `var stock int = 50` |
+| `float64` | **Price** | `var price float64 = 19.99` |
+| `string` | **Book Title** | `var title string = "Go Guide"` |
+| `bool` | **Is On Sale?** | `var onSale bool = true` |
 
 
 ## 4.5 Constants (The Stone Tablets)

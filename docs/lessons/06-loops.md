@@ -28,6 +28,14 @@ shelf = append(shelf, "Book C") // Magic! It grows.
 How do we process 1,000 items? We don't write 1,000 lines of code.
 We use a **Loop**.
 
+```mermaid
+graph LR
+    Input[Items] --> Loop{Loop}
+    Loop -- "Next Item" --> Process[Process]
+    Process --> Loop
+    Loop -- "Done" --> Output[Finish]
+```
+
 ### The Standard Loop
 "Init; Condition; Post"
 ```go
