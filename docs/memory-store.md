@@ -1,6 +1,6 @@
-# 10. The Memory (In-Memory Storage)
+# Chapter 17: In-Memory Store
 
-## 10.1 The Map (Hash Table)
+## 17.1 The Map (Hash Table)
 We need a way to find a Book by its ID instantly.
 In Computer Science, this is a **Hash Map** (or Dictionary).
 
@@ -17,7 +17,7 @@ var storage = make(map[string]Book)
 4.  **`[string]`**: The Key Type (The ID is a string).
 5.  **`Book`**: The Value Type (The full Book struct).
 
-## 10.2 Pointers vs Values (`*Book` vs `Book`)
+## 17.2 Pointers vs Values (`*Book` vs `Book`)
 This is the hardest concept for beginners coming from Python/JS.
 
 ```go

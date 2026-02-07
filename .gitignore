@@ -40,3 +40,6 @@ docs/.vitepress/cache
 
 # Mac
 .DS_Store
+
+# Binaries
+web-demo

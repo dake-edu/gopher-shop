@@ -1,9 +1,9 @@
-# 17. The Grand Assembly
+# Chapter 24: Grand Assembly
 
 You have bricks, wood, and glass. Now let's build the house.
 In this final chapter, we look at `cmd/api/main.go`. This is where all the isolated pieces we learned about (Router, Config, Database) are wired together.
 
-## 17.1 Standard Project Layout
+## 24.1 Standard Project Layout
 Why isn't everything in the root folder?
 Professional Go projects often use the **Standard Go Project Layout**:
 
@@ -16,7 +16,7 @@ Professional Go projects often use the **Standard Go Project Layout**:
     - `internal/store`: Database Logic.
     - *Rule*: Code here allows our app to work, but other people can't import it (Go enforces this privacy).
 
-## 17.2 The Main Wiring
+## 24.2 The Main Wiring
 Open `cmd/api/main.go`. Let's read it like a schematic.
 
 ### Step 1: Power On (Configuration)
@@ -59,7 +59,7 @@ server.ListenAndServe()
 - **Why?**: This starts the infinite loop that listens for traffic on the port.
 - **Chapter**: 7 (Web Server).
 
-### 4. Graceful Shutdown (Dying with Dignity)
+## 24.3 Graceful Shutdown (Dying with Dignity)
 In production, servers restart often. You don't want to kill active users mid-request.
 We catch OS signals (`SIGINT`, `SIGTERM`) and give the server a standardized timeout (e.g., 5 seconds) to finish current jobs before quitting.
 
@@ -75,7 +75,7 @@ defer cancel()
 srv.Shutdown(ctx)
 ```
 
-## 17.3 You Did It!
+## 24.4 You Did It!
 You have built a modular, professional-grade REST API.
 
 ## The Checklist

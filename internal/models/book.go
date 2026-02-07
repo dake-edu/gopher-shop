@@ -21,10 +21,11 @@ import (
 
 // Book represents a book in our store.
 type Book struct {
-	ID     int     `json:"id"`
-	Title  string  `json:"title"`
-	Author string  `json:"author"`
-	Price  float64 `json:"price"`
+	ID       int     `json:"id"`
+	Title    string  `json:"title"`
+	Author   string  `json:"author"`
+	Price    float64 `json:"price"`
+	Category string  `json:"category"`
 }
 
 // Validate checks if the book has valid data.

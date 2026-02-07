@@ -1,6 +1,6 @@
-# 12. The Architect (Interfaces)
+# Chapter 15: Interfaces
 
-## 12.1 The Implicit Contract (Duck Typing)
+## 15.1 The Implicit Contract (Duck Typing)
 In strict languages (Java, C++), you must **explicitly** sign the contract.
 `class MyStore implements BookRepository`.
 
@@ -23,7 +23,7 @@ type BookRepository interface {
 5.  **`(id string)`**: Usage requirements (Input).
 6.  **`(Book, error)`**: Expected result (Output).
 
-## 12.2 Dependency Injection (DI)
+## 15.2 Dependency Injection (DI)
 Big phrase, simple concept.
 **Don't build your tools inside your house. Buy them and bring them in.**
 

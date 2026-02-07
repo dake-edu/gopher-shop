@@ -1,6 +1,6 @@
-# 15. The Safety Net (Testing)
+# Chapter 22: Testing
 
-## 15.1 Table-Driven Tests
+## 22.1 Table-Driven Tests
 In other languages, you might write 10 separate test functions for 10 cases.
 In Go, we use a **Table**. It's cleaner.
 
@@ -30,7 +30,7 @@ func TestAdd(t *testing.T) {
 - **`t.Errorf`**: "Mark this test as Failed, log the message, but **Continue** running other tests."
 - **`t.Fatal`**: "Stop now. This is critical."
 
-## 15.2 Mocks (The Stunt Double)
+## 22.2 Mocks (The Stunt Double)
 Why do we mock?
 If your test actually connects to GitHub, and your internet is down, your test fails.
 Code logic didn't break; the internet did.

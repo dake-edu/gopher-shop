@@ -19,8 +19,9 @@ type InMemoryBookStore struct {
 func NewInMemoryBookStore() *InMemoryBookStore {
 	return &InMemoryBookStore{
 		books: []models.Book{
-			{ID: 1, Title: "The Go Gopher", Author: "Rob Pike", Price: 25.00},
-			{ID: 2, Title: "Concurrency in Go", Author: "Katherine Cox-Buday", Price: 30.00},
+			{ID: 1, Title: "The Go Gopher", Author: "Rob Pike", Price: 25.00, Category: "junior"},
+			{ID: 2, Title: "Concurrency in Go", Author: "Katherine Cox-Buday", Price: 30.00, Category: "professional"},
+			{ID: 3, Title: "Go Web Programming", Author: "Sau Sheong Chang", Price: 35.00, Category: "apprentice"},
 		},
 		nextID: 3,
 	}

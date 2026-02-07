@@ -1,6 +1,6 @@
-# 8. The Blueprint (Data Modeling)
+# Chapter 14: Structures & Models
 
-## 8.1 The Struct (The Container)
+## 14.1 The Struct (The Container)
 In Java or Python, you might use a `Class`. In Go, we use a `struct`.
 A struct is purely data. It has no hidden machinery.
 
@@ -26,7 +26,7 @@ type Book struct {
 | **Methods** | Inside Class | Inside Class | **Attached Separately** |
 | **Visibility** | `public`/`private` | `_` convention | **Capitalized (Public)** |
 
-## 8.2 Tags (Reflecting Instructions)
+## 14.2 Tags (Reflecting Instructions)
 What is that stuff in backticks? `` `json:"id"` ``?
 
 This is **Metadata**.
