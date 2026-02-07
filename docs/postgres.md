@@ -14,7 +14,22 @@ import _ "github.com/lib/pq"
     - *Why?* We only want the package's `init()` function to run.
     - Inside `lib/pq`, the `init()` function registers itself with Go's SQL Manager: "Hey, I know how to talk to Postgres!"
 
-## 13.2 Connection Pooling (`sql.Open`)
+### The Enemy: SQL Injection
+If you concatenate strings (`"SELECT * FROM users WHERE name = " + input`), you create a **Hole in the Wall**. A hacker can pass `'; DROP TABLE users; --` and destroy your database.
+
+**The Solution: Armored Windows ($1)**
+When you use placeholders (`$1`, `$2`), you send the data in a separate, sealed envelope. The database treats it strictly as *text*, never as *commands*.
+
+```go
+// BAD (Hole in the Wall)
+db.Query("SELECT * FROM users WHERE id = " + id)
+
+// GOOD (Armored Window)
+db.Query("SELECT * FROM users WHERE id = $1", id)
+```
+
+### 3. Connect & Ping
+on Pooling (`sql.Open`)
 ```go
 db, err := sql.Open("postgres", "user=dake dbname=shop...")
 ```

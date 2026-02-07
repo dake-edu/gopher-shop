@@ -59,10 +59,26 @@ server.ListenAndServe()
 - **Why?**: This starts the infinite loop that listens for traffic on the port.
 - **Chapter**: 7 (Web Server).
 
+### 4. Graceful Shutdown (Dying with Dignity)
+In production, servers restart often. You don't want to kill active users mid-request.
+We catch OS signals (`SIGINT`, `SIGTERM`) and give the server a standardized timeout (e.g., 5 seconds) to finish current jobs before quitting.
+
+```go
+// Wait for Ctrl+C
+quit := make(chan os.Signal, 1)
+signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+<-quit
+
+// Give 5 seconds to finish
+ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+defer cancel()
+srv.Shutdown(ctx)
+```
+
 ## 17.3 You Did It!
 You have built a modular, professional-grade REST API.
 
-### Verification Checklist
+## The Checklist
 - [ ] **Data**: `struct` with JSON tags? (Ch 8)
 - [ ] **Logic**: Handlers inject a Repository? (Ch 12)
 - [ ] **Safety**: Unit Tests passed? (Ch 15)

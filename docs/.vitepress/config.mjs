@@ -13,36 +13,38 @@ export default {
 
     sidebar: [
       {
-        text: 'Level 1: The Junior (Foundations)',
+        text: 'Level 1: The Junior',
         items: [
-          { text: '1. The Origin Story', link: '/intro' },
-          { text: '2. The Workbench (Setup)', link: '/setup' },
-          { text: '3. Level 1: The Server', link: '/lessons/01-server' },
-          { text: '4. Level 2: Structure', link: '/lessons/02-structure' },
-          { text: '5. Level 3: Data', link: '/lessons/03-data' },
-          { text: '6. Level 4: Interaction', link: '/lessons/04-interaction' },
-          { text: '7. Level 5: Maps', link: '/lessons/05-maps' },
-          { text: '8. The Bridge', link: '/bridge' },
+          { text: '01. Origin Story', link: '/intro' },
+          { text: '02. Setup', link: '/setup' },
+          { text: '03. Basic Server', link: '/lessons/01-server' },
+          { text: '04. Project Structure', link: '/lessons/02-structure' },
+          { text: '05. Data Types', link: '/lessons/03-data' },
+          { text: '06. Interaction', link: '/lessons/04-interaction' },
+          { text: '07. Maps', link: '/lessons/05-maps' },
+          { text: '08. Debugging', link: '/debugging' },
+          { text: '09. The Bridge', link: '/bridge' },
         ]
       },
       {
-        text: 'Level 2: The Apprentice (Building)',
+        text: 'Level 2: The Apprentice',
         items: [
-          { text: '8. The Blueprint (Models)', link: '/models' },
-          { text: '9. The Wiring (Config)', link: '/config' },
-          { text: '10. The Memory (Store)', link: '/memory-store' },
-          { text: '11. The Inspector (Validation)', link: '/validation' },
+          { text: '10. Structures & Models', link: '/models' },
+          { text: '11. Configuration', link: '/config' },
+          { text: '12. In-Memory Store', link: '/memory-store' },
+          { text: '13. Validation', link: '/validation' },
+          { text: '14. Interfaces', link: '/interfaces' },
         ]
       },
       {
-        text: 'Level 3: The Professional (Production)',
+        text: 'Level 3: The Professional',
         items: [
-          { text: '12. The Architect (Interfaces)', link: '/interfaces' },
-          { text: '13. The Warehouse (Postgres)', link: '/postgres' },
-          { text: '14. The Onion (Middleware)', link: '/middleware' },
-          { text: '15. The Safety Net (Testing)', link: '/testing' },
-          { text: '16. The Robot (CI/CD)', link: '/workflow' },
-          { text: '17. The Grand Assembly', link: '/assembly' },
+          { text: '15. Concurrency', link: '/concurrency' },
+          { text: '16. Postgres (The Safe)', link: '/postgres' },
+          { text: '17. Middleware (The Onion)', link: '/middleware' },
+          { text: '18. Testing', link: '/testing' },
+          { text: '19. CI/CD Workflow', link: '/workflow' },
+          { text: '20. Grand Assembly', link: '/assembly' },
         ]
       }
     ],

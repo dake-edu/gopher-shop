@@ -36,7 +36,21 @@ func Logging(next http.Handler) http.Handler {
     - **Crucial**: This calls the original handler.
     - If you forget this line, the request stops here. The User never gets a response.
 
-## 14.3 Visualizing the Chain
+If `Transport` talks to `Service`, and `Service` talks to `Repository`... who checks if the user is logged in? Who measures speed?
+This is the **Middleware**.
+
+## The Matryoshka (Russian Doll)
+Middleware is like a Matryoshka doll. You put your Handler inside a Logger. You put the Logger inside an Authenticator.
+When a request comes in, it has to drill through all the outer layers to reach the center (your logic).
+
+```mermaid
+graph LR
+    Req((Request)) --> Auth[Auth Layer]
+    Auth --> Log[Log Layer]
+    Log --> Handler[Your Function]
+```
+
+### The Chain
 When we wrap handlers: `Logging(Auth(HomeHandler))`
 
 1.  Request arrives $\rightarrow$ **Logging** starts.
