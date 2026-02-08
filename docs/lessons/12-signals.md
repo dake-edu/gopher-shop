@@ -58,19 +58,19 @@ sequenceDiagram
 ```mermaid
 graph TD
     subgraph Value_Type ["Struct (Value)"]
-        Original[📄 Document A]
-        Copy[📄 Document B (Copy)]
+        Original["📄 Document A"]
+        Copy["📄 Document B (Copy)"]
         Original -- "Copying" --> Copy
-        Note[If I edit Copy, Original is UNCHANGED]
+        Note["If I edit Copy, Original is UNCHANGED"]
     end
 
     subgraph Pointer_Type ["Pointer (*Struct)"]
-        Shared[📄 shared_doc.txt]
-        Ref1[Ptr 1]
-        Ref2[Ptr 2]
+        Shared["📄 shared_doc.txt"]
+        Ref1["Ptr 1"]
+        Ref2["Ptr 2"]
         Ref1 -- "Points to" --> Shared
         Ref2 -- "Points to" --> Shared
-        Note2[If Ptr 1 edits Doc, Ptr 2 SEES IT]
+        Note2["If Ptr 1 edits Doc, Ptr 2 SEES IT"]
     end
 ```
 
