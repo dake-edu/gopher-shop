@@ -23,6 +23,13 @@ type BookRepository interface {
 5.  **`(id string)`**: Usage requirements (Input).
 6.  **`(Book, error)`**: Expected result (Output).
 
+### Where to Define Interfaces?
+Beginners often define the interface in the **Implementation** package (e.g., inside `store/`).
+**Idiomatic Go**: Define the interface where it is **USED** (e.g., in `main.go` or `api/`), not where it is implemented.
+-   **Java**: Producer defines the interface.
+-   **Go**: Consumer defines the interface.
+*(Note: In this project, we keep it in `store/` for simplicity, but strictly speaking, `main` should define what it needs).*
+
 ## 18.2 Dependency Injection (DI)
 Big phrase, simple concept.
 **Don't build your tools inside your house. Buy them and bring them in.**

@@ -27,8 +27,8 @@ func NewInMemoryBookStore() *InMemoryBookStore {
 	}
 }
 
-// GetAll returns a copy of all books (to avoid race conditions).
-func (s *InMemoryBookStore) GetAll() ([]models.Book, error) {
+// All returns a copy of all books (to avoid race conditions).
+func (s *InMemoryBookStore) All() ([]models.Book, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 

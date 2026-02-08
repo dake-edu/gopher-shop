@@ -15,7 +15,9 @@ import "github.com/dake-edu/gopher-shop/internal/models"
 
 // BookRepository defines the behavior for book storage.
 type BookRepository interface {
-	GetAll() ([]models.Book, error)
+	// All returns a list of all books.
+	// Note: We use All() instead of GetAll() following the Effective Go naming conventions.
+	All() ([]models.Book, error)
 	GetByID(id int) (*models.Book, bool, error)
 	Create(book *models.Book) error
 }

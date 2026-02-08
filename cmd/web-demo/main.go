@@ -36,7 +36,7 @@ func main() {
 
 	// GET / (Home with Filter)
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		allBooks, err := bookStore.GetAll()
+		allBooks, err := bookStore.All()
 		if err != nil {
 			http.Error(w, "Could not fetch books", http.StatusInternalServerError)
 			return

@@ -18,8 +18,8 @@ func NewPostgresBookStore(db *sql.DB) *PostgresBookStore {
 	return &PostgresBookStore{db: db}
 }
 
-// GetAll returns all books from the database.
-func (s *PostgresBookStore) GetAll() ([]models.Book, error) {
+// All returns all books from the database.
+func (s *PostgresBookStore) All() ([]models.Book, error) {
 	query := `SELECT id, title, author, price FROM books`
 	rows, err := s.db.Query(query)
 	if err != nil {

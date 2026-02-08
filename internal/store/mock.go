@@ -4,14 +4,14 @@ import "github.com/dake-edu/gopher-shop/internal/models"
 
 // MockBookStore is a mock implementation of BookRepository for testing.
 type MockBookStore struct {
-	GetAllFunc  func() ([]models.Book, error)
+	AllFunc     func() ([]models.Book, error)
 	GetByIDFunc func(id int) (*models.Book, bool, error)
 	CreateFunc  func(book *models.Book) error
 }
 
-func (m *MockBookStore) GetAll() ([]models.Book, error) {
-	if m.GetAllFunc != nil {
-		return m.GetAllFunc()
+func (m *MockBookStore) All() ([]models.Book, error) {
+	if m.AllFunc != nil {
+		return m.AllFunc()
 	}
 	return nil, nil
 }

@@ -73,7 +73,7 @@ func main() {
 
 	// Inject the store into the handlers using a closure
 	mux.HandleFunc("GET /api/books", func(w http.ResponseWriter, r *http.Request) {
-		books, err := bookStore.GetAll()
+		books, err := bookStore.All()
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			log.Printf("Error getting books: %v", err)

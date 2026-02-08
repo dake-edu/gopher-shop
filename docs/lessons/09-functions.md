@@ -35,6 +35,13 @@ func Divide(a, b int) (int, error) {
 **The "Guard Clause" Pattern**:
 Notice how we check for errors *first* and return early? This keeps our code clean (no nested `else` hell).
 
+## 9.3b Idiomatic Naming: Getters
+In Java, you might write `GetName()`. In Go, we just say `Name()`.
+-   **Bad**: `GetOwner()`, `GetPrice()`, `GetAll()`
+-   **Good**: `Owner()`, `Price()`, `All()`
+
+If a function *fetches* something remotely or expensively, we usually just verb it directly (`Fetch()`, `Find()`). If it's a simple property access, drop the `Get`.
+
 ## 9.4 Practice: Interaction & Validation
 In this lesson, we build a function that accepts User Input, validates it (checks for errors), and returns a safe result.
 
