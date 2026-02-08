@@ -1,4 +1,6 @@
-export default {
+import { withMermaid } from 'vitepress-plugin-mermaid';
+
+export default withMermaid({
   base: '/gopher-shop/',
   title: 'The Gopher Shop',
   description: 'From Junior to Middle-level Go Backend Engineer.',
@@ -61,9 +63,9 @@ export default {
       { icon: 'github', link: 'https://github.com/dake-edu/gopher-shop' }
     ],
 
-    docFooter: {
-      prev: 'Previous Page',
-      next: 'Next Page'
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2024-Present The Gopher Shop Team'
     }
   }
-}
+});
