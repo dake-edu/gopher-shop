@@ -28,14 +28,14 @@ import{_ as a,o as n,c as i,ae as e}from"./chunks/framework.CfVLvsAT.js";const c
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    Note over Ch: Item travels safely...</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    Ch-&gt;&gt;G2: Arrow (&quot;Take Item&quot;)</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    G2-&gt;&gt;G2: Process Item</span></span></code></pre></div><hr><h2 id="_3-structs-vs-pointers-the-blueprint-vs-the-house" tabindex="-1">3. Structs vs Pointers (The Blueprint vs The House) <a class="header-anchor" href="#_3-structs-vs-pointers-the-blueprint-vs-the-house" aria-label="Permalink to &quot;3. Structs vs Pointers (The Blueprint vs The House)&quot;">​</a></h2><p><strong>Concept</strong>: Value types vs Reference types. <strong>Signal</strong>: A Photocopy vs The Shared Document.</p><div class="language-mermaid vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">mermaid</span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">graph TD</span></span>
-<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    subgraph Value_Type [Struct (Value)]</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    subgraph Value_Type [&quot;Struct (Value)&quot;]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Original[📄 Document A]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Copy[📄 Document B (Copy)]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Original -- &quot;Copying&quot; --&gt; Copy</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Note[If I edit Copy, Original is UNCHANGED]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    end</span></span>
 <span class="line"></span>
-<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    subgraph Pointer_Type [Pointer (*Struct)]</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    subgraph Pointer_Type [&quot;Pointer (*Struct)&quot;]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Shared[📄 shared_doc.txt]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Ref1[Ptr 1]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Ref2[Ptr 2]</span></span>

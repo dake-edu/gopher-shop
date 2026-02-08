@@ -7,7 +7,7 @@ import{_ as i,o as a,c as n,ae as t}from"./chunks/framework.CfVLvsAT.js";const d
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Slot1[Slot 1]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Slot2[Slot 2]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Slot3[Slot 3]</span></span>
-<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Slot4[Slot 4 (Hidden)]</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Slot4[&quot;Slot 4 (Hidden)&quot;]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    end</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    subgraph Slice [The Window]</span></span>
 <span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Slot1</span></span>
