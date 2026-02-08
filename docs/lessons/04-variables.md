@@ -9,8 +9,8 @@ Imagine your computer's RAM (Random Access Memory) as a giant warehouse filled w
 ```mermaid
 graph LR
     subgraph RAM [Memory Warehouse]
-        Box1[Address: 0x01<br>Value: 10]
-        Box2[Address: 0x02<br>Value: "Hello"]
+        Box1["Address: 0x01<br>Value: 10"]
+        Box2["Address: 0x02<br>Value: 'Hello'"]
     end
 ```
 

@@ -44,9 +44,9 @@ Go believes exceptions hide control flow. By forcing you to check `if err != nil
 
 ```mermaid
 flowchart LR
-    Input[Data] --> Gate{Is Valid?}
-    Gate -- No --> Error[Return Error]
-    Gate -- Yes --> Success[Continue Logic]
+    Input[Data] --> Gate{"Is Valid?"}
+    Gate -- No --> Error["Return Error"]
+    Gate -- Yes --> Success["Continue Logic"]
     style Gate fill:#f9f,stroke:#333
 ```
 

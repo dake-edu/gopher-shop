@@ -27,7 +27,7 @@ graph TD
         Slot1[Slot 1]
         Slot2[Slot 2]
         Slot3[Slot 3]
-        Slot4[Slot 4 (Hidden)]
+        Slot4["Slot 4 (Hidden)"]
     end
     subgraph Slice [The Window]
         Slot1

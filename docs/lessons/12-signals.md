@@ -57,14 +57,14 @@ sequenceDiagram
 
 ```mermaid
 graph TD
-    subgraph Value_Type [Struct (Value)]
+    subgraph Value_Type ["Struct (Value)"]
         Original[📄 Document A]
         Copy[📄 Document B (Copy)]
         Original -- "Copying" --> Copy
         Note[If I edit Copy, Original is UNCHANGED]
     end
 
-    subgraph Pointer_Type [Pointer (*Struct)]
+    subgraph Pointer_Type ["Pointer (*Struct)"]
         Shared[📄 shared_doc.txt]
         Ref1[Ptr 1]
         Ref2[Ptr 2]
