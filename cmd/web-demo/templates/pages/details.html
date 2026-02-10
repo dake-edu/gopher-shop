@@ -1,0 +1,47 @@
+{{define "content"}}
+<div class="row">
+    {{template "sidebar" .}}
+
+    <div class="col-md-9">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{.Book.Title}}</li>
+            </ol>
+        </nav>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <img src="{{if .Book.ImageURL}}{{.Book.ImageURL}}{{else}}https://via.placeholder.com/300x400?text=No+Cover{{end}}"
+                            class="img-fluid rounded shadow-sm" alt="{{.Book.Title}}">
+                    </div>
+                    <div class="col-md-8">
+                        <h1 class="card-title display-5">{{.Book.Title}}</h1>
+                        <h4 class="card-subtitle mb-3 text-muted">by {{.Book.Author}}</h4>
+
+                        <span class="badge bg-info text-dark mb-4">{{.Book.Category}}</span>
+
+                        <p class="lead">
+                            This is a detailed view of the book. In a real app, you would see description,
+                            ISBN, reviews, and more here.
+                        </p>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="text-success display-6">${{.Book.Price}}</h3>
+                            <a href="/checkout/{{.Book.ID}}" class="btn btn-primary btn-lg px-4">Add to Cart 🛒</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="/" class="btn btn-outline-secondary">&larr; Back to Shop</a>
+        </div>
+    </div>
+</div>
+{{end}}

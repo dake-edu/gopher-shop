@@ -20,7 +20,7 @@ func NewPostgresBookStore(db *sql.DB) *PostgresBookStore {
 
 // All returns all books from the database.
 func (s *PostgresBookStore) All() ([]models.Book, error) {
-	query := `SELECT id, title, author, price FROM books`
+	query := `SELECT id, title, author, price, image_url FROM books`
 	rows, err := s.db.Query(query)
 	if err != nil {
 		return nil, fmt.Errorf("query failed: %w", err)
@@ -30,7 +30,7 @@ func (s *PostgresBookStore) All() ([]models.Book, error) {
 	var books []models.Book
 	for rows.Next() {
 		var b models.Book
-		if err := rows.Scan(&b.ID, &b.Title, &b.Author, &b.Price); err != nil {
+		if err := rows.Scan(&b.ID, &b.Title, &b.Author, &b.Price, &b.ImageURL); err != nil {
 			return nil, fmt.Errorf("scan failed: %w", err)
 		}
 		books = append(books, b)
@@ -44,11 +44,11 @@ func (s *PostgresBookStore) All() ([]models.Book, error) {
 
 // GetByID returns a book by ID.
 func (s *PostgresBookStore) GetByID(id int) (*models.Book, bool, error) {
-	query := `SELECT id, title, author, price FROM books WHERE id = $1`
+	query := `SELECT id, title, author, price, image_url FROM books WHERE id = $1`
 	row := s.db.QueryRow(query, id)
 
 	var b models.Book
-	err := row.Scan(&b.ID, &b.Title, &b.Author, &b.Price)
+	err := row.Scan(&b.ID, &b.Title, &b.Author, &b.Price, &b.ImageURL)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, false, nil
@@ -61,9 +61,9 @@ func (s *PostgresBookStore) GetByID(id int) (*models.Book, bool, error) {
 // Create adds a new book to the database.
 func (s *PostgresBookStore) Create(book *models.Book) error {
 	query := `
-		INSERT INTO books (title, author, price) 
-		VALUES ($1, $2, $3) 
+		INSERT INTO books (title, author, price, image_url) 
+		VALUES ($1, $2, $3, $4) 
 		RETURNING id`
 
-	return s.db.QueryRow(query, book.Title, book.Author, book.Price).Scan(&book.ID)
+	return s.db.QueryRow(query, book.Title, book.Author, book.Price, book.ImageURL).Scan(&book.ID)
 }

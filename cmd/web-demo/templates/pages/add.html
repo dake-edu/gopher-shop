@@ -1,0 +1,51 @@
+{{define "content"}}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add Book</li>
+            </ol>
+        </nav>
+
+        <div class="card bg-light shadow mb-4">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Add a New Book</h5>
+            </div>
+            <div class="card-body">
+                <form action="/add" method="POST" class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control" placeholder="e.g., Intro to Go" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Author</label>
+                        <input type="text" name="author" class="form-control" placeholder="Jane Doe" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Price</label>
+                        <input type="number" step="0.01" name="price" class="form-control" placeholder="19.99" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-select">
+                            <option value="junior">Junior</option>
+                            <option value="apprentice">Apprentice</option>
+                            <option value="professional">Professional</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Cover Image URL</label>
+                        <input type="url" name="image_url" class="form-control"
+                            placeholder="https://covers.openlibrary.org/b/isbn/9780134190440-L.jpg">
+                        <div class="form-text">Optional. Provide a direct link to an image.</div>
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-outline-secondary mt-4">Add Book +</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

@@ -1,0 +1,66 @@
+{{define "content"}}
+<div class="row">
+    {{template "sidebar" .}}
+
+    <!-- Main Content -->
+    <div class="col-md-9">
+
+        <!-- Hero Warning -->
+        <div class="alert alert-warning" role="alert">
+            <h5 class="alert-heading">🚧 Demo Mode</h5>
+            <p>This data interacts with `internal/store/inmem.go`. It is stored in RAM. If you restart the server, the
+                data
+                resets.</p>
+        </div>
+
+        {{/* Success Message */}}
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success')) {
+                document.write(`
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Payment Successful!</strong> Thank you for your purchase. The book is yours! 📚
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                `);
+            }
+        </script>
+
+        <!-- Add Book Form -->
+
+        <!-- Book Grid -->
+        <h5 class="mb-3">Available Books</h5>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {{range .Books}}
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="{{if .ImageURL}}{{.ImageURL}}{{else}}https://via.placeholder.com/150x200?text=No+Cover{{end}}"
+                        class="card-img-top" alt="{{.Title}}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">{{.Title}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{.Author}}</h6>
+                        <p class="card-text">
+                            <span class="badge bg-info text-dark">{{.Category}}</span>
+                        </p>
+                        <p class="card-text">
+                            Price: <strong>${{.Price}}</strong>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0 pt-0 text-end">
+                        <a href="/book/{{.ID}}" class="btn btn-outline-secondary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {{else}}
+            <div class="col-12">
+                <div class="alert alert-secondary text-center">
+                    No books available yet. Add one above!
+                </div>
+            </div>
+            {{end}}
+        </div>
+
+    </div>
+</div>
+{{end}}
+</content>

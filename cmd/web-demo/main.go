@@ -109,6 +109,7 @@ func main() {
 			Author:   r.FormValue("author"),
 			Price:    price,
 			Category: r.FormValue("category"),
+			ImageURL: r.FormValue("image_url"),
 		}
 
 		// ⚓ VISUAL ANCHOR: The Quality Gate

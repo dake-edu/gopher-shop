@@ -15,6 +15,7 @@ import (
 //      | Title   (string)  : Name of the book     |
 //      | Author  (string)  : Writer's name        |
 //      | Price   (float64) : Cost in USD          |
+//      | ImageURL(string)  : URL to cover image   |
 //      +------------------------------------------+
 //
 // ------------------------------------------------------------------------------------------------
@@ -26,6 +27,7 @@ type Book struct {
 	Author   string  `json:"author"`
 	Price    float64 `json:"price"`
 	Category string  `json:"category"`
+	ImageURL string  `json:"image_url"`
 }
 
 // Validate checks if the book has valid data.
