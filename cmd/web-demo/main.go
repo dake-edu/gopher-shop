@@ -3,31 +3,37 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/dake-edu/gopher-shop/internal/models"
 	"github.com/dake-edu/gopher-shop/internal/store"
+	"github.com/dake-edu/gopher-shop/internal/version"
 )
 
 // PageData creates a standard payload for our templates
 type PageData struct {
-	Title string
-	Year  int
-	Books []models.Book
-	Book  models.Book // For details page
+	Title           string
+	Year            int
+	Books           []models.Book
+	Book            models.Book // For details page
+	UpdateAvailable bool
+	LatestVersion   string
 }
 
-// Declare tmpl as a package variable isn't needed anymore for this strategy,
-// but we might want to cache the "base" parts.
-// For simplicity and to avoid race conditions in this learning demo,
-// we will parse on every request (development mode style) or use a map.
-// Let's use a helper function.
-
-var bookStore *store.InMemoryBookStore
+var (
+	bookStore       *store.InMemoryBookStore
+	latestVersion   = version.Current
+	updateAvailable = false
+)
 
 func main() {
+	// 0. UPDATE CHECK (Background)
+	go checkForUpdates()
+
 	// 1. Initialize Store
 	bookStore = store.NewInMemoryBookStore()
 
@@ -55,10 +61,13 @@ func main() {
 			displayBooks = allBooks
 		}
 
+		// 3. Render Template
 		data := PageData{
-			Title: "Home",
-			Year:  time.Now().Year(),
-			Books: displayBooks,
+			Title:           "The Gopher Shop",
+			Year:            2026,
+			Books:           displayBooks,
+			UpdateAvailable: updateAvailable,
+			LatestVersion:   latestVersion,
 		}
 
 		render(w, "pages/home.html", data)
@@ -81,9 +90,11 @@ func main() {
 		}
 
 		data := PageData{
-			Title: book.Title,
-			Year:  time.Now().Year(),
-			Book:  book,
+			Title:           book.Title,
+			Year:            time.Now().Year(),
+			Book:            book,
+			UpdateAvailable: updateAvailable,
+			LatestVersion:   latestVersion,
 		}
 
 		render(w, "pages/details.html", data)
@@ -196,5 +207,42 @@ func render(w http.ResponseWriter, pageTemplate string, data interface{}) {
 	// 3. Execute "base" (because base.html defines the outline)
 	if err := tmpl.ExecuteTemplate(w, "base", data); err != nil {
 		log.Printf("Template Execute Error: %v", err)
+	}
+}
+
+// checkForUpdates polls the GitHub repository for the latest version.
+func checkForUpdates() {
+	// Give the server a moment to start before the first check
+	time.Sleep(2 * time.Second)
+
+	// In a real app, you might check once a day.
+	// For this demo, we check on startup.
+	url := "https://raw.githubusercontent.com/dake-edu/gopher-shop/main/version.txt"
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Printf("Update check failed: %v", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		log.Printf("Update check failed with status: %d", resp.StatusCode)
+		return
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("Failed to read version file: %v", err)
+		return
+	}
+
+	remoteVersion := strings.TrimSpace(string(body))
+	if remoteVersion != version.Current {
+		log.Printf("New version available: %s (Current: %s)", remoteVersion, version.Current)
+		updateAvailable = true
+		latestVersion = remoteVersion
+	} else {
+		log.Printf("You are running the latest version: %s", version.Current)
 	}
 }

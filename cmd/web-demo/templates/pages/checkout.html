@@ -1,0 +1,59 @@
+{{define "content"}}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/book/{{.Book.ID}}">{{.Book.Title}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+            </ol>
+        </nav>
+
+        <div class="card bg-info-subtle">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Secure Checkout 🔒</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-light border">
+                    <strong>Item:</strong> {{.Book.Title}}<br>
+                    <strong>Total:</strong> <span class="text-success fw-bold">${{.Book.Price}}</span>
+                </div>
+
+                <form action="/checkout" method="POST" class="row g-3 needs-validation">
+                    <input type="hidden" name="book_id" value="{{.Book.ID}}">
+
+                    <h6 class="mb-3">Personal Information</h6>
+                    <div class="col-md-6">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control" placeholder="John Doe" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="john@example.com" required>
+                    </div>
+
+                    <h6 class="mb-3 mt-4">Payment Details (Mock)</h6>
+                    <div class="col-md-6">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" name="card_number" class="form-control" placeholder="0000 0000 0000 0000"
+                            pattern="\d{16}" title="16 digits required" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Expiry</label>
+                        <input type="text" name="expiry" class="form-control" placeholder="MM/YY" pattern="\d{2}/\d{2}"
+                            required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">CVV</label>
+                        <input type="text" name="cvv" class="form-control" placeholder="123" pattern="\d{3}" required>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-info btn-lg w-100">Pay ${{.Book.Price}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

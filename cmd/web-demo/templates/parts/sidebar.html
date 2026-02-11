@@ -1,0 +1,27 @@
+{{define "sidebar"}}
+<!-- Sidebar -->
+<div class="col-md-3">
+    <div style="position: sticky; top: 4rem; z-index: 1000;">
+        <div class="card mb-4 shadow-sm border-0">
+            <div class="card-header bg-secondary text-white">
+                Categories
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a href="/?category=junior" class="text-decoration-none">Foundation
+                        (Junior)</a>
+                </li>
+                <li class="list-group-item"><a href="/?category=apprentice" class="text-decoration-none">Building
+                        (Apprentice)</a></li>
+                <li class="list-group-item"><a href="/?category=professional" class="text-decoration-none">Production
+                        (Professional)</a></li>
+                <li class="list-group-item"><a href="/" class="text-decoration-none text-muted">Show All</a></li>
+            </ul>
+        </div>
+
+        <div class="alert alert-info shadow-sm">
+            <strong>💡 Pedagogical Tip:</strong><br>
+            This sidebar is a static template part (`sidebar.html`).
+        </div>
+    </div>
+</div>
+{{end}}

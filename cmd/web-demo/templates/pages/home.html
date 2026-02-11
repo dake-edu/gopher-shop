@@ -5,6 +5,15 @@
     <!-- Main Content -->
     <div class="col-md-9">
 
+        <!-- Update Available Banner -->
+        {{if .UpdateAvailable}}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong>🚀 Update Available!</strong> Version <strong>{{.LatestVersion}}</strong> is out. 
+            Run <code>git pull</code> to get the latest material.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {{end}}
+
         <!-- Hero Warning -->
         <div class="alert alert-warning" role="alert">
             <h5 class="alert-heading">🚧 Demo Mode</h5>
@@ -33,9 +42,9 @@
         <div class="row row-cols-1 row-cols-md-2 g-4">
             {{range .Books}}
             <div class="col">
-                <div class="card h-100 shadow-sm border-0">
+                <div class="card h-100 shadow border-1">
                     <img src="{{if .ImageURL}}{{.ImageURL}}{{else}}https://via.placeholder.com/150x200?text=No+Cover{{end}}"
-                        class="card-img-top" alt="{{.Title}}" style="height: 200px; object-fit: cover;">
+                        class="card-img-top" alt="{{.Title}}" style="height: auto; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title text-truncate">{{.Title}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{.Author}}</h6>
