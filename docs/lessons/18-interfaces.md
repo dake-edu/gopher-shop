@@ -30,6 +30,16 @@ Beginners often define the interface in the **Implementation** package (e.g., in
 -   **Go**: Consumer defines the interface.
 *(Note: In this project, we keep it in `store/` for simplicity, but strictly speaking, `main` should define what it needs).*
 
+> [!TIP]
+> **🛡️ Interview Defense: "The Legend"**
+>
+> **Interviewer:** "Why did you use an interface for `BookRepository`?"
+>
+> **You:** "I used an interface to **decouple** the business logic from the specific database implementation. This allows me to:
+> 1.  **Swap Infrastructure:** Switch from InMemory to PostgreSQL without rewriting the application logic.
+> 2.  **Testability:** Easily mock the database in unit tests to verify logic without a running DB connection.
+> 3.  **Flexibility:** Adhere to the Open/Closed Principle—open for extension (new stores), closed for modification (existing logic)."
+
 ## 18.2 Dependency Injection (DI)
 Big phrase, simple concept.
 **Don't build your tools inside your house. Buy them and bring them in.**

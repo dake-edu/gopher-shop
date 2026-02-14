@@ -18,6 +18,7 @@ import (
 	"github.com/dake-edu/gopher-shop/internal/middleware"
 	"github.com/dake-edu/gopher-shop/internal/models"
 	"github.com/dake-edu/gopher-shop/internal/store"
+	"github.com/joho/godotenv"
 )
 
 // ------------------------------------------------------------------------------------------------
@@ -29,6 +30,9 @@ import (
 // ------------------------------------------------------------------------------------------------
 
 func main() {
+	// 0. ENV: Load environment variables
+	_ = godotenv.Load()
+
 	// 1. CONF: Configure the application
 	cfg := config.Load()
 	addr := ":" + cfg.Port

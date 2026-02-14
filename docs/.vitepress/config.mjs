@@ -65,7 +65,7 @@ export default withMermaid({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2024-Present The Gopher Shop Team'
+      copyright: `Copyright © ${new Date().getFullYear()} The Gopher Shop Team`
     }
   }
 });

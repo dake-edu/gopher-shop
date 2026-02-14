@@ -43,6 +43,15 @@ username := "Gopher"
 - It means: *"Create the box, look at the value on the right ("Gopher"), guess the type (String), and put it in."*
 - **Constraint**: You can ONLY use this *inside* functions.
 
+> [!TIP]
+> **🛡️ Interview Defense: "The Legend"**
+>
+> **Interviewer:** "When do you use `:=` vs `var`?"
+>
+> **You:** "I prioritize **readability** and **scope control**:
+> *   I use `:=` (short declaration) for local variables where the type is obvious or inferred, to keep code concise.
+> *   I use `var` when I need to declare a variable without initializing it immediately (zero value), or when specifically initializing package-level variables where `:=` is not allowed."
+
 ## 4.3 The Zero Value (No "Nulls")
 In many languages (Java, Python), if you create a variable but don't give it a value, it becomes `null` or `None`. This causes equivalent of "The Box is Missing", leading to crashes.
 
