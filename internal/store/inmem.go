@@ -1,7 +1,6 @@
 package store
 
 import (
-	"errors"
 	"sync"
 
 	"github.com/dake-edu/gopher-shop/internal/models"
@@ -51,14 +50,14 @@ func (s *InMemoryBookStore) Create(book *models.Book) error {
 }
 
 // GetByID returns a single book.
-func (s *InMemoryBookStore) GetByID(id int) (models.Book, bool, error) {
+func (s *InMemoryBookStore) GetByID(id int) (*models.Book, bool, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	for _, b := range s.books {
 		if b.ID == id {
-			return b, true, nil
+			return &b, true, nil
 		}
 	}
-	return models.Book{}, false, errors.New("not found")
+	return nil, false, nil
 }

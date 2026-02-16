@@ -5,13 +5,19 @@ import (
 	"html/template"
 	"io"
 	"log"
+	"log/slog"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
+	"github.com/dake-edu/gopher-shop/internal/logger"
+	"github.com/dake-edu/gopher-shop/internal/middleware"
 	"github.com/dake-edu/gopher-shop/internal/models"
+	"github.com/dake-edu/gopher-shop/internal/service"
 	"github.com/dake-edu/gopher-shop/internal/store"
 	"github.com/dake-edu/gopher-shop/internal/version"
+	"github.com/dake-edu/gopher-shop/internal/worker"
 )
 
 // PageData creates a standard payload for our templates
@@ -25,40 +31,45 @@ type PageData struct {
 }
 
 var (
-	bookStore       *store.InMemoryBookStore
+	// ⚓ ARCHITECTURE UPGRADE: We now use the Service, not the Store directly.
+	bookService     *service.BookService
 	latestVersion   = version.Current
 	updateAvailable = false
 )
 
 func main() {
-	// 0. UPDATE CHECK (Background)
+	// 0. SETUP LOGGER
+	logger.Setup()
+
+	// 1. UPDATE CHECK (Background)
 	go checkForUpdates()
 
-	// 1. Initialize Store
-	bookStore = store.NewInMemoryBookStore()
+	// 2. WORKER POOL (Background)
+	// ⚓ CONCURRENCY: The Conveyor Belt
+	// We create a buffered channel. It can hold 100 orders before blocking.
+	orderQueue := make(chan worker.Order, 100)
 
-	// 2. HANDLERS
+	// Start the "Factory Worker" in the background
+	go worker.StartDispatcher(orderQueue)
+
+	// 3. Initialize Layers (Dependency Injection)
+	// Store (The Warehouse)
+	repo := store.NewInMemoryBookStore()
+	// Service (The Brain)
+	bookService = service.NewBookService(repo)
+
+	// 4. HANDLERS
 	mux := http.NewServeMux()
 
 	// GET / (Home with Filter)
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		allBooks, err := bookStore.All()
+		// 🧠 Service handles filtering logic now!
+		category := r.URL.Query().Get("category")
+		displayBooks, err := bookService.ListBooks(category)
 		if err != nil {
+			slog.Error("failed to fetch books", "error", err)
 			http.Error(w, "Could not fetch books", http.StatusInternalServerError)
 			return
-		}
-
-		// FILTERING
-		category := r.URL.Query().Get("category")
-		var displayBooks []models.Book
-		if category != "" {
-			for _, b := range allBooks {
-				if b.Category == category {
-					displayBooks = append(displayBooks, b)
-				}
-			}
-		} else {
-			displayBooks = allBooks
 		}
 
 		// 3. Render Template
@@ -79,13 +90,16 @@ func main() {
 		var id int
 		fmt.Sscanf(idStr, "%d", &id)
 
-		book, found, err := bookStore.GetByID(id)
+		book, err := bookService.GetBook(id)
 		if err != nil {
+			// In a real app, we'd check if err is "NotFound"
+			if strings.Contains(err.Error(), "not found") {
+				slog.Warn("book not found", "id", id)
+				http.NotFound(w, r)
+				return
+			}
+			slog.Error("database error fetching book", "id", id, "error", err)
 			http.Error(w, "Database error", http.StatusInternalServerError)
-			return
-		}
-		if !found {
-			http.NotFound(w, r)
 			return
 		}
 
@@ -124,16 +138,16 @@ func main() {
 		}
 
 		// ⚓ VISUAL ANCHOR: The Quality Gate
-		if newBook.Title == "" {
-			http.Error(w, "Title is required (Quality Gate Closed)", http.StatusBadRequest)
+		// Service Layer handles validation now!
+		if err := bookService.CreateBook(newBook); err != nil {
+			slog.Warn("book creation failed validation", "title", newBook.Title, "error", err)
+			// If validation failed, we should probably show the error to user.
+			// For this demo, just 400.
+			http.Error(w, "Failed to save book: "+err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		if err := bookStore.Create(newBook); err != nil {
-			http.Error(w, "Failed to save book", http.StatusInternalServerError)
-			return
-		}
-
+		slog.Info("book created", "title", newBook.Title)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	})
 
@@ -143,9 +157,13 @@ func main() {
 		var id int
 		fmt.Sscanf(idStr, "%d", &id)
 
-		book, found, err := bookStore.GetByID(id)
-		if err != nil || !found {
-			http.NotFound(w, r)
+		book, err := bookService.GetBook(id)
+		if err != nil {
+			if strings.Contains(err.Error(), "not found") {
+				http.NotFound(w, r)
+				return
+			}
+			http.Error(w, "Database error", http.StatusInternalServerError)
 			return
 		}
 
@@ -159,14 +177,30 @@ func main() {
 
 	// POST /checkout (Process Payment)
 	mux.HandleFunc("POST /checkout", func(w http.ResponseWriter, r *http.Request) {
-		// 1. Parse Form
-		// In a real app, strict validation would happen here.
-		// For now, we trust the HTML5 "required" attributes for the happy path.
+		// 1. Parse Form (Mock)
+		idStr := r.FormValue("id") // Assume hidden field or just mock
+		var id int
+		fmt.Sscanf(idStr, "%d", &id)
 
-		// 2. "Process" Payment (Mock)
-		time.Sleep(1 * time.Second) // Simulate network delay
+		// 2. "Process" Payment via Conveyor Belt
+		// Instead of doing work here (Blocking), we send it to the factory (Non-blocking).
+		order := worker.Order{
+			ID:    id,
+			Email: "customer@example.com", // Mock
+		}
 
-		// 3. Redirect to Home with Success (would be a success page in real app)
+		// ⚓ CONCURRENCY: Send to Channel
+		// This is instantaneous. The worker will pick it up later.
+		select {
+		case orderQueue <- order:
+			slog.Info("order queued", "order_id", id)
+		default:
+			slog.Error("order queue full", "order_id", id)
+			http.Error(w, "System overloaded, try again later", http.StatusServiceUnavailable)
+			return
+		}
+
+		// 3. Redirect to Home with Success
 		http.Redirect(w, r, "/?success=true", http.StatusSeeOther)
 	})
 
@@ -175,10 +209,15 @@ func main() {
 
 	// 4. START
 	port := ":8082"
-	fmt.Printf("--------------------------------------------------\n")
-	fmt.Printf("🚀 Professional Demo running on http://localhost%s\n", port)
-	fmt.Printf("--------------------------------------------------\n")
-	log.Fatal(http.ListenAndServe(port, mux))
+	slog.Info("starting server", "port", port, "url", "http://localhost"+port)
+
+	// Wrap with Middleware
+	handler := middleware.RequestLogger(mux)
+
+	if err := http.ListenAndServe(port, handler); err != nil {
+		slog.Error("server crashed", "error", err)
+		os.Exit(1)
+	}
 }
 
 // render parses the layout files plus the specific page template
@@ -199,7 +238,7 @@ func render(w http.ResponseWriter, pageTemplate string, data interface{}) {
 	// For this demo, parsing on every request allows you to edit HTML without restarting.
 	tmpl, err := template.ParseFiles(files...)
 	if err != nil {
-		log.Printf("Template Parse Error: %v", err)
+		slog.Error("template parse error", "error", err, "template", pageTemplate)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -221,28 +260,28 @@ func checkForUpdates() {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Printf("Update check failed: %v", err)
+		slog.Warn("update check failed", "error", err)
 		return
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		log.Printf("Update check failed with status: %d", resp.StatusCode)
+		slog.Warn("update check failed", "status", resp.StatusCode)
 		return
 	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Printf("Failed to read version file: %v", err)
+		slog.Warn("failed to read version file", "error", err)
 		return
 	}
 
 	remoteVersion := strings.TrimSpace(string(body))
 	if remoteVersion != version.Current {
-		log.Printf("New version available: %s (Current: %s)", remoteVersion, version.Current)
+		slog.Info("new version available", "current", version.Current, "remote", remoteVersion)
 		updateAvailable = true
 		latestVersion = remoteVersion
 	} else {
-		log.Printf("You are running the latest version: %s", version.Current)
+		slog.Info("running latest version", "version", version.Current)
 	}
 }

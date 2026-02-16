@@ -32,19 +32,24 @@ go func() {
 msg := <-ch // Receive (Waits until data arrives)
 ```
 
-## 22.3 The Worker Pool
-Imagine you have 1,000 images to process. If you launch 1,000 goroutines, you might crash the server.
-Instead, you hire a fixed team (e.g., 3 Workers) and give them a shared pile of work.
+## 22.3 The Worker Pool (The Shop Floor)
+Imagine 1,000 customers click "Buy" at once. If you start 1,000 background jobs, you might crash the server.
+Instead, we use a **Buffered Channel** as a waiting line.
 
 ```mermaid
-graph TD
-    Tasks[Job Queue] -->|Channel| W1[Worker 1]
-    Tasks -->|Channel| W2[Worker 2]
-    Tasks -->|Channel| W3[Worker 3]
-    W1 -->|Result| Done
-    W2 -->|Result| Done
-    W3 -->|Result| Done
+flowchart TD
+    Client[Customer] --> |POST /checkout| Handler["Cashier (Handler)"]
+    Handler --> |Order #123| Queue[("Buffered Channel")]
+    
+    subgraph Warehouse ["Background Worker (The Warehouse)"]
+        Queue --> |Processing...| Worker["Worker Dispatcher"]
+        Worker --> |Ship It!| Shipping["Log & Email"]
+    end
 ```
+
+1.  **Handler**: Puts order in the queue and returns "Success" instantly (User is happy).
+2.  **Queue**: Holds orders until the Worker is ready (Buffer).
+3.  **Worker**: Processes orders one by one (or in a pool).
 
 ## 22.4 The Toilet Lock (Mutex)
 Sometimes, two workers need to use the same resource (like a map or a counter). If they touch it at the same time, data gets corrupted (Race Condition).
