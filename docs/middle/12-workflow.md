@@ -1,9 +1,9 @@
-# Chapter 26: CI/CD Workflow
+# Chapter 12: CI/CD Workflow
 
 We configure the robot using **YAML** (Yet Another Markup Language).
 It's just key-value pairs, like JSON but without brackets.
 
-## 26.1 Anatomy of a Workflow File
+## 1 Anatomy of a Workflow File
 File: `.github/workflows/go-check.yml`
 
 ```yaml
@@ -30,12 +30,12 @@ jobs:
     - `setup-go`: Installs the Go compiler.
 4.  **`run`**: This executes a command in the terminal of that Linux computer.
 
-## 26.2 "Green Build"
+## 2 "Green Build"
 If `go test` exits with code `0` (Success), the build is Green.
 If it exits with `1` (Error), the build is Red, and GitHub turns the Merge Button grey (if configured).
 This saves you from breaking the Main branch.
 
-## 26.3 The Identity Card (Favicon)
+## 3 The Identity Card (Favicon)
 You might notice a small image in your browser tab. That is the **Favicon**.
 - **Think of it as**: An ID Card.
 - **Without it**: Your site looks like a stranger.
@@ -50,4 +50,25 @@ This tells the browser: "When you see my site, show this picture."
 ::: details 🎓 Knowledge Check: What does a "Green Build" mean in CI/CD?
 **Answer**: It means the robot ran all your tests, and they passed (Exit Code 0). Ideally, you should only merge code to `main` if the build is Green.
 :::
+
+## 4 The Visual Signal (The Assembly Line)
+**Concept**: CI/CD (Continuous Integration).
+**Signal**: An Automated Car Factory.
+1. **Commit**: You put raw steel on the belt.
+2. **Test**: Robots weld and check alignment.
+3. **Build**: Robots paint and polish.
+4. **Deploy**: The car rolls off the line.
+
+```mermaid
+sequenceDiagram
+    participant Dev as 👩‍💻 Developer
+    participant Git as 🐙 GitHub
+    participant CI as 🤖 CI Robot
+
+    Dev->>Git: "Push Code"
+    Git->>CI: "Trigger 'On Push'"
+    CI->>CI: "Run Tests"
+    CI->>CI: "Build Binary"
+    CI->>Git: "✅ Green Checkmark"
+```
 

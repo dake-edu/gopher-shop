@@ -57,3 +57,15 @@ if !ok {
 1.  **Value**: The data you asked for (e.g., the price).
 2.  **Exists**: A boolean (`true`/`false`) telling you if the key was actually found. Always check this!
 :::
+
+## 4 The Visual Signal (The Locker Room)
+**Concept**: Key-Value Pairs.
+**Signal**: A Gym Locker. You use a specific Key (Index) to find your specific Bag (Value). You don't search every locker; you go straight to yours.
+
+```mermaid
+graph LR
+    subgraph Map ["The Locker Room (Map)"]
+        K1["🔑 Key: 'user_1'"] --> V1["🎒 Value: 'Alice'"]
+        K2["🔑 Key: 'user_2'"] --> V2["🎒 Value: 'Bob'"]
+    end
+```

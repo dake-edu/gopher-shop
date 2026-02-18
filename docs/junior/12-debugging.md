@@ -1,4 +1,4 @@
-# The Detective: Debugging
+# Chapter 12: The Detective (Debugging)
 
 > **"Novices guess. Professionals inspect."**
 

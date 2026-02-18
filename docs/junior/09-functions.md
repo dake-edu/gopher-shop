@@ -50,3 +50,13 @@ In this lesson, we build a function that accepts User Input, validates it (check
 ::: details 🎓 Knowledge Check: What happens if we don't validate user input?
 **Answer**: The "Quality Gate" stays open to garbage! Users could submit empty books, negative prices, or malicious code. Validation protects your database.
 :::
+
+## 4 The Visual Signal (The Blender)
+**Concept**: Input -> Process -> Output.
+**Signal**: A Kitchen Blender. You put fruit in (Parameters), hit the button (Execute body), and get juice out (Return Values).
+
+```mermaid
+flowchart LR
+    Fruit["🍎 Fruit (Arguments)"] --> Blender("⚙️ Blender (Function)")
+    Blender --> Juice["🍹 Juice (Return Value)"]
+```

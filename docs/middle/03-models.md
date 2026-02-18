@@ -1,6 +1,6 @@
-# Chapter 17: Structures & Models
+# Chapter 03: Structures & Models
 
-## 17.1 The Struct (The Container)
+## 1 The Struct (The Container)
 In Java or Python, you might use a `Class`. In Go, we use a `struct`.
 A struct is purely data. It has no hidden machinery.
 
@@ -26,7 +26,30 @@ type Book struct {
 | **Methods** | Inside Class | Inside Class | **Attached Separately** |
 | **Visibility** | `public`/`private` | `_` convention | **Capitalized (Public)** |
 
-## 17.2 Tags (Reflecting Instructions)
+## 2 Structs vs Pointers (The Blueprint vs The House)
+**Concept**: Value types vs Reference types.
+**Signal**: A Photocopy vs The Shared Document.
+
+```mermaid
+graph TD
+    subgraph Value_Type ["Struct (Value)"]
+        Original["📄 Document A"]
+        Copy["📄 Document B (Copy)"]
+        Original -- "Copying" --> Copy
+        Note["If I edit Copy, Original is UNCHANGED"]
+    end
+
+    subgraph Pointer_Type ["Pointer (*Struct)"]
+        Shared["📄 shared_doc.txt"]
+        Ref1["Ptr 1"]
+        Ref2["Ptr 2"]
+        Ref1 -- "Points to" --> Shared
+        Ref2 -- "Points to" --> Shared
+        Note2["If Ptr 1 edits Doc, Ptr 2 SEES IT"]
+    end
+```
+
+## 2 Tags (Reflecting Instructions)
 What is that stuff in backticks? `` `json:"id"` ``?
 
 This is **Metadata**.

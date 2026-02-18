@@ -39,9 +39,20 @@ err := json.Unmarshal([]byte(jsonStr), &newBook)
 ```
 
 ## 4. Visual Signal: The Translator 🗣️
--   **Go**: Speaks "Binary/Structs".
--   **Web**: Speaks "Text/JSON".
--   **`encoding/json`**: The interpreter standing in the middle, reading the Sticky Notes (Tags) to know what to say.
+**Concept**: Serialization/Deserialization.
+**Signal**: A Universal Translator. The Go Gopher speaks "Struct", the Browser speaks "JSON". The Translator converts between them.
+
+```mermaid
+sequenceDiagram
+    participant Go as 🐹 Go Struct
+    participant T as 🤖 Marshaller (Translator)
+    participant JS as 🌐 JSON String
+
+    Go->>T: "MyBook{Title: 'Hi'}"
+    T->>JS: '{"title": "Hi"}'
+    JS->>T: '{"title": "Hi"}'
+    T->>Go: "MyBook{Title: 'Hi'}"
+```
 
 ## Why do we care?
 When you build your API in the next level, **every single request** will involve:

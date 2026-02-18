@@ -1,11 +1,11 @@
-# Chapter 16: HTML Sorting & Layouts
+# Chapter 02: Templating
 
 > **"Don't build a new house for every guest. Just change the furniture."**
 
 In the "Basic Server" chapter, we served simple HTML. But what if we want to show 100 books? We can't write 100 HTML files.
 We need **Templates**.
 
-## 16.1 The Mechanic: `html/template`
+## 1 The Mechanic: `html/template`
 Go has a powerful standard library for this. It takes a skeleton (Template) and data (Go Struct), and merges them.
 
 ```go
@@ -19,7 +19,7 @@ User{Name: "Alice"}
 <h1>Hello, Alice!</h1>
 ```
 
-## 16.2 Structure: The Layout Pattern
+## 2 Structure: The Layout Pattern
 Professional apps don't copy-paste the `<head>` and `<footer>` into every file.
 We use the **Layout Pattern** (The Sandwich).
 
@@ -46,7 +46,7 @@ We use the **Layout Pattern** (The Sandwich).
 {​{end}}
 ```
 
-## 16.3 The Dot (`.`)
+## 3 The Dot (`.`)
 You will see `.` everywhere.
 `{​{template "footer" .}}`
 
@@ -57,7 +57,7 @@ The Dot is the **Data** you passed to the template.
 
 When you include a partial: `{​{template "footer" .}}`, you are passing the **same data** down to the footer. If you wrote `{​{template "footer"}}` (no dot), the footer would receive **nothing** and crash if it tried to print the Year.
 
-## 16.4 Practice: Refactoring
+## 4 Practice: Refactoring
 We have refactored our `cmd/web-demo` to use this structure.
 - `layouts/base.html`
 - `pages/home.html`
@@ -68,3 +68,18 @@ Go ahead and explore the `templates/` folder!
 ::: details 🎓 Knowledge Check: Why do we pass the Dot `.` to partials?
 **Answer**: To give the partial access to the data (like `.Year` or `.User`). Without the dot, the partial receives `nil` data.
 :::
+
+## 5 The Visual Signal (The Mad Libs)
+**Concept**: HTML Templates.
+**Signal**: A "Mad Libs" game or a Form Letter. The structure is fixed (Dear ____,), we just fill in the blanks.
+
+```mermaid
+graph TD
+    Template["📜 Template (HTML + `{{.}}` )"]
+    Data["📦 Data (Struct)"]
+    Engine["⚙️ Render Engine"]
+    
+    Template --> Engine
+    Data --> Engine
+    Engine --> Result["📄 Final HTML Page"]
+```

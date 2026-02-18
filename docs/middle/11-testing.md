@@ -1,6 +1,6 @@
-# Chapter 25: Testing
+# Chapter 11: Testing
 
-## 25.1 Table-Driven Tests
+## 1 Table-Driven Tests
 In other languages, you might write 10 separate test functions for 10 cases.
 In Go, we use a **Table**. It's cleaner.
 
@@ -30,7 +30,7 @@ func TestAdd(t *testing.T) {
 - **`t.Errorf`**: "Mark this test as Failed, log the message, but **Continue** running other tests."
 - **`t.Fatal`**: "Stop now. This is critical."
 
-## 25.2 Mocks (The Stunt Double)
+## 2 Mocks (The Stunt Double)
 Why do we mock?
 If your test actually connects to GitHub, and your internet is down, your test fails.
 Code logic didn't break; the internet did.
@@ -41,4 +41,16 @@ We create a fake struct that "looks like" the real dependency (satisfies the Int
 ::: details 🎓 Knowledge Check: Why do we use "Table-Driven Tests"?
 **Answer**: To avoid code duplication. Instead of writing 10 separate test functions for 10 scenarios, we write **one** logic loop and feed it a slice (Table) of inputs and expected outputs.
 :::
+
+## 3 The Visual Signal (The Crash Test Dummy)
+**Concept**: Unit Testing.
+**Signal**: A Crash Test Dummy. We put a dummy in the car and smash it into a wall (Test Case) to see if the airbag works, so we don't kill a real person (User) later.
+
+```mermaid
+graph LR
+    Code["🚗 Code"] --> Test["💥 Test Wall"]
+    Test --> Result{"safe?"}
+    Result -- Yes --> Deploy["✅ Ship It"]
+    Result -- No --> Fix["🔧 Fix It"]
+```
 

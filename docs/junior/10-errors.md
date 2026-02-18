@@ -53,6 +53,18 @@ Imagine a highway on a cliff.
     -   It forces you to drive safely at every single turn, rather than hoping for a net at the bottom.
 
 ## Checkpoint
--   Errors are values.
--   `nil` means "no error".
 -   Always check `if err != nil`.
+
+## 5. Visual Signal: The Highway Guard Rail
+**Concept**: Early Return / Error Handling.
+**Signal**: A highway guard rail. If you drift off course (Error), it stops you immediately before you fall off the cliff (Crash).
+
+```mermaid
+flowchart TD
+    Car["🚗 Code Execution"] --> Check{"⚠️ Is there a cliff?"}
+    
+    Check -- Yes --> Rail["🚧 Guard Rail (return error)"]
+    Check -- No --> Road["🛣️ Continue Driving"]
+    
+    Rail --> Safe((Safe Exit))
+```

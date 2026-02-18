@@ -1,6 +1,6 @@
-# Chapter 18: Interfaces
+# Chapter 04: Interfaces
 
-## 18.1 The Implicit Contract (Duck Typing)
+## 1 The Implicit Contract (Duck Typing)
 In strict languages (Java, C++), you must **explicitly** sign the contract.
 `class MyStore implements BookRepository`.
 
@@ -40,7 +40,7 @@ Beginners often define the interface in the **Implementation** package (e.g., in
 > 2.  **Testability:** Easily mock the database in unit tests to verify logic without a running DB connection.
 > 3.  **Flexibility:** Adhere to the Open/Closed Principle—open for extension (new stores), closed for modification (existing logic)."
 
-## 18.2 Dependency Injection (DI)
+## 2 Dependency Injection (DI)
 Big phrase, simple concept.
 **Don't build your tools inside your house. Buy them and bring them in.**
 
@@ -63,4 +63,33 @@ Now `main.go` decides which tool to use.
 ::: details 🎓 Knowledge Check: Why do we use Interfaces for Dependency Injection?
 **Answer**: To decouple our code. If `Handler` depends on an `Interface`, we can swap the real database for a "Fake Database" (Mock) during testing, or switch from Postgres to MySQL without rewriting the Handler.
 :::
+
+## 3 The Visual Signal (The Power Socket)
+**Concept**: Decoupling implementation from usage.
+**Signal**: A Universal Power Socket. The Lamp doesn't care if the power comes from a wall, a battery, or a generator, as long as the plug fits.
+
+```mermaid
+graph LR
+    subgraph Client [The User]
+        Lamp["🔌 Lamp (Needs Power)"]
+    end
+
+    subgraph Interface [The Interface]
+        Socket(("Socket (Method: GivePower)"))
+    end
+
+    subgraph Implementations [Concrete Types]
+        Wall["Wall Outlet"]
+        Battery["Battery Pack"]
+        Generator["Diesel Generator"]
+    end
+
+    Lamp --> Socket
+    Wall -.-> Socket
+    Battery -.-> Socket
+    Generator -.-> Socket
+
+    style Socket fill:#f9f,stroke:#333
+    style Lamp fill:#ff9,stroke:#333
+```
 

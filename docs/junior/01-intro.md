@@ -1,4 +1,4 @@
-# The Story of Go
+# Chapter 01: The Story of Go
 
 Before we write a single line of code, we must understand **why** this language exists.
 
@@ -40,4 +40,27 @@ You are learning Go because you want to build **professional, high-performance s
 ::: details 🎓 Knowledge Check: Why is Go compared to a "Fast Car" that is easy to drive?
 **Answer**: Go combines the speed of C++ (Raw Power) with the simplicity of Python (Easy Handling). It hides complex memory management but runs extremely fast.
 :::
+
+## 4 The Visual Signal (The Hybrid Car)
+**Concept**: Performance + Simplicity.
+**Signal**: A Formula 1 Engine inside a Daily Driver.
+
+```mermaid
+graph TD
+    subgraph Legacy ["Legacy (C++)"]
+        Engine["🏎️ F1 Engine (Raw Speed)"]
+    end
+    
+    subgraph Modern ["Modern (Python)"]
+        Steering["🚗 Power Steering (Easy Control)"]
+    end
+    
+    subgraph Result ["Go (The Result)"]
+        Go["🐹 Go Language"]
+        Go --> Engine
+        Go --> Steering
+    end
+    
+    style Go fill:#ccffcc,stroke:#0f0
+```
 

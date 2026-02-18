@@ -1,5 +1,9 @@
 # The Gopher Shop 🐹📚
 
+<div align="center">
+  <img src="docs/public/gopher.png" alt="Gopher Shop Logo" width="200"/>
+</div>
+
 Welcome to **The Gopher Shop** — a professional, hands-on educational journey designed to transform Go beginners into **Middle-level Backend Engineers**.
 
 ## 🚀 The Mission
@@ -60,3 +64,19 @@ go run cmd/api/main.go
 
 ---
 *Built with ❤️ for the Go Community.*
+
+## 📜 License & Legal
+
+This project is protected by the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+
+### 🎓 For Students & Individuals
+**You are free to use this project** to learn, fork, modify, and build your own learning portfolio. We encourage open-source contributions!
+
+### 🏢 For Commercial Educational Platforms
+If you intend to use this methodology, code, or materials in a **commercial course, bootcamp, or proprietary platform**:
+1.  **Open Source**: You must open-source your entire platform code under AGPL-3.0.
+2.  **Commercial License**: If you cannot open-source your platform, you **MUST purchase a commercial license**.
+
+> **"If you profit from our work, you must either contribute back (Open Source) or pay it forward (Commercial License)."**
+
+Contact `licensing@gopher-shop.com` for commercial inquiries.

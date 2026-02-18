@@ -1,6 +1,18 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [v1.3.0] - 2026-02-18
+### Added
+- **Level 3 (Senior/Architect)**: Complete new section covering Microservices, Advanced Concurrency, Caching (Redis), Kafka, K8s, and Career.
+- **Visual Signals**: Implemented "Shatalov Method" visual metaphors across ALL chapters (Junior, Middle, Senior).
+- **GoTracker**: Specification for a delivery microservice (Capstone Project).
+- **License**: Switched to **AGPL-3.0** to protect educational IP.
+
+### Changed
+- **Restructuring**: Split documentation into 3 distinct levels (Junior, Middle, Senior).
+- **Mermaid Syntax**: Fixed rendering issues by enforcing strict quoting on all diagrams.
+- **Navigation**: Updated sidebar to reflect the new 3-tier structure.
+
 
 ## [v1.2.0] - 2026-02-16
 ### Added

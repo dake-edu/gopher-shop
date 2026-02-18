@@ -75,3 +75,18 @@ default:
 3.  **Does Go have a `while` loop?**
     No. Go only has `for`. We use `for condition { }` to mimic `while`.
 :::
+
+## 4 The Visual Signal (The Railway Switch)
+**Concept**: Control Flow (If/Else).
+**Signal**: A train track switch. The train can only go one way based on the lever.
+
+```mermaid
+flowchart LR
+    Train["🚂 Train (Code execution)"] --> Switch{"🔀 Switch (Condition)"}
+    
+    Switch -- "True" --> Left["🛤️ Left Track (If Block)"]
+    Switch -- "False" --> Right["🛤️ Right Track (Else Block)"]
+    
+    Left --> Join((End))
+    Right --> Join
+```

@@ -1,6 +1,6 @@
-# Chapter 20: In-Memory Store
+# Chapter 06: In-Memory Store
 
-## 20.1 The Map (Hash Table)
+## 1 The Map (Hash Table)
 We need a way to find a Book by its ID instantly.
 In Computer Science, this is a **Hash Map** (or Dictionary).
 
@@ -17,7 +17,7 @@ var storage = make(map[string]Book)
 4.  **`[string]`**: The Key Type (The ID is a string).
 5.  **`Book`**: The Value Type (The full Book struct).
 
-## 20.2 Pointers vs Values (`*Book` vs `Book`)
+## 2 Pointers vs Values (`*Book` vs `Book`)
 This is the hardest concept for beginners coming from Python/JS.
 
 ```go
@@ -43,4 +43,14 @@ func GetBook() Book   // Returns a Value (Photocopy)
 ::: details 🎓 Knowledge Check: If I pass a `Book` (not `*Book`) to a function and change its title, what happens to the original book?
 **Answer**: Nothing! You only changed the **photocopy**. The original book remains untouched. To change the original, you must pass a **Pointer** (`*Book`).
 :::
+
+## 4 The Visual Signal (The Whiteboard)
+**Concept**: In-Memory Storage.
+**Signal**: A Classroom Whiteboard. Very fast to write on, everyone can see it, but if the janitor (Restart) comes, everything is erased.
+
+```mermaid
+graph TD
+    User --> |Write| Board["📝 Whiteboard (RAM)"]
+    Restart["⚡ Power Outage"] --> |Wipes| Board
+```
 

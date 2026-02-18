@@ -1,6 +1,6 @@
-# Chapter 19: Configuration
+# Chapter 05: Configuration
 
-## 19.1 The "Twelve-Factor" Philosophy
+## 1 The "Twelve-Factor" Philosophy
 Why do we do this?
 Hardcoding values (like `port = 8080`) is the mark of a beginner.
 Professional apps follow the **12-Factor App** methodology.
@@ -13,7 +13,7 @@ Professional apps follow the **12-Factor App** methodology.
 | **Java** | `application.properties` | System Properties / Env Vars |
 | **Go** | `const Port = ":8080"` | `os.Getenv("PORT")` |
 
-## 19.2 Reading the Environment
+## 2 Reading the Environment
 ```go
 func LoadConfig() Config {
     return Config{
@@ -40,4 +40,16 @@ if port == "" {
 ::: details 🎓 Knowledge Check: Why do we read configuration from "Environment Variables"?
 **Answer**: To follow the **12-Factor App** methodology. This allows us to change settings (changing ports, database passwords) without changing the code itself or recompiling.
 :::
+
+## 4 The Visual Signal (The Cockpit)
+**Concept**: Configuration.
+**Signal**: An Airplane Cockpit. You don't hardwire the speed; you set a dial. You don't hardcode the database URL; you set an Environment Variable dial.
+
+```mermaid
+graph TD
+    Env["🌍 Environment Variables"] --> Config["⚙️ Config Struct"]
+    Config --> App["🚀 Application"]
+    
+    style Env fill:#f9f,stroke:#333
+```
 

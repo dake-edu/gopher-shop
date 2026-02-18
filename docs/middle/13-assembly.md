@@ -1,9 +1,9 @@
-# Chapter 27: Grand Assembly
+# Chapter 13: Grand Assembly
 
 You have bricks, wood, and glass. Now let's build the house.
 In this final chapter, we look at `cmd/api/main.go`. This is where all the isolated pieces we learned about (Router, Config, Database) are wired together.
 
-## 27.1 Standard Project Layout
+## 1 Standard Project Layout
 Why isn't everything in the root folder?
 Professional Go projects often use the **Standard Go Project Layout**:
 
@@ -16,7 +16,7 @@ Professional Go projects often use the **Standard Go Project Layout**:
     - `internal/store`: Database Logic.
     - *Rule*: Code here allows our app to work, but other people can't import it (Go enforces this privacy).
 
-## 27.2 The Main Wiring
+## 2 The Main Wiring
 Open `cmd/api/main.go`. Let's read it like a schematic.
 
 ### Step 1: Power On (Configuration)
@@ -59,7 +59,7 @@ server.ListenAndServe()
 - **Why?**: This starts the infinite loop that listens for traffic on the port.
 - **Chapter**: 7 (Web Server).
 
-## 27.3 Graceful Shutdown (Dying with Dignity)
+## 3 Graceful Shutdown (Dying with Dignity)
 In production, servers restart often. You don't want to kill active users mid-request.
 We catch OS signals (`SIGINT`, `SIGTERM`) and give the server a standardized timeout (e.g., 5 seconds) to finish current jobs before quitting.
 
@@ -75,7 +75,7 @@ defer cancel()
 srv.Shutdown(ctx)
 ```
 
-## 27.4 You Did It!
+## 4 You Did It!
 You have built a modular, professional-grade REST API.
 
 ## The Checklist
@@ -90,4 +90,19 @@ If you can say **YES** to all these, you are no longer a Junior.
 ::: details 🎓 Knowledge Check: Why shouldn't we put business logic in `cmd/api/main.go`?
 **Answer**: Separation of Concerns. `cmd/` is only for **wiring** (starting the engine). Logic belongs in `internal/` so it can be tested in isolation and reused.
 :::
+
+## 5 The Visual Signal (The Skyscraper)
+**Concept**: The Grand Assembly (main.go).
+**Signal**: Constructing a Skyscraper.
+1. **Foundation**: Database & Config.
+2. **Floors**: Services & Logic.
+3. **Elevators**: HTTP Handlers.
+`main.go` is the Architect who makes sure the elevator connects to the floors, and the floors sit on the foundation.
+
+```mermaid
+graph BT
+    Store["Infrastructure (Foundation)"] --> Service["Logic (Floors)"]
+    Service --> Handler["API (Penthouse/Interface)"]
+    Config["Config (Blueprints)"] -.-> Store
+```
 

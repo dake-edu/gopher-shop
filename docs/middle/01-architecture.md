@@ -1,4 +1,4 @@
-# Chapter 15: Project Structure
+# Chapter 01: Architecture
 
 **Goal**: Serve HTML (The Storefront) instead of plain text.
 **Concept**: `html/template` allows us to inject data into HTML.
@@ -9,7 +9,7 @@
 **Answer**: Templates allow us to enforce structure and inject dynamic data safely. Writing HTML in strings is error-prone and hard to maintain ("Spaghetti Code").
 :::
 
-## 15.2 The 3-Layer Cake (Architecture)
+## 2 The 3-Layer Cake (Architecture)
 As our shop grows, we need to organize our code like a professional bakery.
 
 ```mermaid

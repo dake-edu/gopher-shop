@@ -1,6 +1,6 @@
-# Chapter 23: Postgres (The Safe)
+# Chapter 09: Postgres
 
-## 23.1 The Low-Level Driver
+## 1 The Low-Level Driver
 To talk to a SQL database, Go uses the standard package `database/sql`.
 However, `database/sql` is just a **Manager**. It needs a worker (Driver) to speak the specific language of PostgreSQL.
 
@@ -28,7 +28,7 @@ db.Query("SELECT * FROM users WHERE id = " + id)
 db.Query("SELECT * FROM users WHERE id = $1", id)
 ```
 
-### 23.2 Connect & Ping
+### 2 Connect & Ping
 on Pooling (`sql.Open`)
 ```go
 db, err := sql.Open("postgres", "user=dake dbname=shop...")
@@ -46,4 +46,14 @@ Comparison:
 ::: details 🎓 Knowledge Check: Does `sql.Open` connect to the database immediately?
 **Answer**: **No!** It only initializes the **Connection Pool** and config. The actual connection happens lazily when you first try to query the DB (e.g., `db.Ping()`).
 :::
+
+## 4 The Visual Signal (The Bank Vault)
+**Concept**: Persistent Database (Postgres).
+**Signal**: A heavy Bank Vault. It takes longer to open than a whiteboard, but if the building burns down, the gold (Data) is safe inside.
+
+```mermaid
+graph TD
+    User --> |Write| Vault[("🏦 Steel Vault (Postgres)")]
+    Fire["🔥 Fire (Server Crash)"] -.-> |Cannot Destroy| Vault
+```
 

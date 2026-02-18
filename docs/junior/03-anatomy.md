@@ -55,3 +55,22 @@ func main() {             // 3. The Function Declaration
 3.  **Why do we use `fmt.Println`?**
     To print text to the console (Standard Output).
 :::
+
+## 4 The Visual Signal (The Recipe)
+**Concept**: Program Structure.
+**Signal**: A Cooking Recipe. Package = Cuisine Type, Import = Ingredients, Main = Instructions.
+
+```mermaid
+graph TD
+    Recipe["📜 The File (main.go)"]
+    
+    subgraph Structure
+        Pkg["📦 Package (The Cuisine)"]
+        Imp["🛒 Imports (Ingredients)"]
+        Func["🍳 Main Function (Instructions)"]
+    end
+    
+    Recipe --> Pkg
+    Recipe --> Imp
+    Recipe --> Func
+```

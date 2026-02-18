@@ -1,4 +1,4 @@
-# The Workbench (Setup)
+# Chapter 02: Introduction & Setup
 
 A master craftsman needs sharp tools. Let's set up your environment.
 
@@ -45,4 +45,23 @@ This creates a permanent binary file (executable). You can send this file to a f
 ::: details 🎓 Knowledge Check: What command do we use to initialize a new Go module?
 **Answer**: `go mod init <module-name>`. This creates the `go.mod` file, which is like the ID card for your project.
 :::
+
+## 4 The Visual Signal (The Workbench)
+**Concept**: Integrated Development Environment (IDE).
+**Signal**: A carpenter's workbench where all tools are within reach.
+
+```mermaid
+graph TD
+    Workbench["🛠️ VS Code (The Workbench)"]
+    
+    subgraph ToolsGraph [Tools]
+        Hammer["🔨 Go Compiler (Build)"]
+        Ruler["📏 Linter (Format)"]
+        Magnifier["🔍 Delve (Debug)"]
+    end
+    
+    Workbench --> Hammer
+    Workbench --> Ruler
+    Workbench --> Magnifier
+```
 
