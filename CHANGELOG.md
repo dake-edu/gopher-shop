@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [v1.3.1] - 2026-02-18
+### Fixed
+- **Documentation**: Fixed broken links in `junior-path.md` pointing to old `lessons/` directory.
+- **Build**: Resolved `npm run docs:build` failures caused by dead links.
 ## [v1.3.0] - 2026-02-18
 ### Added
 - **Level 3 (Senior/Architect)**: Complete new section covering Microservices, Advanced Concurrency, Caching (Redis), Kafka, K8s, and Career.

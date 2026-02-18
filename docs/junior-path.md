@@ -7,35 +7,41 @@ In this tier, we do not build the shop yet. We build the **Tools** to build the 
 
 ### Phase 1: Level 1 (The Junior)
 *The Foundation. Before we build, we must know our tools.*
-1.  **[Origin & Setup](./lessons/01-intro.md)**: Why Go?
-2.  **[Setup](./lessons/02-setup.md)**: Installation & Tools.
-3.  **[Anatomy](./lessons/03-anatomy.md)**: `package`, `import`, `func`.
-4.  **[Variables & Data](./lessons/04-variables.md)**: `int`, `string`, Zero Values.
-5.  **[Logic (If/Else)](./lessons/05-logic.md)**: Branching paths.
-6.  **[Loops](./lessons/06-loops.md)**: `for`, `range`.
-7.  **[Arrays & Slices](./lessons/07-arrays-slices.md)**: Lists of data.
-8.  **[Maps](./lessons/08-maps.md)**: Key-Value pairs.
-9.  **[Functions](./lessons/09-functions.md)**: Inputs & Outputs.
-10. **[Errors](./lessons/10-errors.md)**: The "Guard Rail" philosophy.
-11. **[JSON](./lessons/11-json.md)**: The Translator.
-13. **[Debugging](./lessons/13-debugging.md)**: The Magnifying Glass.
+1.  **[Origin & Setup](./junior/01-intro.md)**: Why Go?
+2.  **[Setup](./junior/02-setup.md)**: Installation & Tools.
+3.  **[Anatomy](./junior/03-anatomy.md)**: `package`, `import`, `func`.
+4.  **[Variables & Data](./junior/04-variables.md)**: `int`, `string`, Zero Values.
+5.  **[Logic (If/Else)](./junior/05-logic.md)**: Branching paths.
+6.  **[Loops](./junior/06-loops.md)**: `for`, `range`.
+7.  **[Arrays & Slices](./junior/07-arrays-slices.md)**: Lists of data.
+8.  **[Maps](./junior/08-maps.md)**: Key-Value pairs.
+9.  **[Functions](./junior/09-functions.md)**: Inputs & Outputs.
+10. **[Errors](./junior/10-errors.md)**: The "Guard Rail" philosophy.
+11. **[JSON](./junior/11-json.md)**: The Translator.
+12. **[Debugging](./junior/12-debugging.md)**: The Magnifying Glass.
+13. **[Home Server](./junior/13-server.md)**: HTTP Basics.
 
 ### Interlude
-*   **[The Bridge](./lessons/bridge.md)**: Crossing to Professional Engineering.
+*   **[The Bridge](./junior/bridge.md)**: Crossing to Professional Engineering.
 
 ### Phase 2: Level 2 (The Apprentice)
 *The Build. We create the shop.*
-6.  **[Ch 14: The Server](./lessons/14-server.md)**: HTTP Basics.
-7.  **[Ch 15: Structure](./lessons/15-structure.md)**: Project Layout.
-8.  **[Ch 16: Templating](./lessons/16-templating.md)**: Dynamic HTML.
-9.  **[Ch 17: Models](./lessons/17-models.md)**: Data Structures.
-10. **[Ch 18-21: Core Mechanics](./lessons/18-interfaces.md)**: Config, Store, Validation.
+1.  **[Architecture](./middle/01-architecture.md)**: 3-Layer Cake.
+2.  **[Templating](./middle/02-templating.md)**: Dynamic HTML.
+3.  **[Models](./middle/03-models.md)**: Data Structures.
+4.  **[Interfaces](./middle/04-interfaces.md)**: Decoupling.
+5.  **[Config](./middle/05-config.md)**: 12-Factor App.
+6.  **[Memory Store](./middle/06-memory-store.md)**: In-Memory DB.
+7.  **[Validation](./middle/07-validation.md)**: Guarding Input.
 
 ### Phase 3: Level 3 (The Professional)
 *The Polish. We make it production-ready.*
-11. **[Ch 22: Concurrency](./lessons/22-concurrency.md)**: Goroutines.
-12. **[Ch 23: SQL Database](./lessons/23-postgres.md)**: PostgreSQL.
-13. **[Ch 24-27: Operations](./lessons/24-middleware.md)**: Middleware, Testing, CI/CD.
+1.  **[Concurrency](./middle/08-concurrency.md)**: Goroutines & Worker Pools.
+2.  **[Postgres](./middle/09-postgres.md)**: Real Database.
+3.  **[Middleware](./middle/10-middleware.md)**: Logging & Auth.
+4.  **[Testing](./middle/11-testing.md)**: Unit Tests & Mocks.
+5.  **[Workflow](./middle/12-workflow.md)**: CI/CD.
+6.  **[Assembly](./middle/13-assembly.md)**: Graduation.
 
 ## The Goal
 By the end of this path, you will have built a complete, interactive E-Commerce store.
