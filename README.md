@@ -79,4 +79,4 @@ If you intend to use this methodology, code, or materials in a **commercial cour
 
 > **"If you profit from our work, you must either contribute back (Open Source) or pay it forward (Commercial License)."**
 
-Contact `licensing@gopher-shop.com` for commercial inquiries.
+Contact `baimurza.daulet@gmail.com` for commercial inquiries.
