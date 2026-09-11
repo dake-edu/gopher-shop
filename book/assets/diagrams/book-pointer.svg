@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300" role="img" aria-labelledby="title desc">
+<title id="title">Копии указателя ссылаются на одну книгу</title><desc id="desc">Адрес копируется; поле меняется в общей книге</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#125d63"/></marker></defs>
+<rect width="720" height="300" fill="#faf9f5"/>
+<text x="360.0" y="30" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="bold" fill="#125d63">Копии указателя ссылаются на одну книгу</text>
+<rect x="60" y="60" width="210" height="65" rx="8" fill="#eaf0ef" stroke="#125d63" stroke-width="2"/>
+<text x="165.0" y="92.5" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">Указатель p</text>
+<rect x="450" y="60" width="210" height="65" rx="8" fill="#eaf0ef" stroke="#125d63" stroke-width="2"/>
+<text x="555.0" y="92.5" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">Копия q = p</text>
+<rect x="230" y="185" width="260" height="70" rx="8" fill="#eaf0ef" stroke="#125d63" stroke-width="2"/>
+<text x="360.0" y="209.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">Book</text>
+<text x="360.0" y="231.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">Published: теперь true</text>
+<line x1="165" y1="125" x2="310" y2="185" stroke="#125d63" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="555" y1="125" x2="410" y2="185" stroke="#125d63" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="360.0" y="285" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#125d63">Адрес копируется; поле меняется в общей книге</text></svg>

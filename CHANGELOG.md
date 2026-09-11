@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] — Book development
+
+- Added a Russian book manuscript (preface and chapters 1–8), aligned with this repository.
+- Added independent Go 1.27.1 checkpoints, expected-output checks, exercises and a negative mutation check.
+- Added a chapter registry and PDF/EPUB/offline HTML preview builds.
+- Added eight reproducible support diagrams, symbol-by-symbol explanations and a language coverage ledger.
+- Added lexical first-use checks and UTF-8-safe publication tooling; EPUBCheck 5.3.0 reports no errors or warnings.
+- Added a dedicated CI matrix for nested book modules.
+- Retained earlier course material and API while the source audit continues.
+
 ## [v1.3.1] - 2026-02-18
 ### Fixed
 - **Documentation**: Fixed broken links in `junior-path.md` pointing to old `lessons/` directory.

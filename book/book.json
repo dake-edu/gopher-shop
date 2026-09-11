@@ -1,0 +1,82 @@
+{
+  "title": "Go: от первой строки до книжного магазина",
+  "edition": "0.2-draft",
+  "language": "ru",
+  "repository": "https://github.com/dake-edu/gopher-shop",
+  "go_version": "1.27.1",
+  "formats": [
+    "pdf",
+    "epub",
+    "html"
+  ],
+  "chapters": [
+    {
+      "id": "00",
+      "title": "Магазин начинается с одной книги",
+      "source": "manuscript/00-preface.md",
+      "status": "draft"
+    },
+    {
+      "id": "01",
+      "title": "1. Рабочее место, которое можно проверить",
+      "source": "manuscript/01-workspace.md",
+      "status": "draft"
+    },
+    {
+      "id": "02",
+      "title": "2. Книга появляется в терминале",
+      "source": "manuscript/02-first-program.md",
+      "status": "draft",
+      "checkpoint": "examples/02-first-program",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/02-first-program"
+    },
+    {
+      "id": "03",
+      "title": "3. Название, цена и состояние книги",
+      "source": "manuscript/03-values.md",
+      "status": "draft",
+      "checkpoint": "examples/03-values",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/03-values"
+    },
+    {
+      "id": "04",
+      "title": "4. Какие издания можно показать",
+      "source": "manuscript/04-conditions.md",
+      "status": "draft",
+      "checkpoint": "examples/04-conditions",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/04-conditions"
+    },
+    {
+      "id": "05",
+      "title": "5. Правило цены и первый тест",
+      "source": "manuscript/05-functions.md",
+      "status": "draft",
+      "checkpoint": "examples/05-functions",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/05-functions"
+    },
+    {
+      "id": "06",
+      "title": "6. Сколько букв в названии книги",
+      "source": "manuscript/06-strings.md",
+      "status": "draft",
+      "checkpoint": "examples/06-strings",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/06-strings"
+    },
+    {
+      "id": "07",
+      "title": "7. Каталог: список, массив и словарь",
+      "source": "manuscript/07-catalog.md",
+      "status": "draft",
+      "checkpoint": "examples/07-catalog",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/07-catalog"
+    },
+    {
+      "id": "08",
+      "title": "8. Книга как значение: структуры, методы и указатели",
+      "source": "manuscript/08-books.md",
+      "status": "draft",
+      "checkpoint": "examples/08-books",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/08-books"
+    }
+  ]
+}

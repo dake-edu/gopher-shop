@@ -1,0 +1,210 @@
+{
+  "package": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  "import": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  "func": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  "STRING": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  ".": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  "(": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  ")": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  "{": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  "}": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  ";": {
+    "introduced_in": "02",
+    "explanation": "Разбор записи по символам в главе 02"
+  },
+  "const": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  "var": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  ":=": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  "=": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  "INT": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  "/": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  "%": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  ",": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  "true": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  "false": {
+    "introduced_in": "03",
+    "explanation": "Разбор записи по символам в главе 03"
+  },
+  "for": {
+    "introduced_in": "04",
+    "explanation": "Разбор записи по символам в главе 04"
+  },
+  "if": {
+    "introduced_in": "04",
+    "explanation": "Разбор записи по символам в главе 04"
+  },
+  "!": {
+    "introduced_in": "04",
+    "explanation": "Разбор записи по символам в главе 04"
+  },
+  "<=": {
+    "introduced_in": "04",
+    "explanation": "Разбор записи по символам в главе 04"
+  },
+  "++": {
+    "introduced_in": "04",
+    "explanation": "Разбор записи по символам в главе 04"
+  },
+  "==": {
+    "introduced_in": "04",
+    "explanation": "Разбор записи по символам в главе 04"
+  },
+  "break": {
+    "introduced_in": "04",
+    "explanation": "Разбор записи по символам в главе 04"
+  },
+  "continue": {
+    "introduced_in": "04",
+    "explanation": "Разбор записи по символам в главе 04"
+  },
+  "+": {
+    "introduced_in": "04",
+    "explanation": "Разбор записи по символам в главе 04"
+  },
+  "return": {
+    "introduced_in": "05",
+    "explanation": "Разбор записи по символам в главе 05"
+  },
+  "||": {
+    "introduced_in": "05",
+    "explanation": "Разбор записи по символам в главе 05"
+  },
+  "<": {
+    "introduced_in": "05",
+    "explanation": "Разбор записи по символам в главе 05"
+  },
+  ">": {
+    "introduced_in": "05",
+    "explanation": "Разбор записи по символам в главе 05"
+  },
+  "*": {
+    "introduced_in": "05",
+    "explanation": "Разбор записи по символам в главе 05"
+  },
+  "-": {
+    "introduced_in": "05",
+    "explanation": "Разбор записи по символам в главе 05"
+  },
+  "COMMENT": {
+    "introduced_in": "05",
+    "explanation": "Разбор записи по символам в главе 05"
+  },
+  "!=": {
+    "introduced_in": "05",
+    "explanation": "Разбор записи по символам в главе 05"
+  },
+  "_": {
+    "introduced_in": "05",
+    "explanation": "Разбор записи по символам в главе 05"
+  },
+  "range": {
+    "introduced_in": "06",
+    "explanation": "Разбор записи по символам в главе 06"
+  },
+  "len": {
+    "introduced_in": "06",
+    "explanation": "Разбор записи по символам в главе 06"
+  },
+  "[": {
+    "introduced_in": "07",
+    "explanation": "Разбор записи по символам в главе 07"
+  },
+  "]": {
+    "introduced_in": "07",
+    "explanation": "Разбор записи по символам в главе 07"
+  },
+  "map": {
+    "introduced_in": "07",
+    "explanation": "Разбор записи по символам в главе 07"
+  },
+  ":": {
+    "introduced_in": "07",
+    "explanation": "Разбор записи по символам в главе 07"
+  },
+  "nil": {
+    "introduced_in": "07",
+    "explanation": "Разбор записи по символам в главе 07"
+  },
+  "make": {
+    "introduced_in": "07",
+    "explanation": "Разбор записи по символам в главе 07"
+  },
+  "append": {
+    "introduced_in": "07",
+    "explanation": "Разбор записи по символам в главе 07"
+  },
+  "copy": {
+    "introduced_in": "07",
+    "explanation": "Разбор записи по символам в главе 07"
+  },
+  "cap": {
+    "introduced_in": "07",
+    "explanation": "Разбор записи по символам в главе 07"
+  },
+  "type": {
+    "introduced_in": "08",
+    "explanation": "Разбор записи по символам в главе 08"
+  },
+  "struct": {
+    "introduced_in": "08",
+    "explanation": "Разбор записи по символам в главе 08"
+  },
+  "&": {
+    "introduced_in": "08",
+    "explanation": "Разбор записи по символам в главе 08"
+  }
+}

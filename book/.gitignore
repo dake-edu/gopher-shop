@@ -1,0 +1,14 @@
+# Generated publications, local tooling and research extracts
+/build/
+/.venv/
+/__pycache__/
+/tools/__pycache__/
+/research/extracted/
+/research/verification.json
+/research/original-tests.json
+/research/source-manifest.json
+
+# Parent coverage.* pattern must not hide the editorial topic map.
+!editorial/coverage.md
+
+/research/syntax-inventory.json
