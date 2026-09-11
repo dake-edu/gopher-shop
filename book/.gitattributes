@@ -1,0 +1,3 @@
+# Keep gofmt input and publication sources identical on every platform.
+* text=auto eol=lf
+*.ttf binary
