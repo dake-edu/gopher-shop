@@ -22,11 +22,11 @@ ENV = dict(os.environ, GOWORK='off')
 records = []
 metadata = json.loads((ROOT/'book.json').read_text())
 registered = {c['source'] for c in metadata['chapters']}
-actual = {str(f.relative_to(ROOT)) for f in (ROOT/'manuscript').glob('*.md')}
+actual = {f.relative_to(ROOT).as_posix() for f in (ROOT/'manuscript').glob('*.md')}
 if registered != actual:
     raise ValueError('book.json and manuscript files differ')
 expected_checkpoints = {c['checkpoint'] for c in metadata['chapters'] if 'checkpoint' in c}
-actual_checkpoints = {str(f.parent.relative_to(ROOT)) for f in (ROOT/'examples').glob('*/go.mod')}
+actual_checkpoints = {f.parent.relative_to(ROOT).as_posix() for f in (ROOT/'examples').glob('*/go.mod')}
 if expected_checkpoints != actual_checkpoints:
     raise ValueError('book.json and checkpoints differ')
 for chapter in metadata['chapters']:
@@ -37,7 +37,7 @@ for chapter in metadata['chapters']:
 
 def run(args, cwd, expected=0):
     result = subprocess.run(args, cwd=cwd, env=ENV, capture_output=True, text=True, encoding="utf-8", timeout=120)
-    records.append({'directory':str(cwd.relative_to(ROOT)) if cwd.is_relative_to(ROOT) else 'temporary scenario',
+    records.append({'directory':cwd.relative_to(ROOT).as_posix() if cwd.is_relative_to(ROOT) else 'temporary scenario',
                     'command':args, 'exit_code':result.returncode,
                     'stdout':result.stdout, 'stderr':result.stderr})
     if expected == 0 and result.returncode != 0:
@@ -159,7 +159,7 @@ report={'checked_at':datetime.now(timezone.utc).isoformat(),'go_version':version
         'status':'passed','commands':records,
         'platform':platform.platform(),
         'checked_chapters':[c['id'] for c in metadata['chapters']],
-        'source_sha256':{str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest() for folder in ('manuscript','examples') for f in sorted((ROOT/folder).rglob('*')) if f.is_file()},
+        'source_sha256':{f.relative_to(ROOT).as_posix():hashlib.sha256(f.read_bytes()).hexdigest() for folder in ('manuscript','examples') for f in sorted((ROOT/folder).rglob('*')) if f.is_file()},
         'limits':['This report records only the current platform; remote CI must be confirmed separately.',
                   'Checks cover registered draft chapters, not the completed book.']}
 (ROOT/'research').mkdir(exist_ok=True)
