@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="230" viewBox="0 0 720 230" role="img" aria-labelledby="title desc">
 <title id="title">Расчёт с явным договором</title><desc id="desc">При отказе расчёт не продолжается</desc>
-<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#125d63"/></marker></defs>
-<rect width="720" height="230" fill="#faf9f5"/>
-<text x="360.0" y="30" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="bold" fill="#125d63">Расчёт с явным договором</text>
-<rect x="15" y="65" width="210" height="100" rx="8" fill="#eaf0ef" stroke="#125d63" stroke-width="2"/>
-<text x="120.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">Проверяем</text>
-<text x="120.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">цену и процент</text>
-<rect x="255" y="65" width="210" height="100" rx="8" fill="#eaf0ef" stroke="#125d63" stroke-width="2"/>
-<text x="360.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">Считаем</text>
-<text x="360.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">целую скидку</text>
-<rect x="495" y="65" width="210" height="100" rx="8" fill="#eaf0ef" stroke="#125d63" stroke-width="2"/>
-<text x="600.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">Возвращаем</text>
-<text x="600.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">цену и признак</text>
-<line x1="225" y1="115" x2="255" y2="115" stroke="#125d63" stroke-width="2" marker-end="url(#arrow)"/>
-<line x1="465" y1="115" x2="495" y2="115" stroke="#125d63" stroke-width="2" marker-end="url(#arrow)"/>
-<text x="360.0" y="215" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#125d63">При отказе расчёт не продолжается</text></svg>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#00758D"/></marker></defs>
+<rect width="720" height="230" fill="#ffffff"/>
+<text x="360.0" y="30" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="bold" fill="#00758D">Расчёт с явным договором</text>
+<rect x="15" y="65" width="210" height="100" rx="8" fill="#ffffff" stroke="#00758D" stroke-width="2"/>
+<text x="120.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">Проверяем</text>
+<text x="120.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">цену и процент</text>
+<rect x="255" y="65" width="210" height="100" rx="8" fill="#ffffff" stroke="#00758D" stroke-width="2"/>
+<text x="360.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">Считаем</text>
+<text x="360.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">целую скидку</text>
+<rect x="495" y="65" width="210" height="100" rx="8" fill="#ffffff" stroke="#00758D" stroke-width="2"/>
+<text x="600.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">Возвращаем</text>
+<text x="600.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">цену и признак</text>
+<line x1="225" y1="115" x2="255" y2="115" stroke="#00758D" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="465" y1="115" x2="495" y2="115" stroke="#00758D" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="360.0" y="215" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#00758D">При отказе расчёт не продолжается</text></svg>

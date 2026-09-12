@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="230" viewBox="0 0 720 230" role="img" aria-labelledby="title desc">
 <title id="title">Данные книги имеют разные типы</title><desc id="desc">Тип определяет допустимые значения и операции</desc>
-<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#125d63"/></marker></defs>
-<rect width="720" height="230" fill="#faf9f5"/>
-<text x="360.0" y="30" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="bold" fill="#125d63">Данные книги имеют разные типы</text>
-<rect x="15" y="65" width="210" height="100" rx="8" fill="#eaf0ef" stroke="#125d63" stroke-width="2"/>
-<text x="120.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">title: string</text>
-<text x="120.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">название</text>
-<rect x="255" y="65" width="210" height="100" rx="8" fill="#eaf0ef" stroke="#125d63" stroke-width="2"/>
-<text x="360.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">priceMinor: int64</text>
-<text x="360.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">целая сумма</text>
-<rect x="495" y="65" width="210" height="100" rx="8" fill="#eaf0ef" stroke="#125d63" stroke-width="2"/>
-<text x="600.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">published: bool</text>
-<text x="600.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#125d63">да или нет</text>
-<text x="360.0" y="215" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#125d63">Тип определяет допустимые значения и операции</text></svg>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#00758D"/></marker></defs>
+<rect width="720" height="230" fill="#ffffff"/>
+<text x="360.0" y="30" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="bold" fill="#00758D">Данные книги имеют разные типы</text>
+<rect x="15" y="65" width="210" height="100" rx="8" fill="#ffffff" stroke="#00758D" stroke-width="2"/>
+<text x="120.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">title: string</text>
+<text x="120.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">название</text>
+<rect x="255" y="65" width="210" height="100" rx="8" fill="#ffffff" stroke="#00758D" stroke-width="2"/>
+<text x="360.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">priceMinor: int64</text>
+<text x="360.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">целая сумма</text>
+<rect x="495" y="65" width="210" height="100" rx="8" fill="#ffffff" stroke="#00758D" stroke-width="2"/>
+<text x="600.0" y="104.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">published: bool</text>
+<text x="600.0" y="126.0" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="15" fill="#00758D">да или нет</text>
+<text x="360.0" y="215" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#00758D">Тип определяет допустимые значения и операции</text></svg>

@@ -22,11 +22,12 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Preformatted, Table, TableStyle, KeepTogether
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, XPreformatted, Table, TableStyle, KeepTogether
 from reportlab.lib.enums import TA_LEFT
 from reportlab.graphics import renderPDF
 from reportlab.platypus import Flowable
 from diagrams import render_svg, drawing
+from highlighting import PALETTE, highlight_tree, css as highlighting_css
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT/'build/preview'
@@ -38,17 +39,18 @@ EDITION = 'Рабочая редакция '+META['edition']+' · вступле
 CSS = '''@font-face{font-family:Noto;src:url(fonts/NotoSans-Regular.ttf)}
 @font-face{font-family:Noto;src:url(fonts/NotoSans-Bold.ttf);font-weight:700}
 @font-face{font-family:NotoMono;src:url(fonts/NotoSansMono-Regular.ttf)}
-:root{color-scheme:light dark}body{font-family:Noto,sans-serif;line-height:1.7;margin:auto;max-width:52rem;padding:1.5rem;color:#182f35;background:#faf9f5}
-h1,h2,h3{line-height:1.25;color:#125d63}h1{font-size:2rem}h2{margin-top:2rem}
-a{color:#12656c;text-underline-offset:.15em}nav{border-bottom:1px solid #b9cdcb;padding-bottom:1rem;margin-bottom:2rem}
-pre{background:#eaf0ef;padding:1rem;border-left:3px solid #397d7d;overflow:auto;line-height:1.5}
+:root{color-scheme:light}body{font-family:Noto,sans-serif;line-height:1.7;margin:auto;max-width:52rem;padding:1.5rem;color:#182f35;background:#ffffff}
+h1,h2,h3{line-height:1.25;color:#00758D}h1{font-size:2rem}h2{margin-top:2rem}
+a{color:#00758D;text-underline-offset:.15em}nav{border-bottom:1px solid #b9cdcb;padding-bottom:1rem;margin-bottom:2rem}
+pre{background:#ffffff;border:1px solid #DBD9D6;padding:1rem;border-left:3px solid #00ADD8;overflow:auto;line-height:1.5}
 code{font-family:NotoMono,monospace;font-size:.88em}pre code{font-size:.8rem}
 img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:.9em}td,th{padding:.55rem;border:1px solid #aabfbc;text-align:left;vertical-align:top;overflow-wrap:anywhere}
 blockquote{margin-left:0;padding-left:1rem;border-left:3px solid #b08242}.status{color:#64543b;font-size:.9em}.skip{display:block}
 input{font:inherit;width:95%;padding:.5rem}li{margin-bottom:.5rem}
-@media(prefers-color-scheme:dark){body{background:#14272c;color:#e8efed}h1,h2,h3,a{color:#9dd7cf}pre{background:#20393d}.status{color:#dccbaa}}
+
 @media print{nav,.search,.skip{display:none}body{color:#111;background:white}pre{white-space:pre-wrap}h1,h2{break-after:avoid}}
 '''
+CSS += highlighting_css()
 (WEB/'book.css').write_text(CSS)
 shutil.copytree(ROOT/'assets/fonts', WEB/'fonts', dirs_exist_ok=True)
 (WEB/'diagrams').mkdir(exist_ok=True)
@@ -65,7 +67,8 @@ for chapter in META['chapters']:
     text=re.sub(r'(?:\.\./)+assets/diagrams/', 'diagrams/', text)
     body=markdown.markdown(text,extensions=['fenced_code','tables','toc'],output_format='xhtml')
     # Parsing now catches malformed XHTML before packaging EPUB.
-    ET.fromstring('<root>'+body+'</root>')
+    tree=highlight_tree(ET.fromstring('<root>'+body+'</root>'))
+    body=''.join(ET.tostring(child,encoding='unicode',method='xml') for child in tree)
     chapters.append(dict(stem=file.stem,title=title,body=body,text=text))
 
 def page(title, body, extra=''):
@@ -131,9 +134,9 @@ for name,file in [('Noto','NotoSans-Regular.ttf'),('NotoBold','NotoSans-Bold.ttf
 pdfmetrics.registerFontFamily('Noto',normal='Noto',bold='NotoBold',italic='Noto',boldItalic='NotoBold')
 styles={
  'body':ParagraphStyle('body',fontName='Noto',fontSize=10,leading=15,spaceAfter=8),
- 'h1':ParagraphStyle('h1',fontName='NotoBold',fontSize=22,leading=28,spaceAfter=18,textColor=colors.HexColor('#125d63'),keepWithNext=True),
- 'h2':ParagraphStyle('h2',fontName='NotoBold',fontSize=14,leading=19,spaceBefore=15,spaceAfter=8,keepWithNext=True),
- 'h3':ParagraphStyle('h3',fontName='NotoBold',fontSize=11,leading=16,spaceBefore=10,spaceAfter=6,keepWithNext=True),
+ 'h1':ParagraphStyle('h1',fontName='NotoBold',fontSize=22,leading=28,spaceAfter=18,textColor=colors.HexColor('#00758D'),keepWithNext=True),
+ 'h2':ParagraphStyle('h2',textColor=colors.HexColor('#00758D'),fontName='NotoBold',fontSize=14,leading=19,spaceBefore=15,spaceAfter=8,keepWithNext=True),
+ 'h3':ParagraphStyle('h3',textColor=colors.HexColor('#00758D'),fontName='NotoBold',fontSize=11,leading=16,spaceBefore=10,spaceAfter=6,keepWithNext=True),
  'small':ParagraphStyle('small',fontName='Noto',fontSize=8,leading=11,spaceAfter=5),
 }
 
@@ -142,14 +145,17 @@ def inline(element):
     for child in element:
         content=inline(child)
         if child.tag=='code':text+='<font name="NotoMono">'+content+'</font>'
+        elif child.tag=='span' and child.get('class','').startswith('tok-'):
+            colour=PALETTE[child.get('class')[4:]]
+            text+='<font color="'+colour+'">'+content+'</font>'
         elif child.tag in ('strong','b'):text+='<b>'+content+'</b>'
-        elif child.tag=='a':text+='<a href="'+html.escape(child.get('href',''),quote=True)+'" color="#125d63">'+content+'</a>'
+        elif child.tag=='a':text+='<a href="'+html.escape(child.get('href',''),quote=True)+'" color="#00758D">'+content+'</a>'
         elif child.tag=='br':text+='<br/>'
         else:text+=content
         text+=html.escape(child.tail or '')
     return text
 
-story=[Spacer(1,80),Paragraph('GO',ParagraphStyle('covermark',fontName='NotoBold',fontSize=64,leading=75,textColor=colors.HexColor('#125d63'))),
+story=[Spacer(1,80),Paragraph('GO',ParagraphStyle('covermark',fontName='NotoBold',fontSize=64,leading=75,textColor=colors.HexColor('#00758D'))),
        Paragraph('От первой строки<br/>до книжного магазина',styles['h1']),Spacer(1,24),
        Paragraph('Язык · приложение · эксплуатация',styles['body']),
        Paragraph(EDITION,styles['body']),Paragraph('Незавершённая рукопись для чтения и проверки. Не для продажи.',styles['small']),
@@ -180,14 +186,14 @@ def append_elements(root):
             size=min(8,8*475/max_width)
             if size<6:raise RuntimeError('Code line too long for legible PDF; edit source')
             code_style=ParagraphStyle('code',fontName='NotoMono',fontSize=size,leading=size*1.5,spaceBefore=5,spaceAfter=10,leftIndent=5)
-            story.append(KeepTogether([Preformatted(code,code_style)]))
+            story.append(KeepTogether([XPreformatted(inline(element).replace('\t','    ').rstrip(),code_style)]))
         elif tag=='table':
             rows=[]
             for row in element.findall('.//tr'):
                 rows.append([Paragraph(inline(cell),styles['small']) for cell in row])
             if rows:
                 table=Table(rows,colWidths=[480/len(rows[0])]*len(rows[0]),repeatRows=1,hAlign='LEFT')
-                table.setStyle(TableStyle([('GRID',(0,0),(-1,-1),.4,colors.HexColor('#aabfbc')),('BACKGROUND',(0,0),(-1,0),colors.HexColor('#eaf0ef')),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),7),('RIGHTPADDING',(0,0),(-1,-1),7),('TOPPADDING',(0,0),(-1,-1),6),('BOTTOMPADDING',(0,0),(-1,-1),6)]))
+                table.setStyle(TableStyle([('GRID',(0,0),(-1,-1),.4,colors.HexColor('#aabfbc')),('BACKGROUND',(0,0),(-1,0),colors.HexColor('#ffffff')),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),7),('RIGHTPADDING',(0,0),(-1,-1),7),('TOPPADDING',(0,0),(-1,-1),6),('BOTTOMPADDING',(0,0),(-1,-1),6)]))
                 story.extend([table,Spacer(1,10)])
         elif tag in ('ul','ol'):
             for i,li in enumerate(element):
@@ -204,6 +210,10 @@ for i,c in enumerate(chapters):
     append_elements(ET.fromstring('<root>'+c['body']+'</root>'))
 
 def footer(canvas,doc):
+    canvas.saveState()
+    canvas.setFillColor(colors.white)
+    canvas.rect(0,0,doc.pagesize[0],doc.pagesize[1],fill=1,stroke=0)
+    canvas.restoreState()
     canvas.setFont('Noto',8);canvas.setFillColor(colors.HexColor('#526669'))
     canvas.drawString(55,28,'shanraq.org · '+META['edition'])
     canvas.drawRightString(540,28,str(doc.page))

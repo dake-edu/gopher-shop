@@ -1,6 +1,6 @@
 {
   "title": "Go: от первой строки до книжного магазина",
-  "edition": "0.2-draft",
+  "edition": "0.3-draft",
   "language": "ru",
   "repository": "https://github.com/dake-edu/gopher-shop",
   "go_version": "1.27.1",

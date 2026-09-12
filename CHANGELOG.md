@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] — Book development
 
+- Updated the book preview to 0.3: white pages, shared syntax colours for listings and inline code, and a reader-facing colour legend.
+- Added everyday mental images to chapters 1–8 and an introduction about building products with AI.
+- Added source-fidelity and colour-contrast tests for publication tooling.
+
 - Added a Russian book manuscript (preface and chapters 1–8), aligned with this repository.
 - Added independent Go 1.27.1 checkpoints, expected-output checks, exercises and a negative mutation check.
 - Added a chapter registry and PDF/EPUB/offline HTML preview builds.
