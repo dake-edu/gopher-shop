@@ -9,7 +9,12 @@ from pygments.lexers import get_lexer_by_name
 from pygments.token import Keyword, Name, String, Number, Comment, Operator, Punctuation
 
 PALETTE = {
-    'keyword': '#402B56',
+    'package': '#B45309',
+    'import': '#BE185D',
+    'func': '#1D4ED8',
+    'keyword': '#7C3AED',
+    'brace': '#A21CAF',
+    'bracket': '#6D28D9',
     'name': '#00758D',
     'string': '#166534',
     'number': '#9C3B10',
@@ -17,7 +22,15 @@ PALETTE = {
     'symbol': '#555759',
 }
 
-def category(token):
+def category(token, value='', language='go'):
+    if language == 'go':
+        if token in Keyword and value in ('package', 'import', 'func'):
+            return value
+        if token in Punctuation and value in ('{', '}'):
+            return 'brace'
+        if token in Punctuation and value in ('(', ')', '[', ']'):
+            return 'bracket'
+
     # Go predeclared types/constants are identifiers, not reserved keywords.
     if token in Keyword.Type or token in Keyword.Constant:
         return 'name'
@@ -32,7 +45,7 @@ def category(token):
 def fragments(source, language='go'):
     lexer = get_lexer_by_name(language, stripnl=False, ensurenl=False)
     # The unprocessed API preserves tabs, newlines and incomplete inline fragments.
-    result = [(category(token), value)
+    result = [(category(token, value, language), value)
               for _, token, value in lexer.get_tokens_unprocessed(source)]
     if ''.join(value for _, value in result) != source:
         raise ValueError('Highlighting must preserve the source exactly')

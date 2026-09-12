@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] — Book development
 
+- Expanded preview 0.3.1 syntax colours: distinct package/import/func keywords and bracket families, with an updated reader legend.
+
 - Updated the book preview to 0.3: white pages, shared syntax colours for listings and inline code, and a reader-facing colour legend.
 - Added everyday mental images to chapters 1–8 and an introduction about building products with AI.
 - Added source-fidelity and colour-contrast tests for publication tooling.

@@ -12,7 +12,20 @@ class HighlightingTests(unittest.TestCase):
         self.assertEqual(ET.tostring(inline).replace(b'<code>', b'<code class="language-go">'),
                          ET.tostring(block))
         self.assertEqual([(s.get('class'), s.text) for s in inline],
-                         [('tok-keyword', 'import'), (None, ' '), ('tok-string', '"fmt"')])
+                         [('tok-import', 'import'), (None, ' '), ('tok-string', '"fmt"')])
+
+    def test_go_keywords_and_braces_have_distinct_colours(self):
+        expected = [('package', 'package'), ('import', 'import'), ('func', 'func'),
+                    ('keyword', 'return'), ('brace', '{'), ('brace', '}'),
+                    ('bracket', '('), ('bracket', ')')]
+        actual = [(kind, value) for kind, value in fragments('package import func return {}()')
+                  if value.strip()]
+        self.assertEqual(actual, expected)
+        self.assertEqual(len({PALETTE[kind] for kind in ('package', 'import', 'func', 'keyword', 'brace')}), 5)
+
+    def test_keyword_spelling_in_strings_and_comments_keeps_its_context(self):
+        self.assertTrue(all(kind == 'string' for kind, value in fragments('"package import func {}"')))
+        self.assertTrue(all(kind == 'comment' for kind, value in fragments('// package import func {}')))
 
     def test_unicode_tabs_comments_escapes_and_incomplete_fragments_survive(self):
         for source in ['\t// ӘGo <>&\nfmt.Println("ӘGo\\n")\n', 'x := 10\n', '"',
