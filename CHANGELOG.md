@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] — Book development
 
+- Added the author-provided cover, title page and publication details to all three formats in preview 0.4; recorded the confirmed author name in PDF/EPUB metadata.
+
 - Expanded preview 0.3.1 syntax colours: distinct package/import/func keywords and bracket families, with an updated reader legend.
 
 - Updated the book preview to 0.3: white pages, shared syntax colours for listings and inline code, and a reader-facing colour legend.

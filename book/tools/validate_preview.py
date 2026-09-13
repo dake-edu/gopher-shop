@@ -16,6 +16,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT/'build/preview'
+META=json.loads((ROOT/'book.json').read_text())
 class Links(HTMLParser):
     def __init__(self):
         super().__init__(); self.links=[]; self.ids=set()
@@ -51,8 +52,19 @@ with zipfile.ZipFile(OUT/'go-book-preview.epub') as archive:
     items={item.get('id'):item for item in opf.findall('o:manifest/o:item',ns)}
     for item in items.values(): assert 'EPUB/'+item.get('href') in archive.namelist()
     for item in opf.findall('o:spine/o:itemref',ns): assert item.get('idref') in items
+    order=[items[item.get('idref')].get('href') for item in opf.findall('o:spine/o:itemref',ns)]
+    assert order[:5]==['index.xhtml','title-page.xhtml','publication-details.xhtml','nav.xhtml','00-preface.xhtml']
+    covers=[item for item in items.values() if 'cover-image' in item.get('properties','').split()]
+    assert len(covers)==1
+    assert archive.read('EPUB/'+covers[0].get('href'))==(ROOT/META['publication']['cover']).read_bytes()
+    creator=opf.find('o:metadata/{http://purl.org/dc/elements/1.1/}creator',ns)
+    assert creator is not None and creator.text==META['publication']['author']
     for name in archive.namelist():
         if name.endswith(('.xhtml','.xml','.opf','.svg')): ET.fromstring(archive.read(name))
+assert (OUT/'html/cover/go-book-cover.jpg').read_bytes()==(ROOT/META['publication']['cover']).read_bytes()
+assert 'title-page.html' in pages['index.html'].links
+assert 'publication-details.html' in pages['title-page.html'].links
+assert 'toc.html' in pages['publication-details.html'].links
 with zipfile.ZipFile(OUT/'go-book-preview-html.zip') as archive:
     assert 'index.html' in archive.namelist()
     for file in (OUT/'html').rglob('*'):
@@ -62,7 +74,7 @@ for line in (OUT/'SHA256SUMS.txt').read_text().splitlines():
     assert hashlib.sha256((OUT/name).read_bytes()).hexdigest()==digest
 assert (OUT/'go-book-preview.pdf').read_bytes().startswith(b'%PDF-')
 report={'status':'passed','html_pages':len(pages),'local_links':count,
-        'checks':['HTML links and unique IDs','EPUB XML, manifest, spine and mimetype','HTML ZIP matches directory','artifact SHA-256'],
+        'checks':['HTML links and unique IDs','EPUB XML, manifest, spine and mimetype','front matter order, author metadata and cover image','HTML ZIP matches directory','artifact SHA-256'],
         'not_checked':['EPUBCheck','screen reader reading order','full browser/ereader compatibility','PDF tagging/accessibility']}
 (OUT/'validation.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
 print(f'PASS: {len(pages)} HTML pages, {count} local links, EPUB structure and artifact hashes')
