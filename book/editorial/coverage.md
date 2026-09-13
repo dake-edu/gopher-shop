@@ -13,7 +13,7 @@
 | UTF-8, байты, руны, видимые символы | Ранняя часть курса требует получения | 6 | Написано: UTF-8, байты, руны; графемы отделены от рун |
 | Массивы, slice len/cap/append, map, nil | Gopher 2, capstone.md | 7 | Написано; общий массив и порядок каталога проверяются |
 | Структуры, методы, указатели, embedding | struct.md, pointers.md, Gopher 3 | 8, 18 | Структуры, методы и указатели написаны; embedding — глава 18 |
-| errors.Is/As, wrapping, defer, panic/recover | errors.md, logs.md, Gopher 4/6 | 9, 29 | Запланировано |
+| errors.Is/As, wrapping, defer, panic/recover | errors.md, logs.md, Gopher 4/6 | 9, 29 | errors, wrapping, Join и defer написаны; panic/recover — дальнейший разбор |
 | Пакеты, экспорт, модули, workspaces, Git | packages.md, git.md, github.md | 10, 39 | Запланировано |
 | Замыкания и функции как значения | middleware.md | 11, 18 | Добавить явное объяснение до middleware |
 | HTTP, маршруты, заголовки, таймауты | http.md, routes.md, Gopher 9 | 11 | Запланировано |

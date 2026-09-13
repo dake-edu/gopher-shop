@@ -1,6 +1,6 @@
 {
   "title": "Go: от первой строки до книжного магазина",
-  "edition": "0.4-draft",
+  "edition": "0.5-draft",
   "language": "ru",
   "repository": "https://github.com/dake-edu/gopher-shop",
   "go_version": "1.27.1",
@@ -77,13 +77,21 @@
       "status": "draft",
       "checkpoint": "examples/08-books",
       "module": "github.com/dake-edu/gopher-shop/book/examples/08-books"
+    },
+    {
+      "id": "09",
+      "title": "9. Файл не открылся: ошибки и освобождение ресурсов",
+      "source": "manuscript/09-errors.md",
+      "status": "draft",
+      "checkpoint": "examples/09-errors",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/09-errors"
     }
   ],
   "publication": {
     "author": "Баймурзин Даулет Абузарович",
     "publisher": "shanraq.org",
-    "date": "2026-09-12",
-    "date_label": "12 сентября 2026 года",
+    "date": "2026-09-13",
+    "date_label": "13 сентября 2026 года",
     "subtitle": "Один проект: от основ Go до работающего магазина цифровых книг",
     "levels": "Junior · Middle · Senior",
     "description": "Практическая книга о Go. Читатель шаг за шагом создаёт магазин цифровых книг: от первой программы и каталога до заказов, выдачи файлов и эксплуатации приложения. Материал организован в три уровня и использует опорные образы, проверяемые примеры и самостоятельные задания.",

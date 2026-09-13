@@ -19,7 +19,7 @@
 | Объявления | var, const, type definition/alias, generic aliases, function/method, short declaration, redeclaration, blank identifier | 3, 5, 8, 10, 34; A | Частично |
 | Области видимости | Блоки, shadowing, package/file/function scopes, метки, время жизни значений | 4, 8–10; A | Частично |
 | Система типов | Identity, underlying type, assignability, representability, conversions, type assertions, comparison | 8, 18, 34; A | Запланировано углубление |
-| Функции | Параметры, несколько/named результатов, variadic и ..., function values/literals, closures, recursion | 5, 9–11; A | Начало |
+| Функции | Параметры, несколько/named результатов, variadic и ..., function values/literals, closures, recursion | 5, 9–11; A | Параметры, результаты, именованные результаты и замыкание в defer написаны |
 | Методы | Receiver value/pointer, method sets, method values/expressions, адресуемость, embedded methods | 8, 18; A | Начало |
 | Интерфейсы | Реализация, динамический тип/значение, typed nil, type switch/assertion, embedding, any/error/comparable | 18, 34; A | Запланировано |
 | Обобщения | Параметры типов, constraints/type sets, ~ и union, instantiation, inference, ограничения операций, generic types/aliases/methods | 34; A | Запланировано |

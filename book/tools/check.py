@@ -60,6 +60,9 @@ if 'go'+metadata['go_version']+' ' not in version:
     raise RuntimeError('Use Go '+metadata['go_version']+' for this edition')
 for directory in sorted((ROOT/'examples').iterdir()):
     if not (directory/'go.mod').exists(): continue
+    dependencies=run(['go','list','-deps','-test','-f','{{if and (not .Standard) .Module}}{{.Module.Path}}{{end}}','./...'],directory).stdout
+    own_module=(directory/'go.mod').read_text().splitlines()[0].removeprefix('module ')
+    assert set(dependencies.split()) <= {own_module}, 'External dependency in book checkpoint: '+directory.name
     formatting = run(['gofmt', '-l', '.'], directory).stdout
     if formatting.strip(): raise RuntimeError(f'Unformatted Go files: {formatting}')
     output = run(['go', 'run', '.'], directory).stdout
@@ -134,6 +137,57 @@ func TestFreeBook(t *testing.T) {
 }
 ''')
     run(['go','test','-count=1','./...'],directory)
+# Chapter 9: retained model and executable exercise solutions.
+for name in ('book.go','pricing.go','title.go'):
+    assert (ROOT/'examples/08-books'/name).read_bytes() == (ROOT/'examples/09-errors'/name).read_bytes()
+with tempfile.TemporaryDirectory(prefix='book-errors-exercise-') as tmp:
+    directory=Path(tmp)/'errors';shutil.copytree(ROOT/'examples/09-errors',directory)
+    (directory/'exercise_test.go').write_text(r'''package main
+import (
+    "bytes"
+    "errors"
+    "fmt"
+    "strings"
+    "testing"
+)
+func TestInvalidTitleAndCloseFailure(t *testing.T) {
+    closeErr := errors.New("close failed")
+    reader := &trackedReader{reader: strings.NewReader(""), closeErr: closeErr}
+    got, err := readTitleAndClose(reader)
+    if got != "" || !errors.Is(err, ErrInvalidTitle) || !errors.Is(err, closeErr) || reader.closes != 1 {
+        t.Fatalf("got (%q, %v), closes=%d", got, err, reader.closes)
+    }
+}
+func TestDeferredOrderAndArguments(t *testing.T) {
+    var out bytes.Buffer
+    func() {
+        defer fmt.Fprintln(&out, "первый")
+        defer fmt.Fprintln(&out, "второй")
+        fmt.Fprintln(&out, "работа")
+    }()
+    if out.String() != "работа\nвторой\nпервый\n" { t.Fatal(out.String()) }
+    out.Reset()
+    func() {
+        n := 1
+        defer fmt.Fprintln(&out, n)
+        n = 2
+    }()
+    if out.String() != "1\n" { t.Fatal(out.String()) }
+    out.Reset()
+    func() {
+        n := 1
+        defer func() { fmt.Fprintln(&out, n) }()
+        n = 2
+    }()
+    if out.String() != "2\n" { t.Fatal(out.String()) }
+}
+''')
+    run(['go','test','-count=1','./...'],directory)
+    file=directory/'file.go'
+    file.write_text(file.read_text().replace('errors.Join(err, closeErr)','closeErr'))
+    failure=run(['go','test','-count=1','./...'],directory,expected=1)
+    assert 'TestInvalidTitleAndCloseFailure' in failure.stdout
+
 repro=run(['go','run','.'],ROOT/'research/reproductions/map-value')
 assert repro.stdout == 'Go\nЗамена поля сохранилась: false\n'
 

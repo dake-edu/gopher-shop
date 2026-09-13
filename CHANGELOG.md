@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased] — Book development
 
+- Added chapter 9 on error handling, bounded file input and resource cleanup, with standard-library-only examples and failure-path tests.
+- Enforced standard-library-only checkpoint dependencies and documented the native Go template/UI approach.
+
 - Added the author-provided cover, title page and publication details to all three formats in preview 0.4; recorded the confirmed author name in PDF/EPUB metadata.
 
 - Expanded preview 0.3.1 syntax colours: distinct package/import/func keywords and bracket families, with an updated reader legend.
