@@ -35,6 +35,15 @@ OUT = ROOT/'build/preview'
 OUT.mkdir(parents=True, exist_ok=True)
 WEB = OUT/'html'; WEB.mkdir(exist_ok=True)
 META = json.loads((ROOT/'book.json').read_text())
+verification = json.loads((ROOT/'research/verification.json').read_text())
+current_sources = {
+    file.relative_to(ROOT).as_posix(): hashlib.sha256(file.read_bytes()).hexdigest()
+    for folder in ('manuscript', 'examples')
+    for file in sorted((ROOT/folder).rglob('*')) if file.is_file()
+}
+if verification.get('status') != 'passed' or verification.get('source_sha256') != current_sources:
+    raise RuntimeError('Sources changed: run book/tools/check.py before building')
+
 TITLE = META['title']
 PUBLICATION = META['publication']
 FRONT = front_pages(META)
@@ -283,7 +292,22 @@ class BookDoc(SimpleDocTemplate):
 
 doc=BookDoc(str(OUT/'go-book-preview.pdf'),pagesize=(595.28,841.89),rightMargin=55,leftMargin=55,topMargin=50,bottomMargin=50,title=TITLE+' — фрагмент',author=PUBLICATION['author'],subject=PUBLICATION['subtitle'])
 doc.build(story,onFirstPage=footer,onLaterPages=footer)
-paths=[OUT/'go-book-preview.pdf',OUT/'go-book-preview.epub',OUT/'go-book-preview-html.zip']
+code_archive = OUT/'go-book-preview-code.zip'
+with zipfile.ZipFile(code_archive, 'w', zipfile.ZIP_DEFLATED) as archive:
+    for folder in ('examples', 'research/reproductions/map-value'):
+        for file in sorted((ROOT/folder).rglob('*')):
+            if file.is_file() and file.suffix in ('.go', '.mod', '.txt'):
+                archive.write(file, 'book/'+file.relative_to(ROOT).as_posix())
+    archive.write(ROOT/'book.json', 'book/book.json')
+    archive.write(ROOT.parent/'LICENSE', 'LICENSE')
+    archive.writestr('README.txt', 'Код рабочей книги '+META['edition']+'\n'
+        'Требуется Go '+META['go_version']+'. Распакуйте архив.\n'
+        'Откройте терминал в book/examples/02-first-program и выполните go run .\n'
+        'Для другой главы откройте её папку. Начиная с главы 5: go test ./...\n'
+        'У каждой папки свой go.mod: повторный go mod init не нужен.\n'
+        'Сохраняйте задания в копиях папок. Python, npm, Docker не нужны.\n'
+        'Это главы 2–9, не законченный магазин.\n')
+paths=[OUT/'go-book-preview.pdf',OUT/'go-book-preview.epub',OUT/'go-book-preview-html.zip', code_archive]
 (OUT/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in paths))
 (OUT/'README.txt').write_text(EDITION+'\nPDF и EPUB открываются в соответствующей программе. HTML ZIP распакуйте и откройте index.html.\nЭто не готовая книга. Полные проверки доступности, EPUBCheck и проверка во всех читалках ещё не завершены.\nШрифты Noto используются по SIL OFL 1.1; лицензия включена в EPUB/HTML и доступна в assets/fonts/OFL.txt исходного комплекта.\n')
 print('Built PDF, EPUB, offline HTML and SHA-256 manifest')

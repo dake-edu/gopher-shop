@@ -7,7 +7,7 @@ In strict languages (Java, C++), you must **explicitly** sign the contract.
 In Go, the contract is **implicit**. This is called "Duck Typing".
 > *"If it walks like a duck and quacks like a duck, it is a duck."*
 
-If your struct has the methods `GetAll()` and `GetByID()`, Go automatically considers it a `BookRepository`.
+A type satisfies `BookRepository` when its method set contains both methods with exactly the declared signatures. A pointer receiver may mean that `*Store`, rather than `Store`, satisfies it. This is checked statically; matching method names alone is insufficient.
 
 ### Anatomy of an Interface
 ```go

@@ -29,7 +29,7 @@ func main() {             // 3. The Function Declaration
 **"The Entry Point."**
 - **Keyword**: `func` defines a **Function** (a block of logic).
 - **Name**: `main`. When you run the program, Go looks strictly for a function named `main` to start.
-- **`()` Parentheses**: These hold **Arguments** (Inputs). Here, it is empty, meaning the function takes no inputs.
+- **`()` Parentheses**: These declare **Parameters** (Inputs). Arguments are the values supplied at a call. Here, it is empty, meaning the function takes no inputs.
 - **`{ }` Curly Braces**: These mark the **Scope** (The Body). Everything *inside* these braces is part of the function.
     - `{` = Start of logic.
     - `}` = End of logic.

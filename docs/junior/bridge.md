@@ -21,8 +21,7 @@ We typically refactor for three reasons:
 
 ### 3. Protection (The Internal Folder)
 Go has a special directory name: `internal/`.
-Code inside `internal` cannot be imported by other projects. It is **private**.
-This protects your core logic from accidental misuse by others.
+The compiler allows imports only from within the tree rooted at the parent of `internal`. This limits package dependencies; it does not restrict access to application data.
 
 ## The Map
 Here is how your Single File concept maps to the Professional Project Structure:
@@ -40,6 +39,8 @@ Now that you understand **WHAT** we are building (The Shop), let's learn **HOW**
 Proceed to **Phase 3: The Professional**.
 
 ::: details 🎓 Knowledge Check: What is special about the `internal/` directory?
-**Answer**: Go treats `internal/` as **private**. Other projects cannot import code from it. This protects your core logic from being misused by the outside world.
+**Answer**: The importing code must be inside the tree rooted at the parent of `internal`. The rule is about import paths, not authentication or secret data.
 :::
 
+
+The precise `internal` rule: an import is allowed only from code inside the tree rooted at the parent of that `internal` directory. This is an import boundary, not data privacy or an authorization mechanism.

@@ -20,7 +20,7 @@ func         Add       (a int, b int)     int {
 ```
 
 ## 9.3 Multiple Returns
-Unique to Go: A function can return **multiple things**.
+A Go function can return **multiple values**. Other languages also support this feature.
 Usually, we return `(Result, Error)`.
 
 ```go
@@ -60,3 +60,5 @@ flowchart LR
     Fruit["🍎 Fruit (Arguments)"] --> Blender("⚙️ Blender (Function)")
     Blender --> Juice["🍹 Juice (Return Value)"]
 ```
+
+The form lesson runs handlers concurrently. Its `sync.Mutex` protects both copying and appending the shared slice; template rendering uses the snapshot after unlocking. The `GET /` and `POST /add` patterns restrict methods. `MaxBytesReader` limits input before `ParseForm`; form parsing can fail and is checked. These are the minimal HTTP safety prerequisites, developed further in Middle chapter 8. The lesson is a local demo without user accounts or authorization.

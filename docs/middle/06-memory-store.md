@@ -1,7 +1,7 @@
 # Chapter 06: In-Memory Store
 
 ## 1 The Map (Hash Table)
-We need a way to find a Book by its ID instantly.
+We need a way to find a Book by its ID without manually scanning the whole collection.
 In Computer Science, this is a **Hash Map** (or Dictionary).
 
 ```go
@@ -10,7 +10,7 @@ var storage = make(map[string]Book)
 
 ### Anatomy of the Declaration
 1.  **`var`**: Create a variable.
-2.  **`make`**: **Crucial Keyword**. Maps must be initialized before use.
+2.  **`make`**: **Built-in function**. A map must be initialized before writing; reading a nil map is allowed. A map literal is another initialization form.
     - If you just did `var m map[string]int`, it is `nil`. Writing to it causes a **Panic** (Crash).
     - `make` allocates the memory bucket for the map.
 3.  **`map`**: The type.
@@ -30,7 +30,7 @@ func GetBook() Book   // Returns a Value (Photocopy)
 - **Pointer (`*Book`)**: You ask for the Mona Lisa. I write **"Room 303, Wall 2"** on a card and hand it to you. If you go there and draw a mustache, the real painting is changed forever.
 
 ### Why use Pointers?
-1.  **Performance**: Copying a huge book is slow. Passing a small address card is fast.
+1.  **Semantics first**: Choose whether the caller should observe changes. Pointer use can affect allocation and sharing; measure performance rather than assuming it is faster.
 2.  **Mutability**: We *want* to modify the original (e.g., updating the price).
 
 ### Comparison: Memory

@@ -43,3 +43,18 @@ func TestMultilineTitle(t *testing.T) {
 		t.Fatal("внутренний перевод строки принят")
 	}
 }
+
+func TestUnicodeLineSeparators(t *testing.T) {
+	_, ok := normalizeTitle("Go\u2028магазин")
+	if ok {
+		t.Fatal("внутренний разделитель строки принят")
+	}
+	_, ok = normalizeTitle("Go\u2029магазин")
+	if ok {
+		t.Fatal("внутренний разделитель абзаца принят")
+	}
+	got, ok := normalizeTitle("\u2028Go\u2029")
+	if !ok || got != "Go" {
+		t.Fatalf("краевые пробелы должны удаляться: %q, %t", got, ok)
+	}
+}

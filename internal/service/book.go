@@ -1,12 +1,15 @@
 package service
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
 
 	"github.com/dake-edu/gopher-shop/internal/models"
 	"github.com/dake-edu/gopher-shop/internal/store"
 )
+
+var ErrBookNotFound = errors.New("book not found")
 
 // BookService is the "Brain" of the operation.
 // It handles business logic and rules before talking to the "Warehouse" (Store).
@@ -56,7 +59,7 @@ func (s *BookService) GetBook(id int) (models.Book, error) {
 		return models.Book{}, fmt.Errorf("service: db error: %w", err)
 	}
 	if !found {
-		return models.Book{}, fmt.Errorf("service: book not found")
+		return models.Book{}, fmt.Errorf("service: %w", ErrBookNotFound)
 	}
 	return *book, nil
 }
@@ -65,15 +68,10 @@ func (s *BookService) GetBook(id int) (models.Book, error) {
 // 🧠 Business Rule: Logic Layer ensures data is valid before saving.
 // E.g., "Price cannot be negative".
 func (s *BookService) CreateBook(b *models.Book) error {
+	if err := b.Validate(); err != nil {
+		return fmt.Errorf("service: invalid book: %w", err)
+	}
 	slog.Debug("validating new book", "title", b.Title, "price", b.Price)
-
-	// 1. Validation Rule
-	if b.Price < 0 {
-		return fmt.Errorf("service: price cannot be negative (got %0.2f)", b.Price)
-	}
-	if b.Title == "" {
-		return fmt.Errorf("service: book title cannot be empty")
-	}
 
 	// 2. Delegate to Store
 	if err := s.repo.Create(b); err != nil {

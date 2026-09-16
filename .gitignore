@@ -37,9 +37,13 @@ node_modules
 # VitePress
 docs/.vitepress/dist
 docs/.vitepress/cache
+docs/.vitepress/.temp
 
 # Mac
 .DS_Store
 
 # Binaries
 /web-demo
+
+# Paid manuscript and local publication workspace
+/.private-book/

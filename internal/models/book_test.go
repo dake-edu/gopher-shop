@@ -1,6 +1,9 @@
 package models
 
-import "testing"
+import (
+	"math"
+	"testing"
+)
 
 func TestBook_Validate(t *testing.T) {
 	tests := []struct {
@@ -61,5 +64,23 @@ func TestBook_Validate(t *testing.T) {
 				t.Errorf("Book.Validate() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
+	}
+}
+
+func TestRejectNonFinitePriceAndBlankFields(t *testing.T) {
+	for _, price := range []float64{math.NaN(), math.Inf(1), math.Inf(-1)} {
+		b := Book{Title: "Go", Author: "Author", Price: price}
+		if b.Validate() == nil {
+			t.Fatalf("accepted non-finite price %v", price)
+		}
+	}
+	for _, b := range []Book{{Title: " ", Author: "Author", Price: 1}, {Title: "Go", Author: "\t", Price: 1}} {
+		if b.Validate() == nil {
+			t.Fatalf("accepted blank field: %+v", b)
+		}
+	}
+	var b *Book
+	if b.Validate() == nil {
+		t.Fatal("accepted nil book")
 	}
 }

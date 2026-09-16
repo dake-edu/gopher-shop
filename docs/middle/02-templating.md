@@ -10,7 +10,7 @@ Go has a powerful standard library for this. It takes a skeleton (Template) and 
 
 ```go
 // Skeleton
-<h1>Hello, {​{.Name}}!</h1>
+<h1>Hello, {{.Name}}!</h1>
 
 // Data
 User{Name: "Alice"}
@@ -30,32 +30,32 @@ We use the **Layout Pattern** (The Sandwich).
 ### The Code
 **Layout (The Bread)**:
 ```go
-{​{define "base"}}
+{{define "base"}}
 <html>
   <body>
-    {​{template "content" .}}  <!-- The Hole -->
+    {{template "content" .}}  <!-- The Hole -->
   </body>
 </html>
-{​{end}}
+{{end}}
 ```
 
 **Page (The Meat)**:
 ```go
-{​{define "content"}}
+{{define "content"}}
   <h1>Welcome!</h1>
-{​{end}}
+{{end}}
 ```
 
 ## 3 The Dot (`.`)
 You will see `.` everywhere.
-`{​{template "footer" .}}`
+<code v-pre>{{template "footer" .}}</code>
 
 **What is it?**
 The Dot is the **Data** you passed to the template.
 - If you pass a `User` struct, `.` is the User.
-- If you pass `{​{.Name}}`, you are saying "Look inside the Data (Dot) and find Name".
+- If you pass <code v-pre>{{.Name}}</code>, you are saying "Look inside the Data (Dot) and find Name".
 
-When you include a partial: `{​{template "footer" .}}`, you are passing the **same data** down to the footer. If you wrote `{​{template "footer"}}` (no dot), the footer would receive **nothing** and crash if it tried to print the Year.
+When you include a partial: <code v-pre>{{template "footer" .}}</code>, you are passing the **same data** down to the footer. If you wrote <code v-pre>{{template "footer"}}</code> (no dot), the footer receives `nil` data. Depending on the action and options, rendering may produce an empty value or an execution error; it does not necessarily crash. Check the error returned by `ExecuteTemplate`.
 
 ## 4 Practice: Refactoring
 We have refactored our `cmd/web-demo` to use this structure.

@@ -5,7 +5,7 @@ In this final chapter, we look at `cmd/api/main.go`. This is where all the isola
 
 ## 1 Standard Project Layout
 Why isn't everything in the root folder?
-Professional Go projects often use the **Standard Go Project Layout**:
+There is no mandatory universal Go project layout. This project uses these conventions; see [Organizing a Go module](https://go.dev/doc/modules/layout):
 
 1.  **`cmd/`**: The Main Applications.
     - `cmd/api/main.go`: The entry point for our API.
@@ -14,7 +14,7 @@ Professional Go projects often use the **Standard Go Project Layout**:
 2.  **`internal/`**: The Library Code.
     - `internal/models`: Data Structures.
     - `internal/store`: Database Logic.
-    - *Rule*: Code here allows our app to work, but other people can't import it (Go enforces this privacy).
+    - *Rule*: Imports are restricted to code inside the parent directory tree of `internal`.
 
 ## 2 The Main Wiring
 Open `cmd/api/main.go`. Let's read it like a schematic.
@@ -24,21 +24,21 @@ Open `cmd/api/main.go`. Let's read it like a schematic.
 cfg := config.Load()
 ```
 - **Why?**: Before doing anything, we need to know *how* to run (Port, DB Password).
-- **Chapter**: 9 (Configuration).
+- **Chapter**: 5 (Configuration).
 
 ### Step 2: Unlock the Warehouse (Database)
 ```go
 db, err := sql.Open("postgres", cfg.DB.DSN())
 ```
 - **Why?**: We establish the connection pool. We don't query yet; we just prepare the line.
-- **Chapter**: 13 (Postgres).
+- **Chapter**: 9 (Postgres).
 
 ### Step 3: Hire the Staff (Dependency Injection)
 ```go
 var bookStore store.BookRepository = store.NewPostgresBookStore(db)
 ```
 - **Why?**: We create the `bookStore` worker and **give** it the database connection (`db`).
-- **Concept**: Dependency Injection (Chapter 12).
+- **Concept**: Dependency Injection (Chapter 4).
 
 ### Step 4: Security Checkpoints (Middleware)
 ```go
@@ -50,14 +50,14 @@ server := &http.Server{
     1.  Request hits `Recoverer` (Safety Net).
     2.  Hits `Logger` (Record keeping).
     3.  Hits `mux` (The Router).
-- **Chapter**: 14 (Middleware).
+- **Chapter**: 10 (Middleware).
 
 ### Step 5: Open for Business
 ```go
 server.ListenAndServe()
 ```
 - **Why?**: This starts the infinite loop that listens for traffic on the port.
-- **Chapter**: 7 (Web Server).
+- **Chapter**: Junior 13 (Web Server).
 
 ## 3 Graceful Shutdown (Dying with Dignity)
 In production, servers restart often. You don't want to kill active users mid-request.
@@ -76,16 +76,15 @@ srv.Shutdown(ctx)
 ```
 
 ## 4 You Did It!
-You have built a modular, professional-grade REST API.
+You have assembled a teaching API. It is not a complete store: authentication, authorization, durable orders, payment verification, migrations, and recovery still need implementation and tests.
 
 ## The Checklist
-- [ ] **Data**: `struct` with JSON tags? (Ch 8)
-- [ ] **Logic**: Handlers inject a Repository? (Ch 12)
-- [ ] **Safety**: Unit Tests passed? (Ch 15)
-- [ ] **Deployment**: CI/CD pipeline green? (Ch 16)
+- [ ] **Data**: `struct` with JSON tags? (Middle 3)
+- [ ] **Logic**: Handlers inject a Repository? (Middle 4)
+- [ ] **Safety**: Unit Tests passed? (Middle 11)
+- [ ] **Deployment**: CI/CD pipeline green? (Middle 12)
 
-If you can say **YES** to all these, you are no longer a Junior.
-**Welcome to the Professional Tier.**
+Use the checklist to identify what you can demonstrate and what still needs practice. Completing it does not establish a job level.
 
 ::: details 🎓 Knowledge Check: Why shouldn't we put business logic in `cmd/api/main.go`?
 **Answer**: Separation of Concerns. `cmd/` is only for **wiring** (starting the engine). Logic belongs in `internal/` so it can be tested in isolation and reused.
@@ -106,3 +105,5 @@ graph BT
     Config["Config (Blueprints)"] -.-> Store
 ```
 
+
+The precise `internal` rule: an import is allowed only from code inside the tree rooted at the parent of that `internal` directory. This is an import boundary, not data privacy or an authorization mechanism.

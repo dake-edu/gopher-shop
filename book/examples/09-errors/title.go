@@ -17,7 +17,7 @@ func normalizeTitle(title string) (string, bool) {
 		return "", false
 	}
 	for _, letter := range title {
-		if unicode.IsControl(letter) {
+		if unicode.IsControl(letter) || letter == '\u2028' || letter == '\u2029' {
 			return "", false
 		}
 	}

@@ -50,7 +50,7 @@ backpack = append(backpack, "Water")
 A slice is actually a small structure with 3 fields:
 1.  **Pointer**: Where the data starts in memory.
 2.  **Length (`len`)**: How many items are in the bag right now.
-3.  **Capacity (`cap`)**: How big the current underlying array is (before we need to buy a bigger one).
+3.  **Capacity (`cap`)**: How many elements can be reached from this slice’s starting position within its allowed capacity. This can be smaller than the whole underlying array.
 
 ## 7.3 Common Operations
 
@@ -73,6 +73,8 @@ fmt.Println(numbers[0]) // First item
 fmt.Println(numbers[len(numbers)-1]) // Last item
 ```
 
+Check `len(numbers) > 0` before accessing either end of a possibly empty slice. Copying a slice does not copy its elements into independent storage.
+
 ### Slicing a Slice (Inception)
 You can take a piece of a slice using the `[start:end]` syntax.
 ```go
@@ -80,7 +82,7 @@ You can take a piece of a slice using the `[start:end]` syntax.
 nums := []int{10, 20, 30, 40, 50}
 
 // Take items from index 1 up to (but not including) 3
-subset := nums[1:3] // Result: {20, 30}
+subset := nums[1:3] // Elements: 20, 30; shares storage with nums
 ```
 
 ## 7.4 Practice: The Book List

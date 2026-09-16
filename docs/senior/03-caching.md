@@ -2,9 +2,7 @@
 
 > **"There are only two hard things in Computer Science: cache invalidation and naming things."** - Phil Karlton
 
-Your database (Postgres) stores data on **Disk**. Disk is slow (milliseconds).
-Your Memory (RAM) is fast (nanoseconds).
-**Redis** is a database that lives entirely in RAM.
+PostgreSQL and the operating system cache data in memory. Redis keeps its working dataset in memory and supports persistence options. End-to-end latency includes networking and application work; measure it rather than deriving it from raw memory-versus-disk timings. See [Redis persistence](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/).
 
 ## 1. The Strategy: Cache-Aside
 We don't just "use Redis". We use a pattern called **Cache-Aside**.
@@ -16,7 +14,9 @@ We don't just "use Redis". We use a pattern called **Cache-Aside**.
     -   Save result to Cache (for next time).
     -   Return result.
 
-### The Code
+### Pseudocode, not a runnable Go client
+
+The names below stand for application-specific adapters. A real adapter must distinguish cache miss, corrupt data, and transport failure, and handle database and cache-write errors. Choose the client and its version before turning this sketch into executable code.
 ```go
 func GetBook(id string) Book {
     // 1. Check Cache
@@ -38,7 +38,7 @@ func GetBook(id string) Book {
 ## 2. Invalidation (The Hard Part)
 If I update the book price in Postgres, Redis still has the old price!
 **Solution**:
-When you Update/Delete in DB, you MUST **Delete** the key from Redis too.
+Deleting the cache key after a committed database update is a starting policy, not a consistency guarantee. A concurrent reader can fetch an old database value before the update and cache it after deletion. Define acceptable staleness, TTL, and a versioning or invalidation protocol. Determine the checkout price from authoritative state and preserve it in the order.
 
 ```go
 func UpdateBook(book Book) {

@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+	"math"
+	"strings"
 )
 
 // ------------------------------------------------------------------------------------------------
@@ -32,14 +34,17 @@ type Book struct {
 
 // Validate checks if the book has valid data.
 func (b *Book) Validate() error {
-	if b.Title == "" {
+	if b == nil {
+		return fmt.Errorf("book is required")
+	}
+	if strings.TrimSpace(b.Title) == "" {
 		return fmt.Errorf("title is required")
 	}
-	if b.Author == "" {
+	if strings.TrimSpace(b.Author) == "" {
 		return fmt.Errorf("author is required")
 	}
-	if b.Price <= 0 {
-		return fmt.Errorf("price must be positive")
+	if math.IsNaN(b.Price) || math.IsInf(b.Price, 0) || b.Price <= 0 {
+		return fmt.Errorf("price must be finite and positive")
 	}
 	return nil
 }

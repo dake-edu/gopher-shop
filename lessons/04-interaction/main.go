@@ -4,6 +4,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
+	"sync"
 )
 
 // Lesson 4: Interaction
@@ -13,6 +15,8 @@ type Book struct {
 	Title  string
 	Author string
 }
+
+var booksMu sync.Mutex
 
 var books = []Book{
 	{"The Go Gopher", "Rob Pike"},
@@ -42,31 +46,43 @@ const htmlTmpl = `
 `
 
 func main() {
-	tmpl, _ := template.New("index").Parse(htmlTmpl)
+	tmpl := template.Must(template.New("index").Parse(htmlTmpl))
 
 	// GET: Show Page
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpl.Execute(w, books)
+	http.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		booksMu.Lock()
+		snapshot := append([]Book(nil), books...)
+		booksMu.Unlock()
+		if err := tmpl.Execute(w, snapshot); err != nil {
+			log.Print(err)
+		}
 	})
 
 	// POST: Handle Data
-	http.HandleFunc("/add", func(w http.ResponseWriter, r *http.Request) {
-		title := r.FormValue("title")
-		author := r.FormValue("author")
+	http.HandleFunc("POST /add", func(w http.ResponseWriter, r *http.Request) {
+		r.Body = http.MaxBytesReader(w, r.Body, 64<<10)
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, "Invalid form", http.StatusBadRequest)
+			return
+		}
+		title := strings.TrimSpace(r.PostForm.Get("title"))
+		author := strings.TrimSpace(r.PostForm.Get("author"))
 
 		// 🛡️ THE QUALITY GATE (Validation)
 		// Why? Never trust user input. It could be empty, malicious, or wrong.
 		// We reject bad data BEFORE it touches our database.
-		if title == "" {
-			http.Error(w, "Title cannot be empty!", http.StatusBadRequest)
+		if title == "" || author == "" {
+			http.Error(w, "Title and author are required!", http.StatusBadRequest)
 			return
 		}
 
 		// If good, add to shelf
+		booksMu.Lock()
 		books = append(books, Book{title, author})
+		booksMu.Unlock()
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	})
 
 	log.Println("🚀 Shop v4 running on http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
+	log.Fatal(http.ListenAndServe("127.0.0.1:8080", nil))
 }

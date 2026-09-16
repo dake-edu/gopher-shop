@@ -40,7 +40,7 @@ isHoliday := false
 
 if !isOpen {
     // Stop here if closed
-    fmt.Println("Come back tommorow.")
+    fmt.Println("Come back tomorrow.")
 } else if isHoliday {
     // Open, but holiday
     fmt.Println("Holiday hours.")
@@ -69,9 +69,9 @@ default:
 
 ::: details 🎓 Knowledge Check
 1.  **Does Go use parentheses `()` for `if` conditions?**
-    No. We write `if x > 10 { }`.
+    Parentheses are optional around the expression. We normally write `if x > 10 { }`.
 2.  **What happens if you declare a variable inside an `if` statement?**
-    It is only visible inside that `if` block (Scope).
+    A name declared in the body is visible in that block. A name declared in an initializer, such as `if n := size(); n > 0`, is also visible in the condition and associated `else` blocks.
 3.  **Does Go have a `while` loop?**
     No. Go only has `for`. We use `for condition { }` to mimic `while`.
 :::

@@ -76,5 +76,20 @@ assert (OUT/'go-book-preview.pdf').read_bytes().startswith(b'%PDF-')
 report={'status':'passed','html_pages':len(pages),'local_links':count,
         'checks':['HTML links and unique IDs','EPUB XML, manifest, spine and mimetype','front matter order, author metadata and cover image','HTML ZIP matches directory','artifact SHA-256'],
         'not_checked':['EPUBCheck','screen reader reading order','full browser/ereader compatibility','PDF tagging/accessibility']}
+
+# The reader bundle must contain exactly the source used for this edition.
+with zipfile.ZipFile(OUT/'go-book-preview-code.zip') as archive:
+    expected = {'README.txt', 'LICENSE', 'book/book.json'}
+    for folder in ('examples', 'research/reproductions/map-value'):
+        for file in sorted((ROOT/folder).rglob('*')):
+            if file.is_file() and file.suffix in ('.go', '.mod', '.txt'):
+                name = 'book/'+file.relative_to(ROOT).as_posix()
+                expected.add(name)
+                assert archive.read(name) == file.read_bytes(), name
+    assert set(archive.namelist()) == expected
+    assert archive.read('book/book.json') == (ROOT/'book.json').read_bytes()
+print('PASS: reader source bundle matches the current checkpoints')
+
+report['checks'].append('Reader code ZIP matches current sources')
 (OUT/'validation.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
 print(f'PASS: {len(pages)} HTML pages, {count} local links, EPUB structure and artifact hashes')

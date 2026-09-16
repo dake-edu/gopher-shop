@@ -59,9 +59,8 @@ graph LR
 ```
 
 ## 4. The Challenge
-This project is not a tutorial step-by-step.
-**You contain the knowledge now.**
-You have the blueprints (Middle Level).
-You have the tools (Senior Level).
+This is an optional design exercise about physical deliveries, outside the digital-book project. No completed service or step-by-step implementation is included here.
 
-**Build the Fleet.**
+Start with an in-memory event processor and a test: processing the same event twice creates one parcel. Then introduce persistence and test a process restart. Only after those work add the broker adapter and demonstrate a crash between saving a parcel and committing consumer progress. Explain why replay does not create a second parcel. Redis configuration and eviction rules must be explicit if it stores authoritative state.
+
+If you cannot explain the first test, return to Middle chapters 4 and 11. If restart loses the parcel, revisit persistence before adding Kafka. Completion requires recorded failure experiments, not only a directory tree.

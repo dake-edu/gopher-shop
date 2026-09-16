@@ -4,13 +4,14 @@
 **Concept**: Your Go program sends structs. The Browser wants JSON (JavaScript Object Notation). We need a translator.
 
 ## 1. The Sticker (Struct Tags)
-We learned about Structs (The Blueprint). But how does Go know that `BookTitle` in Go code should be `title` in JSON?
+A struct groups named fields. Here `type Book struct { ... }` defines the type, `Book{...}` creates a value, and `book.Title` selects a field. Exported fields start with uppercase letters. See Middle chapter 3 for methods and copying. But how does Go know that `BookTitle` in Go code should be `title` in JSON?
 **Tags**. Think of them as sticky notes attached to the fields for the translator to read.
 
 ```go
 type Book struct {
     Title  string  `json:"title"`       // lowercase "title" in JSON
-    Price  float64 `json:"price"`
+    PriceMinor int64 `json:"price_minor"`
+    Currency string `json:"currency"`
     Hidden string  `json:"-"`           // Ignore this field!
 }
 ```
@@ -20,22 +21,24 @@ type Book struct {
 (Ideally, a byte slice, but think of it as text).
 
 ```go
-myBook := Book{Title: "Go Guide", Price: 19.99}
+myBook := Book{Title: "Go Guide", PriceMinor: 1999, Currency: "USD"}
 jsonData, err := json.Marshal(myBook)
 if err != nil {
     log.Fatal(err)
 }
 fmt.Println(string(jsonData))
-// Output: {"title":"Go Guide","price":19.99}
+// Output: {"title":"Go Guide","price_minor":1999,"currency":"USD"}
 ```
 
 ## 3. Unmarshaling (Unpacking)
 **Unmarshal** = JSON String -> Go Struct.
 
 ```go
-jsonStr := `{"title":"Go Guide","price":19.99}`
+jsonStr := `{"title":"Go Guide","price_minor":1999,"currency":"USD"}`
 var newBook Book
-err := json.Unmarshal([]byte(jsonStr), &newBook)
+if err := json.Unmarshal([]byte(jsonStr), &newBook); err != nil {
+    log.Fatal(err) // CLI example; HTTP handlers should return an error response.
+}
 ```
 
 ## 4. Visual Signal: The Translator 🗣️
@@ -55,6 +58,6 @@ sequenceDiagram
 ```
 
 ## Why do we care?
-When you build your API in the next level, **every single request** will involve:
+When you build your API in the next level, JSON endpoints may involve these operations (HTML pages, downloads, and requests without a body use different paths):
 1.  Unmarshaling user Input (JSON -> Struct).
 2.  Marshaling your Response (Struct -> JSON).

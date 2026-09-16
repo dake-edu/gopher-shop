@@ -2,7 +2,7 @@
 
 > **"It works on my machine" is not a valid excuse.**
 
-You have 3 services now:
+This optional deployment sketch discusses five components; the repository does not include a working GoTracker or Kafka deployment:
 1.  Gopher Shop (Web + API)
 2.  Postgres (DB)
 3.  GoTracker (Microservice)
@@ -13,6 +13,8 @@ Starting them manually (5 terminal windows) is madness.
 
 ## 1. Docker Compose (The Local Conductor)
 We define the whole orchestra in one file: `docker-compose.yml`.
+
+The following is a structural sketch, not a runnable Compose configuration. It omits database credentials and volumes, Kafka configuration, health checks, and the application Dockerfiles. Do not treat it as an installation recipe.
 
 ```yaml
 services:
@@ -35,12 +37,10 @@ services:
     image: bitnami/kafka:latest
 ```
 
-Command: `docker-compose up`.
-Result: The whole city starts up.
+For an actual validated configuration, the command is `docker compose up`. A short `depends_on` orders startup but does not establish service readiness. Add health checks and application retry behavior; pin and test image versions before deployment.
 
 ## 2. Kubernetes (The Container Ship) 🚢
-When you go to production (AWS, Google Cloud), you use **Kubernetes (K8s)**.
-K8s is like Docker Compose, but across 100 servers.
+Kubernetes is an optional orchestration platform. A small service can run on a single host or a managed application platform; production does not require a cluster. Choose it only when scheduling and operational needs justify its cost.
 -   **Pod**: A small group of containers (e.g., 1 Shop instance).
 -   **Deployment**: "I want 3 replicas of the Shop."
 -   **Service**: "Give me a Load Balancer IP to talk to the Shop."

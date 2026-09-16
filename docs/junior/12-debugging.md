@@ -31,5 +31,5 @@ Watch the variables change in real-time.
 You are no longer guessing. You are watching the crime happen in slow motion.
 
 ::: details 🎓 Knowledge Check: Why not just use Println?
-**Answer**: `Println` clutters your code and requires a recompile every time you want to check a different variable. Debugging lets you check *everything* without changing a single line of code.
+**Answer**: Both approaches are useful. A focused print or log can reveal a value; a debugger lets you inspect available state and step through execution. Optimization and concurrent execution can limit what the debugger shows. Choose a tool that tests a specific hypothesis.
 :::

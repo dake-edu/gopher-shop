@@ -17,10 +17,10 @@ python3 book/tools/check.py
   <img src="docs/public/gopher.png" alt="Gopher Shop Logo" width="200"/>
 </div>
 
-Welcome to **The Gopher Shop** — a professional, hands-on educational journey designed to transform Go beginners into **Middle-level Backend Engineers**.
+Welcome to **The Gopher Shop** — a practical earlier Go course with local teaching demos. It does not establish a professional qualification or provide a complete commercial store.
 
 ## 🚀 The Mission
-Our goal is to build a production-ready REST API for a digital book store from scratch. We don't just teach syntax; we teach **architecture, patterns, and logic**.
+The earlier course explores a teaching REST API for a digital book store from scratch. We don't just teach syntax; we teach **architecture, patterns, and logic**.
 
 ## 🧠 Learning Methodology
 This course uses a unique **Visual Anchor System**. Instead of long walls of text, we provide consistent metaphors:
@@ -63,17 +63,23 @@ npm run docs:dev
 ### 2. Run the Educational Demo
 A standalone, single-file web app to visualize the final goal (UI + In-Memory Store).
 ```bash
-go run cmd/web-demo/main.go
+go run ./cmd/web-demo
 # Visit http://localhost:8082
 ```
 
 ### 3. Run the Main API (Capstone)
-The final production backend (requires Docker for PostgreSQL).
+The legacy teaching API (requires PostgreSQL; the optional Compose file starts a local database). It has no complete order/payment flow or access control. Run it locally, not as a public store. For a first run, create `.env` from the example. If `.env` already exists, skip the copy command and compare its database settings instead.
 ```bash
-docker-compose up -d
-go run cmd/api/main.go
-# Visit http://localhost:8080/health
+cp .env.example .env
+docker compose up -d --wait
+docker compose exec -T db psql -U gopher -d gophership -v ON_ERROR_STOP=1 < scripts/init-legacy-db.sql
+go run ./cmd/api
+# Visit http://127.0.0.1:8080/health
 ```
+
+Use Go 1.27.1, the tested toolchain, and run these commands from the repository root. They use the default local database user and database from `.env.example`; adjust the `psql` arguments if you change them. In PowerShell, use `Copy-Item .env.example .env`, and feed the schema with `Get-Content scripts/init-legacy-db.sql | docker compose exec -T db psql -U gopher -d gophership -v ON_ERROR_STOP=1`. If `.env` already exists, compare it with the example instead of overwriting it. The Compose database listens on host port 5442. The schema creates the initial table; it does not migrate an existing table.
+
+The legacy API keeps its older positive-only `float64` price contract. This is not the money model of the new book, which uses integer minor units and permits explicitly free books.
 
 ---
 *Built with ❤️ for the Go Community.*

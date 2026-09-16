@@ -17,4 +17,4 @@ Here, we stop thinking about "How to write code" and start thinking about "How t
 7.  **[Career & Interview](./senior/07-career.md)**: The Portfolio & Defense.
 
 ## The Goal
-By the end of this path, you will think like a **Software Architect**. You will understand trade-offs, scalability, and system design.
+These optional sketches introduce architectural tradeoffs. GoTracker is a design exercise without a completed implementation; it is not a required continuation of the digital-book project. Demonstrate any claimed skill with working code, failure tests, and measurements.

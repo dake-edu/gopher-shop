@@ -47,7 +47,15 @@ def run(args, cwd, expected=0):
     return result
 
 version = run(['go', 'version'], ROOT).stdout.strip()
-syntax=json.loads(run(['go','run','tools/syntaxaudit.go'],ROOT).stdout)
+if 'go'+metadata['go_version']+' ' not in version:
+    raise RuntimeError('Use Go '+metadata['go_version']+' for this edition; got '+version)
+# The scanner uses only the standard library, independent of the legacy root module.
+with tempfile.TemporaryDirectory(prefix='book-syntax-') as tmp:
+    directory = Path(tmp)
+    (directory/'go.mod').write_text('module book-syntax\n\ngo '+metadata['go_version']+'\n')
+    scanner = directory/('syntaxaudit.exe' if os.name == 'nt' else 'syntaxaudit')
+    run(['go', 'build', '-o', str(scanner), str(ROOT/'tools/syntaxaudit.go')], directory)
+    syntax=json.loads(run([str(scanner)],ROOT).stdout)
 policy=json.loads((ROOT/'editorial/syntax-policy.json').read_text())
 for occurrence in syntax:
     rule=policy.get(occurrence['token'])
@@ -101,8 +109,15 @@ func TestSmallDiscount(t *testing.T) {
 }
 ''')
     run(['go','test','-count=1','./...'],directory)
+with tempfile.TemporaryDirectory(prefix='book-loop-exercise-') as tmp:
+    directory=Path(tmp)/'example';shutil.copytree(ROOT/'examples/04-conditions',directory)
+    file=directory/'main.go'
+    file.write_text(file.read_text().replace('edition <= 3', 'edition <= 4').replace('edition == 2', 'edition == 3'))
+    assert run(['go','run','.'],directory).stdout == 'Доступно издание 1\nДоступно издание 2\nИздание 3 снято с продажи\nДоступно издание 4\n'
 # Regression: the new Book checkpoint retains earlier business rules.
-assert (ROOT/'examples/06-strings/title.go').read_bytes() == (ROOT/'examples/08-books/title.go').read_bytes()
+for chapter in ('07-catalog', '08-books', '09-errors'):
+    for name in ('title.go', 'title_test.go'):
+        assert (ROOT/'examples/06-strings'/name).read_bytes() == (ROOT/'examples'/chapter/name).read_bytes()
 old_pricing=(ROOT/'examples/05-functions/main.go').read_text().split('func priceAfterDiscount',1)[1].split('\nfunc main()',1)[0].strip()
 new_pricing=(ROOT/'examples/08-books/pricing.go').read_text().split('func priceAfterDiscount',1)[1].strip()
 assert old_pricing == new_pricing

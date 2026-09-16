@@ -34,7 +34,7 @@ func TestAdd(t *testing.T) {
 Why do we mock?
 If your test actually connects to GitHub, and your internet is down, your test fails.
 Code logic didn't break; the internet did.
-**Tests must confirm LOGIC, not INFRASTRUCTURE.**
+Unit tests isolate logic with controlled dependencies. Integration tests also need to check actual infrastructure behavior, such as constraints, transactions, and cancellation. Fakes do not establish those guarantees.
 
 We create a fake struct that "looks like" the real dependency (satisfies the Interface) but just returns dummy data.
 

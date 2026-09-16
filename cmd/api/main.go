@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -35,7 +36,7 @@ func main() {
 
 	// 1. CONF: Configure the application
 	cfg := config.Load()
-	addr := ":" + cfg.Port
+	addr := "127.0.0.1:" + cfg.Port
 
 	// 2. DB: Connect to PostgreSQL
 	//    DSN: Data Source Name
@@ -118,8 +119,8 @@ func main() {
 	//    Output: 201 Created JSON(Book) OR 400 JSON(Error)
 	mux.HandleFunc("POST /api/books", func(w http.ResponseWriter, r *http.Request) {
 		var book models.Book
-		// 1. Decode JSON payload
-		if err := json.NewDecoder(r.Body).Decode(&book); err != nil {
+		// 1. Decode one bounded JSON object.
+		if err := decodeBookRequest(w, r, &book); err != nil {
 			http.Error(w, "Invalid JSON payload", http.StatusBadRequest)
 			return
 		}
@@ -127,7 +128,7 @@ func main() {
 		// 2. ⚓ VALIDATION: Guard Clauses
 		//    Check for errors early and return.
 		if err := book.Validate(); err != nil {
-			http.Error(w, fmt.Sprintf(`{"error": "%s"}`, err.Error()), http.StatusBadRequest)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
@@ -158,7 +159,7 @@ func main() {
 	//    Run server in a separate goroutine so we can listen for signals.
 	go func() {
 		fmt.Printf("--------------------------------------------------\n")
-		fmt.Printf("🐹 Gopher Shop API is running on http://localhost%s\n", addr)
+		fmt.Printf("🐹 Gopher Shop API is running on http://%s\n", addr)
 		fmt.Printf("--------------------------------------------------\n")
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatalf("Server failed to start: %v", err)
@@ -185,4 +186,19 @@ func main() {
 	}
 
 	log.Println("Server exiting")
+}
+
+// decodeBookRequest rejects unknown fields and trailing JSON values.
+func decodeBookRequest(w http.ResponseWriter, r *http.Request, book *models.Book) error {
+	r.Body = http.MaxBytesReader(w, r.Body, 64<<10)
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+	if err := decoder.Decode(book); err != nil {
+		return err
+	}
+	var extra any
+	if err := decoder.Decode(&extra); err != io.EOF {
+		return errors.New("expected a single JSON object")
+	}
+	return nil
 }

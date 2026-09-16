@@ -63,8 +63,8 @@ Arrays are ordered lists (1st, 2nd, 3rd).
 
 ```go
 // [Key] -> Value
-menu := make(map[string]float64)
-menu["Coffee"] = 2.50
+menu := make(map[string]int64)
+menu["Coffee"] = 250 // USD cents
 ```
 
 *Metaphor*: A Coat Check. You give a ticket (Key), you get the coat (Value).

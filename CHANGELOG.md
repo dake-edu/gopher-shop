@@ -60,3 +60,12 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Database connection port mismatch (`5432` -> `5442`).
 - Dynamic footer year in documentation.
+
+## 2026-09-16 — Book 0.5.1 self-study audit
+
+- Clarified chapter transitions, prerequisites, retrieval practice, and draft scope.
+- Preserved title validation through the catalog; rejected Unicode line separators.
+- Added incremental defer examples, reader code ZIP, and source freshness validation.
+- Corrected earlier course syntax, claims, navigation, and local database setup.
+- Fixed demo IDs, input validation, checkout form routing, shared-state access, and misleading payment UI.
+- See `book/editorial/audit-2026-09-16.md` for verification and limits.

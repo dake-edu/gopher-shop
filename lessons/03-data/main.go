@@ -14,7 +14,7 @@ import (
 type Book struct {
 	Title  string
 	Author string
-	Price  float64 // Why float64? Go's standard for decimal numbers (double precision).
+	Price  float64 // Why float64? Legacy display-only example: approximate binary floating point; use integer minor units and currency for money calculations.
 }
 
 // 2. The Shelf (Slice)

@@ -24,4 +24,4 @@ type Parcel struct {
 }
 ```
 
-We will build this service from scratch, mimicking a real "Greenfield" project in a big company.
+This page is an earlier design sketch, not an implemented checkpoint. Use [the optional GoTracker exercise](05-gotracker.md) for scope and acceptance criteria. Physical delivery is not required by the digital-book project.

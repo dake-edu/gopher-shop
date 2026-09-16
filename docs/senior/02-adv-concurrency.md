@@ -11,7 +11,19 @@ Now, let's learn how to orchestrate thousands of Goroutines without crashing the
 2.  **Fan-In**: Collect all the results into a single channel to save them.
 
 ### The Code
+Create a separate module and save this complete program as `main.go`. Run `go run .`; expect the squares 1, 4, 9, 16, 25, in no guaranteed order. This finite example has no early consumer exit: if you add one, workers need cancellation so they cannot remain blocked sending.
+
 ```go
+package main
+
+import "fmt"
+
+func worker(in <-chan int, out chan<- int) {
+    for n := range in {
+        out <- n * n
+    }
+}
+
 func main() {
     work := []int{1, 2, 3, 4, 5}
     in := make(chan int)
@@ -19,7 +31,7 @@ func main() {
 
     // Fan-Out (Launch Workers)
     for i := 0; i < 3; i++ {
-        go worker(i, in, out)
+        go worker(in, out)
     }
 
     // Feed the workers
@@ -42,6 +54,8 @@ func main() {
 What if a worker gets stuck? Do we wait forever?
 No. **Professionals set deadlines.**
 
+Cancellation is cooperative: work must observe the context. SQL drivers differ in cancellation support; a deadline does not prove rollback of an accepted operation. The following is a fragment inside a function with an initialized `db` and imports `context`, `time`, and `fmt`.
+
 The `context` package allows you to carry:
 1.  **Deadlines**: "Stop after 5 seconds."
 2.  **Cancellation Signal**: "Stop now, the user cancelled."
@@ -51,10 +65,13 @@ The `context` package allows you to carry:
 ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 defer cancel()
 
-result, err := db.QueryContext(ctx, "SELECT * FROM huge_table")
+rows, err := db.QueryContext(ctx, "SELECT * FROM huge_table")
 if err != nil {
-    fmt.Println("Query took too long!", err)
+    fmt.Println("Query failed:", err) // Not every error is a timeout.
+    return
 }
+defer rows.Close()
+// Process rows with Next and Scan; then check rows.Err().
 ```
 
 ## 3. Visual Signal (The Traffic Control) 🚦
@@ -86,7 +103,7 @@ graph TD
     
     subgraph Context ["Context (The Manager)"]
         Timer{"⏱️ Timeout?"}
-        Timer -- "Yes" --> Abort["🛑 Stop Everyone"]
+        Timer -- "Yes" --> Abort["🛑 Signal cancellation"]
         Timer -- "No" --> Continue["✅ Keep Working"]
     end
     

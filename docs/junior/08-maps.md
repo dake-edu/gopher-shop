@@ -13,7 +13,7 @@ Imagine a coat check at a theater.
 3.  Later, you give back ticket #123.
 4.  The attendant instantly finds your specific coat (The **Value**).
 
-They don't search all coats. They go straight to hook #123. That is $O(1)$ complexity (Instant speed).
+They don't search all coats. They go straight to hook #123. Hash lookup has expected constant-time behavior under typical assumptions; it is not instantaneous and hashing a key has a cost. The language does not promise a fixed operation time.
 
 ## 8.2 Syntax
 ```go

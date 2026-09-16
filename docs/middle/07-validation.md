@@ -1,7 +1,7 @@
 # Chapter 07: Validation
 
 ## 1 Errors as Values
-In Java or Python, if validation fails, you **Throw an Exception**. The program explodes, and you hope someone catches the debris.
+Java and Python often report validation failures with exceptions that callers can handle. Go commonly returns an error value.
 In Go, an error is just a value, like an integer or a string. We pass it back politely.
 
 ### Comparison: Error Handling
@@ -16,9 +16,9 @@ def check(price):
 ```go
 func check(price int) error {
     if price < 0 {
-        return errors.New("Invalid Price") # Polite Return
+        return errors.New("Invalid Price") // Return an error value
     }
-    return nil # No error
+    return nil // No error
 }
 ```
 
@@ -38,7 +38,7 @@ if title == "" {
 3.  **Returns**: An interface called `error`. (It's basically just an object with an `Error() string` method).
 
 ## 3 Why "No Exceptions"?
-Go believes exceptions hide control flow. By forcing you to check `if err != nil`, your code becomes:
+Go does not force an error check. Explicit checks let your code become:
 - **Explicit**: You see exactly where things can go wrong.
 - **Reliable**: You handle the error right there, instead of bubbling it up 10 layers.
 
@@ -56,7 +56,7 @@ flowchart LR
     Gate -- "Valid" --> Logic["🧠 Business Logic"]
     Logic --> DB[("🗄️ Database")]
     
-    style Gate fill:#ffcccc,stroke:#r00
+    style Gate fill:#ffcccc,stroke:#f00
     style DB fill:#ccffcc,stroke:#0f0
 ```
 
@@ -69,6 +69,6 @@ flowchart LR
 ```
 
 ::: details 🎓 Knowledge Check: Why doesn't Go use "Exceptions" (try/catch)?
-**Answer**: Go prefers **Errors as Values**. Exceptions hide control flow (you don't know where they might explode). Returning an error forces you to handle it explicitly (`if err != nil`), making code safer and more readable.
+**Answer**: Go prefers **Errors as Values**. Exceptions hide control flow (you don't know where they might explode). Returning an error makes the failure available to the caller. The caller still has to check it, handle it, or return it with context.
 :::
 

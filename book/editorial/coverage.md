@@ -15,10 +15,10 @@
 | Структуры, методы, указатели, embedding | struct.md, pointers.md, Gopher 3 | 8, 18 | Структуры, методы и указатели написаны; embedding — глава 18 |
 | errors.Is/As, wrapping, defer, panic/recover | errors.md, logs.md, Gopher 4/6 | 9, 29 | errors, wrapping, Join и defer написаны; panic/recover — дальнейший разбор |
 | Пакеты, экспорт, модули, workspaces, Git | packages.md, git.md, github.md | 10, 39 | Запланировано |
-| Замыкания и функции как значения | middleware.md | 11, 18 | Добавить явное объяснение до middleware |
+| Замыкания и функции как значения | middleware.md | 9, 11, 18 | В главе 9 три исполняемых промежуточных опыта; затем углубление для middleware |
 | HTTP, маршруты, заголовки, таймауты | http.md, routes.md, Gopher 9 | 11 | Запланировано |
 | Шаблоны, статика, формы | templates.md, static.md, forms.md | 12–13 | Запланировано |
-| SQL, ограничения, транзакции, пул | sqlone.md, sqljoin.md, tx.md, Gopher 12 | 15–17, 21 | Запланировано |
+| Постоянное хранение, SQL как дополнительная ветка | sqlone.md, sqljoin.md, tx.md, Gopher 12 | 15–17, 21 | Файловый каталог — основной первый шаг; гарантии хранения заказов требуют прототипа до главы 21 |
 | Интерфейсы, method sets, typed nil, assertions | interface.md, Gopher 11 | 18 | Запланировано |
 | Пользователи, сессии, CSRF, XSS, права | passwords.md, sessions.md, csrf.md, perms.md | 19–20 | Запланировано |
 | Заказ, деньги, оплата, право скачивания | Gopher orders-service недостаточен | 21–28 | Спроектировать и написать заново |

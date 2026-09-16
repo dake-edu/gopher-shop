@@ -10,12 +10,12 @@ Go is a compiled language. You need the "Compiler" to turn your text code into a
   ```bash
   go version
   ```
-  You should see something like `go version go1.21...`.
+  You should see something like `go version go1.27.1 ...` (the book’s verification baseline; the platform suffix varies).
 
 ## 2. The Code Editor (VS Code)
 We recommend **Visual Studio Code (VS Code)**. It is free and powerful.
 1. Download [VS Code](https://code.visualstudio.com/).
-2. **Crucial Step**: Install the **Go Extension** by the Go Team at Google.
+2. **Optional editor integration**: Install the **Go Extension** by the Go Team at Google.
    - Click the "Extensions" box on the left sidebar.
    - Search for "Go".
    - Install the one with the blue Gopher icon.
@@ -31,13 +31,13 @@ This creates a `go.mod` file. Think of it as the "Passport" for your project. It
 go mod init github.com/myname/myproject
 ```
 
-### B. `go run main.go`
+### B. `go run .`
 **"Test Run"**
-This compiles your code in a temporary folder and runs it immediately. We use this 99% of the time while developing.
+This compiles your code in a temporary folder and runs it immediately. The dot includes all ordinary Go files in the current package. Passing only `main.go` omits other source files.
 
 ### C. `go build`
 **"Manufacture"**
-This creates a permanent binary file (executable). You can send this file to a friend, and they can run it **without** having Go installed!
+This creates a permanent binary file (executable). You can send this file to a friend, and they can run it **without** having Go installed, provided the operating system, architecture, and runtime dependencies match.
 
 ---
 **Next**: Now that the shop is open, let's learn how to read the blueprints.

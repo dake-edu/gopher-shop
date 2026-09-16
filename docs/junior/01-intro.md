@@ -1,66 +1,13 @@
-# Chapter 01: The Story of Go
+# Chapter 01: Why Go?
 
-Before we write a single line of code, we must understand **why** this language exists.
+Go was designed to make large software projects easier to build and maintain. Its tools include a compiler, formatter, tests, and a standard library for networking. See the [Go FAQ](https://go.dev/doc/faq) for the language designers’ account.
 
-## The Origin (Google, 2007)
-It was September 2007. Google had a problem.
-They were building massive systems with thousands of servers using **C++**.
-- **C++ was fast**, but extremely complex and slow to compile.
-- **Python was easy**, but too slow for heavy systems.
-- **Java was popular**, but required a heavy virtual machine (JVM).
+Compilation does not guarantee that a particular application is faster than one written in another language. Measure the same workload, inputs, environment, and resource limits before comparing performance. Build time also depends on project size and cached work.
 
-Three legends sat down to solve this:
-1. **Ken Thompson** (Inventor of UNIX and B language)
-2. **Rob Pike** (UNIX legend, UTF-8 creator)
-3. **Robert Griesemer** (Java HotSpot JVM compiler)
+Our goal is concrete: read a small program, predict its output, change it, and explain the result. Goroutines will later let us coordinate concurrent work; they still need memory, synchronization, and limits.
 
-They asked: *"What if we could have the **speed of C** but the **simplicity of Python**?"*
-Thus, **Go** (or Golang) was born.
+## First checkpoint
 
-## Why Go?
-Go was built for the **Real World**, not for academic theory.
+Describe a book using a title, a price with a currency, and a publication state. Which of these would change after editing the title? Which would change after a discount? We will turn these questions into data and tests.
 
-1. **Simplicity**: Go has only 25 keywords (C++ has 90+). There is strictly one way to do things.
-2. **Performance**: It compiles to native machine code. No Virtual Machine.
-3. **Concurrency**: It was built for the cloud. It handles thousands of tasks at once effortlessly using "Goroutines".
-
-## Comparison with Others
-
-| Feature | Python | Java | C++ | **Go** |
-| :--- | :--- | :--- | :--- | :--- |
-| **Speed** | Slow (Interpreted) | Medium (JVM) | Fast (Native) | **Fast (Native)** |
-| **Simplicity** | Very High | Low (Verbose) | Very Low (Complex) | **High** |
-| **Startup Time** | Fast | Slow | Fast | **Fast** |
-| **Build Time** | N/A | Slow | Very Slow | **Instant** |
-| **Memory** | Manual/Auto | Heavy (JVM) | Manual (Danger!) | **Garbage Collected** |
-
-## Conclusion
-You are learning Go because you want to build **professional, high-performance systems** that are easy to maintain. You are joining the ranks of engineers at Google, Netflix, Uber, and Twitch.
-
-::: details 🎓 Knowledge Check: Why is Go compared to a "Fast Car" that is easy to drive?
-**Answer**: Go combines the speed of C++ (Raw Power) with the simplicity of Python (Easy Handling). It hides complex memory management but runs extremely fast.
-:::
-
-## 4 The Visual Signal (The Hybrid Car)
-**Concept**: Performance + Simplicity.
-**Signal**: A Formula 1 Engine inside a Daily Driver.
-
-```mermaid
-graph TD
-    subgraph Legacy ["Legacy (C++)"]
-        Engine["🏎️ F1 Engine (Raw Speed)"]
-    end
-    
-    subgraph Modern ["Modern (Python)"]
-        Steering["🚗 Power Steering (Easy Control)"]
-    end
-    
-    subgraph Result ["Go (The Result)"]
-        Go["🐹 Go Language"]
-        Go --> Engine
-        Go --> Steering
-    end
-    
-    style Go fill:#ccffcc,stroke:#0f0
-```
-
+This is the earlier course. The Russian book and independently executable chapter checkpoints are in [book/](https://github.com/dake-edu/gopher-shop/tree/main/book). The two chapter sequences are different.

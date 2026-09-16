@@ -4,8 +4,7 @@
 **Concept**: In Go, errors are not "Exceptions" that crash your program. They are just **values**, like a string or an integer. Generally, they are the polite refusal of a function to do what you asked.
 
 ## 1. The Logic of "Maybe"
-In many languages, if something goes wrong, the program *explodes* (Exception) unless you catch it.
-In Go, functions simply return two things:
+For recoverable failures, many Go functions return a result and an error. Not every function has this signature, and Go also has panics. Our example returns:
 1.  The Result (if successful)
 2.  The Error (if failed)
 
@@ -44,13 +43,9 @@ Imagine a railroad switch.
 
 Every time you call a function that returns an error, you are at a switch. You MUST decide where the train goes.
 
-## 4. Why is this better? (The Guard Rail Philosophy)
-Imagine a highway on a cliff.
--   **Exceptions** are like driving without guard rails. If you make a mistake (divide by zero), you fall off the cliff (crash) unless someone put a net at the bottom (try/catch).
--   **Go's Errors** are **Guard Rails**.
-    -   Every time the road turns (a function call), there is a visible barrier.
-    -   You *must* acknowledge the barrier (`if err != nil`) to turn the wheel.
-    -   It forces you to drive safely at every single turn, rather than hoping for a net at the bottom.
+## 4. What this pattern guarantees
+
+Returning an error makes the failure path visible. Go does not force callers to check every returned error. You must decide whether to handle it or return it with context. Exceptions in other languages can also be handled safely; this chapter teaches the Go convention, not a guarantee that one language prevents mistakes.
 
 ## Checkpoint
 -   Always check `if err != nil`.

@@ -2,8 +2,7 @@
 
 ## 1 The "Twelve-Factor" Philosophy
 Why do we do this?
-Hardcoding values (like `port = 8080`) is the mark of a beginner.
-Professional apps follow the **12-Factor App** methodology.
+Deployment-specific values should be configurable. A default port can be a useful constant. Environment variables, flags, and configuration files are all possible interfaces; choose and document precedence and validation. The **12-Factor App** is one deployment methodology.
 **Factor III**: "Store config in the environment".
 
 ### Comparison: Configuration

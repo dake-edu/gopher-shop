@@ -1,6 +1,6 @@
 # Chapter 12: CI/CD Workflow
 
-We configure the robot using **YAML** (Yet Another Markup Language).
+We configure the robot using **YAML** (YAML Ain’t Markup Language).
 It's just key-value pairs, like JSON but without brackets.
 
 ## 1 Anatomy of a Workflow File
@@ -14,10 +14,10 @@ jobs:
   test:                       # 3. The Job Name
     runs-on: ubuntu-latest    # 4. The Computer (Runner)
     steps:
-      - uses: actions/checkout@v3  # 5. Step: Download Code
-      - uses: actions/setup-go@v4  # 6. Step: Install Go
+      - uses: actions/checkout@v4  # 5. Step: Download Code
+      - uses: actions/setup-go@v5  # 6. Step: Install Go
         with:
-          go-version: '1.21'
+          go-version: '1.27.1'
       - name: Test
         run: go test ./...    # 7. Step: Run Command
 ```
@@ -33,7 +33,7 @@ jobs:
 ## 2 "Green Build"
 If `go test` exits with code `0` (Success), the build is Green.
 If it exits with `1` (Error), the build is Red, and GitHub turns the Merge Button grey (if configured).
-This saves you from breaking the Main branch.
+Required status checks can block merging a failing change. Passing tests only establish the behaviors covered by those tests. Root `go test ./...` does not traverse the book’s nested modules; `.github/workflows/book-check.yml` checks them separately.
 
 ## 3 The Identity Card (Favicon)
 You might notice a small image in your browser tab. That is the **Favicon**.

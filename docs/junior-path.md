@@ -35,7 +35,7 @@ In this tier, we do not build the shop yet. We build the **Tools** to build the 
 7.  **[Validation](./middle/07-validation.md)**: Guarding Input.
 
 ### Phase 3: Level 3 (The Professional)
-*The Polish. We make it production-ready.*
+*Further engineering topics for the teaching application.*
 1.  **[Concurrency](./middle/08-concurrency.md)**: Goroutines & Worker Pools.
 2.  **[Postgres](./middle/09-postgres.md)**: Real Database.
 3.  **[Middleware](./middle/10-middleware.md)**: Logging & Auth.
@@ -44,4 +44,4 @@ In this tier, we do not build the shop yet. We build the **Tools** to build the 
 6.  **[Assembly](./middle/13-assembly.md)**: Graduation.
 
 ## The Goal
-By the end of this path, you will have built a complete, interactive E-Commerce store.
+This path introduces a teaching catalog and API. It does not yet implement a complete purchase, verified payment, or protected download. The new Russian book in `book/` has its own chapter sequence.

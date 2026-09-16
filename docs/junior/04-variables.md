@@ -39,7 +39,7 @@ Use this when:
 ```go
 username := "Gopher"
 ```
-- **`:=`**: The "Walrus Operator".
+- **`:=`**: Short variable declaration.
 - It means: *"Create the box, look at the value on the right ("Gopher"), guess the type (String), and put it in."*
 - **Constraint**: You can ONLY use this *inside* functions.
 
@@ -52,15 +52,15 @@ username := "Gopher"
 > *   I use `:=` (short declaration) for local variables where the type is obvious or inferred, to keep code concise.
 > *   I use `var` when I need to declare a variable without initializing it immediately (zero value), or when specifically initializing package-level variables where `:=` is not allowed."
 
-## 4.3 The Zero Value (No "Nulls")
-In many languages (Java, Python), if you create a variable but don't give it a value, it becomes `null` or `None`. This causes equivalent of "The Box is Missing", leading to crashes.
+## 4.3 The Zero Value
+Go initializes declared variables to a zero value. Some types have `nil` as their zero value, so initialization does not make every operation safe: dereferencing a nil pointer or writing to a nil map fails. Java local variables require definite assignment; Python names must be bound before use. Neither is accurately described as automatically becoming `null` or `None`.
 
-**Go is safer.** In Go, variables **always** have a value. If you don't provide one, Go gives it a "Zero Value".
+In Go, declared variables have a value. If you don't provide one, Go gives it a "Zero Value".
 
 | Type | Zero Value | Meaning |
 | :--- | :--- | :--- |
 | `int` | `0` | Empty Count |
-| `float64` | `0.0` | Empty Account |
+| `float64` | `0.0` | Approximate zero |
 | `bool` | `false` | Default Off |
 | `string` | `""` | Blank Paper |
 | `pointer` | `nil` | No Address |
@@ -77,7 +77,8 @@ Let's map Go types to real-world objects in our Gopher Shop.
 | Go Type | Shop Concept | Example |
 | :--- | :--- | :--- |
 | `int` | **Inventory Count** | `var stock int = 50` |
-| `float64` | **Price** | `var price float64 = 19.99` |
+| `int64` | **Price in minor units** | `var priceMinor int64 = 1999` (USD cents) |
+| `float64` | **Approximate measurement** | `var weight float64 = 1.25` |
 | `string` | **Book Title** | `var title string = "Go Guide"` |
 | `bool` | **Is On Sale?** | `var onSale bool = true` |
 

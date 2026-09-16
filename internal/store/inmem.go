@@ -23,7 +23,7 @@ func NewInMemoryBookStore() *InMemoryBookStore {
 			{ID: 2, Title: "Concurrency in Go", Author: "Katherine Cox-Buday", Price: 30.00, Category: "professional", ImageURL: "https://covers.openlibrary.org/b/isbn/9781491941959-L.jpg"},
 			{ID: 3, Title: "Go Web Programming", Author: "Sau Sheong Chang", Price: 35.00, Category: "apprentice", ImageURL: "https://covers.openlibrary.org/b/isbn/9781617292569-L.jpg"},
 		},
-		nextID: 3,
+		nextID: 4,
 	}
 }
 

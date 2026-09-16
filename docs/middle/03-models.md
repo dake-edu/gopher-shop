@@ -27,7 +27,7 @@ type Book struct {
 | **Visibility** | `public`/`private` | `_` convention | **Capitalized (Public)** |
 
 ## 2 Structs vs Pointers (The Blueprint vs The House)
-**Concept**: Value types vs Reference types.
+**Concept**: Values and pointers. Both are copied when assigned or passed to a function. A copied pointer can still point to the same object.
 **Signal**: A Photocopy vs The Shared Document.
 
 ```mermaid
@@ -36,7 +36,7 @@ graph TD
         Original["📄 Document A"]
         Copy["📄 Document B (Copy)"]
         Original -- "Copying" --> Copy
-        Note["If I edit Copy, Original is UNCHANGED"]
+        Note["Replacing a scalar field of Copy leaves Original unchanged"]
     end
 
     subgraph Pointer_Type ["Pointer (*Struct)"]
@@ -49,7 +49,9 @@ graph TD
     end
 ```
 
-## 2 Tags (Reflecting Instructions)
+A struct copy is shallow: fields containing slices, maps, or pointers may still refer to shared data. Mutating that data differs from replacing the copied field. The `float64` price above reflects the legacy API; the new book uses integer minor units plus currency and checks arithmetic bounds.
+
+## 3 Tags (Reflecting Instructions)
 What is that stuff in backticks? `` `json:"id"` ``?
 
 This is **Metadata**.
@@ -57,7 +59,7 @@ Imagine you are handing this struct to a specialized robot called the "JSON Enco
 The robot reads the tag:
 > *"Oh, the human called this field `ID` in Go, but when I turn it into text for the browser, I should label it `id` (lowercase)."*
 
-If you omit tags, the JSON output will look like `{"ID": "123"}`, which is not standard for web APIs (which prefer `snake_case` or `camelCase`).
+If you omit tags, the JSON output will look like `{"ID": "123"}`, which is valid JSON. Choose field names as part of the API contract; JSON itself does not require a naming convention.
 
 ::: details 🎓 Knowledge Check: What is the difference between `ID` and `id` in a struct field?
 **Answer**: 

@@ -33,27 +33,21 @@ on Pooling (`sql.Open`)
 ```go
 db, err := sql.Open("postgres", "user=dake dbname=shop...")
 ```
-**Crucial Concept**: `sql.Open` does NOT establish a connection.
+**Crucial Concept**: `sql.Open` may only validate arguments without connecting. Use `PingContext` with a deadline to check connectivity and handle its error.
 It prepares a **Connection Pool**.
 - It opens connections only when needed.
 - It keeps them open for reuse (Performance).
-- It handles network drops automatically.
+- Connection management does not make failed transactions safe to retry automatically. The outcome may need reconciliation.
 
-Comparison:
-- **Python/Django**: Often opens a new connection per request (Slow).
-- **Go**: Maintains a pool of long-lived connections (Fast).
-
-::: details 🎓 Knowledge Check: Does `sql.Open` connect to the database immediately?
-**Answer**: **No!** It only initializes the **Connection Pool** and config. The actual connection happens lazily when you first try to query the DB (e.g., `db.Ping()`).
-:::
+See [database/sql](https://pkg.go.dev/database/sql): pooling and cancellation depend partly on the driver. Always check query errors, close successful `Rows`, and check `Rows.Err()` after iteration.
 
 ## 4 The Visual Signal (The Bank Vault)
 **Concept**: Persistent Database (Postgres).
-**Signal**: A heavy Bank Vault. It takes longer to open than a whiteboard, but if the building burns down, the gold (Data) is safe inside.
+**Signal**: A heavy Bank Vault. It takes longer to open than a whiteboard, but durability is subject to storage and configuration. Backups and tested recovery are needed for disk loss or accidental deletion.
 
 ```mermaid
 graph TD
     User --> |Write| Vault[("🏦 Steel Vault (Postgres)")]
-    Fire["🔥 Fire (Server Crash)"] -.-> |Cannot Destroy| Vault
+    Fire["🔥 Fire (Server Crash)"] -.-> |Requires backup and recovery| Vault
 ```
 

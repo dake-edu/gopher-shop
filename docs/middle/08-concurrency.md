@@ -5,7 +5,7 @@
 Up until now, your code did one thing at a time. It was a single worker.
 But real shops start doing many things at once. One clerk checks credentials, another fetches the product, a third calculates shipping.
 
-In Go, we don't have "Threads" (which are heavy, like 2MB each). We have **Goroutines** (which are light, like 2KB each). You can launch millions of them.
+The Go runtime schedules goroutines on operating-system threads. Goroutine stacks can grow; memory costs depend on the runtime and workload. Bound concurrent work according to measured CPU, memory, and downstream limits.
 
 ## 1 The Worker (Goroutine)
 To start a task in the background, just put `go` in front of it.
@@ -63,7 +63,7 @@ flowchart TD
     end
 ```
 
-1.  **Handler**: Puts order in the queue and returns "Success" instantly (User is happy).
+1.  **Handler**: May report that a demonstration job was queued. A channel in RAM loses pending jobs on process exit; enqueueing is not proof of payment, persisted order, or delivery. A real order must be stored durably before acknowledgement, with retry and deduplication rules.
 2.  **Queue**: Holds orders until the Worker is ready (Buffer).
 3.  **Worker**: Processes orders one by one (or in a pool).
 
@@ -82,5 +82,5 @@ mu.Unlock()
 ```
 
 ::: details 🎓 Knowledge Check: What is a Race Condition?
-**Answer**: A bug where two threads/goroutines try to write to the same memory at the same time. The result is unpredictable garbage. Fixing it requires synchronization (Mutex or Channels).
+**Answer**: A data race involves unsynchronized accesses to the same memory with at least one write; a read racing with a write also counts. Protect all relevant accesses with synchronization. A higher-level race condition can exist even without a data race, such as separately checking and then changing a balance.
 :::

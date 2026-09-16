@@ -20,7 +20,7 @@ features:
   - title: Visual Anchor System
     details: Learn complex concepts through memorable visual metaphors like "The Onion" and "The Quality Gate".
   - title: Clean Architecture
-    details: Build a production-ready Monolith using Repository Pattern, Middleware, and Dependency Injection.
+    details: Study a teaching monolith, its boundaries, and tests. The complete store and the new Russian book remain in development.
   - title: Test-Driven Mindset
     details: Understand the Testing Pyramid and treat tests as "Living Documentation".
 ---

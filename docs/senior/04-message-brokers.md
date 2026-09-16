@@ -12,7 +12,7 @@ What if Service B is down? Service A fails. The user sees an error.
 2.  **Broker (Kafka)**: Stores the letter safely.
 3.  **Consumer (Tracker)**: "Oh, a new order? I'll ship it." (Picks up letter when ready).
 
-If the Consumer is sleeping, the letter stays in the mailbox. No data is lost.
+Records remain subject to retention and storage settings. Durability depends on producer acknowledgements, replication, and failures. A broker does not atomically save the shop order and its event; that boundary needs a transactional outbox or another explicit protocol.
 
 ### The Topic (The Mailbox)
 In Kafka, messages are organized into **Topics**.
@@ -20,14 +20,18 @@ In Kafka, messages are organized into **Topics**.
 -   `user.registered`
 -   `payment.failed`
 
-### The Code (Sarama Library)
+### Adapter fragments (Sarama Library)
+
+These fragments require a configured producer/consumer and versioned dependency; they are not standalone programs. Check publish errors and only commit consumed progress after the business transaction succeeds.
 ```go
 // Producer
 msg := &sarama.ProducerMessage{
     Topic: "orders.created",
     Value: sarama.StringEncoder(`{"order_id": 123}`),
 }
-producer.SendMessage(msg)
+if _, _, err := producer.SendMessage(msg); err != nil {
+    return err
+}
 ```
 
 ```go
@@ -53,7 +57,7 @@ sequenceDiagram
 
     Note over P: User clicks "Buy"
     P->>K: Publish "OrderCreated"
-    P-->>P: Return "Success" to User (Fast!)
+    P-->>P: Acknowledge persisted order, not completed payment
     
     Note over K: ...Time Passes...
     
@@ -63,11 +67,12 @@ sequenceDiagram
 ```
 
 ## 3. At-Least-Once Delivery
-Kafka guarantees the message will be delivered **at least once**.
+At-least-once processing requires appropriate producer and consumer behavior, including committing progress after processing. It is not unconditional. See [Kafka delivery semantics](https://kafka.apache.org/41/design/design/).
 It might be delivered **twice** (network retries).
 Your Consumer must be **Idempotent**.
 *   **Bad**: `balance = balance - 10` (Run twice -> -20).
-*   **Good**: `if !processed(msg.ID) { balance = balance - 10 }`.
+*   **Also unsafe**: a separate `if !processed(msg.ID)` check and balance update can race or be interrupted by a crash.
+*   **Required contract**: atomically insert a unique event ID and apply the balance change in the same database transaction. On duplicate ID, do not apply it again. For external payments, use the provider’s idempotency mechanism and reconcile unknown outcomes; a local transaction cannot roll back an external charge.
 
 ## 4. Why use it?
 -   **Decoupling**: Services don't need to know about each other.

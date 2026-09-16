@@ -2,7 +2,7 @@
 
 > **"If you can't build a monolith, what makes you think you can build microservices?"** - Kelsey Hightower
 
-Congratulations. You have mastered the Monolith. You can build a single, powerful binary that does everything.
+The previous chapters introduced a teaching monolith. Before attempting this optional extension, verify that you can run it, explain its data flow, and test its failure paths. You can build a single, powerful binary that does everything.
 But what happens when your shop gets too big? What if the "User Management" team wants to release every day, but the "Billing" team only releases once a month?
 
 Welcome to **Microservices**.
@@ -18,7 +18,7 @@ Everything is in one big building.
 A collection of small, independent buildings connected by roads (Network).
 -   **Pros**:
     -   **Independence**: The Fire Station can upgrade its trucks without asking the Library.
-    -   **Resilience**: If the Bakery burns down, the Bank is still open.
+    -   **Resilience**: Separate processes can isolate some failures, but synchronous dependencies, shared infrastructure, and retries can still cause cascading failures.
     -   **Scaling**: If lots of people want bread, we just build more Bakeries (not more Libraries).
 -   **Cons**:
     -   **Network**: Driving between buildings takes time (Latency).
@@ -29,9 +29,11 @@ A collection of small, independent buildings connected by roads (Network).
 **Do NOT start with Microservices.**
 Start with a Modular Monolith (what we built in Level 2).
 Switch only when:
-1.  **Scale**: You have >50 developers working on the same code.
-2.  **Traffic**: One part of your app receives 100x more traffic than the rest.
-3.  **Complexity**: The domain is too big to fit in one brain.
+1. Independent deployment solves an observed team constraint.
+2. A measured bottleneck benefits from separate scaling.
+3. Ownership boundaries and operational capacity justify network, consistency, and deployment costs.
+
+There is no universal developer-count or traffic-ratio threshold. A modular monolith can also have clear ownership and scale horizontally.
 
 ## 3. The Visual Signal (The City States) 🗺️
 **Concept**: Distributed Systems & Autonomy.
@@ -68,7 +70,7 @@ graph TD
 
 ### The Golden Rule of Data
 In a Monolith, everyone shares the database.
-In Microservices, **Database Sharing is Illegal**.
+In Microservices, **each service should have an explicit data ownership boundary**. Sharing tables couples deployment and schema changes; using the same database server does not by itself determine the architecture.
 *   The User Service owns the User DB.
 *   If the Billing Service wants user data, it **MUST ask the User Service** (via API). It cannot touch the User DB directly.
 *   *If you share the database, you still have a Monolith (a "Distributed Monolith"), but with network latency.*

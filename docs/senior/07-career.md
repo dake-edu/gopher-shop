@@ -2,9 +2,7 @@
 
 > **"Show, don't tell."**
 
-You are now a Senior-level candidate.
-You know Go, Architecture, Database, Testing, Microservices, and Orchestration.
-How do you prove it?
+Reading these chapters does not establish a job level. Use the project to demonstrate specific working features, tests, and decisions. Describe only what you actually implemented and measured.
 
 ## 1. The Resume Defense
 Stop writing "I know Go".
@@ -32,18 +30,18 @@ graph LR
     
     subgraph Portfolio ["Your GitHub"]
         P1["📂 Layered Architecture"]
-        P2["📂 Unit Tests (100% Coverage)"]
+        P2["📂 Behavior Tests and Failure Cases"]
         P3["📂 Docker Compose"]
         P4["📂 Microservices Spec"]
     end
     
     Recruiter --> |Inspects| Portfolio
-    Portfolio --> |Proves| Job[🤝 Offer]
+    Portfolio --> |Supports discussion| Job[Interview]
 ```
 
 ## 4. The Interview Defense (Go Mafia Style)
 **Q: Why Go?**
-A: "Performance of C++, Simplicity of Python. Perfect for networked services."
+A: "Its standard networking library and tooling fit this project. Performance depends on the workload; I would demonstrate it with measurements."
 
 **Q: Why Microservices?**
 A: "To decouple scaling and failure domains. But only if the complexity is justified."
@@ -55,6 +53,6 @@ A: "To decouple implementation from behavior, enabling testing (Mocking) and fle
 
 ## Graduation 🎓
 You started as a Gopher in a Garage.
-You are now an Architect of Cities.
+Keep practicing with independently chosen requirements and explain the limits of your solution.
 
 **Go forth and build.**

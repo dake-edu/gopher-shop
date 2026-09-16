@@ -34,7 +34,7 @@ func Logging(next http.Handler) http.Handler {
     - This is the **Closure**. It captures the `next` variable from outside.
 4.  **`next.ServeHTTP(w, r)`**:
     - **Crucial**: This calls the original handler.
-    - If you forget this line, the request stops here. The User never gets a response.
+    - If you forget this line, the request stops here. The downstream handler is skipped. Middleware can intentionally send a response itself, such as 401. Returning without writing generally produces an empty 200 response.
 
 If `Transport` talks to `Service`, and `Service` talks to `Repository`... who checks if the user is logged in? Who measures speed?
 This is the **Middleware**.
@@ -45,9 +45,9 @@ When a request comes in, it has to drill through all the outer layers to reach t
 
 ```mermaid
 graph LR
-    Req((Request)) --> Auth[Auth Layer]
-    Auth --> Log[Log Layer]
-    Log --> Handler[Your Function]
+    Req((Request)) --> Log[Log Layer]
+    Log --> Auth[Auth Layer]
+    Auth --> Handler[Your Function]
 ```
 
 ### The Chain
@@ -61,6 +61,6 @@ When we wrap handlers: `Logging(Auth(HomeHandler))`
 6.  **Logging** finishes.
 
 ::: details 🎓 Knowledge Check: What happens if a middleware forgets to call `next.ServeHTTP(w, r)`?
-**Answer**: The request **stops** there! It never reaches the next middleware or your business logic. The user will likely see a blank screen or a timeout.
+**Answer**: The request **stops** there! It never reaches the next middleware or your business logic. If the middleware returns without writing, the server generally sends an empty 200 response. A timeout requires a separate blocking condition.
 :::
 
