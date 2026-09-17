@@ -6,7 +6,7 @@ func main() {
 	const currency = "KZT"
 	const minorPerUnit = 100
 	var priceMinor int64 = 249900
-	title := "Go: от первой строки до книжного магазина"
+	title := "Go: от первой строки до интернет-магазина"
 	published := false
 
 	fmt.Println(title)

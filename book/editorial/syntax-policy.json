@@ -214,5 +214,81 @@
   "CHAR": {
     "introduced_in": "06",
     "explanation": "Одинарные кавычки, литералы рун и разделители U+2028/U+2029."
+  },
+  "...": {
+    "introduced_in": "12",
+    "explanation": "Распаковка среза в аргументы append; копия каталога."
+  },
+  "&&": {
+    "introduced_in": "12",
+    "explanation": "Все условия должны быть истинны; короткое замыкание в тестах шаблона."
+  },
+  "else": {
+    "introduced_in": "13",
+    "explanation": "Ветка при ложном условии чтения cookie; } else { на одной строке."
+  },
+  ">=": {
+    "introduced_in": "15",
+    "explanation": "Включённая нижняя граница символа в ValidID."
+  },
+  "|": {
+    "introduced_in": "15",
+    "explanation": "Побитовое объединение флагов os.OpenFile, отличие от ||."
+  },
+  "+=": {
+    "introduced_in": "16",
+    "explanation": "dsn += suffix означает dsn = dsn + suffix; дополнение строки параметрами соединения."
+  },
+  "interface": {
+    "introduced_in": "18",
+    "explanation": "Контракт Catalog у потребителя web."
+  },
+  "switch": {
+    "introduced_in": "18",
+    "explanation": "Переключатель типов в опыте с typed nil."
+  },
+  "case": {
+    "introduced_in": "18",
+    "explanation": "Ветка конкретного динамического типа."
+  },
+  "default": {
+    "introduced_in": "18",
+    "explanation": "Ветка прочих типов."
+  },
+  "go": {
+    "introduced_in": "30",
+    "explanation": "Глава 30: горутины, каналы и select, закрытие сигнала, panic/recover в тесте уборки; -- уменьшает счётчик на один."
+  },
+  "chan": {
+    "introduced_in": "30",
+    "explanation": "Глава 30: горутины, каналы и select, закрытие сигнала, panic/recover в тесте уборки; -- уменьшает счётчик на один."
+  },
+  "select": {
+    "introduced_in": "30",
+    "explanation": "Глава 30: горутины, каналы и select, закрытие сигнала, panic/recover в тесте уборки; -- уменьшает счётчик на один."
+  },
+  "<-": {
+    "introduced_in": "30",
+    "explanation": "Глава 30: горутины, каналы и select, закрытие сигнала, panic/recover в тесте уборки; -- уменьшает счётчик на один."
+  },
+  "close": {
+    "introduced_in": "30",
+    "explanation": "Глава 30: горутины, каналы и select, закрытие сигнала, panic/recover в тесте уборки; -- уменьшает счётчик на один."
+  },
+  "panic": {
+    "introduced_in": "30",
+    "explanation": "Глава 30: горутины, каналы и select, закрытие сигнала, panic/recover в тесте уборки; -- уменьшает счётчик на один."
+  },
+  "recover": {
+    "introduced_in": "30",
+    "explanation": "Глава 30: горутины, каналы и select, закрытие сигнала, panic/recover в тесте уборки; -- уменьшает счётчик на один."
+  },
+  "--": {
+    "introduced_in": "30",
+    "explanation": "Глава 30: горутины, каналы и select, закрытие сигнала, panic/recover в тесте уборки; -- уменьшает счётчик на один."
+  },
+  "~": {
+    "introduced_in": "34",
+    "explanation": "Тильда в ограничении включает типы с указанным базовым представлением; | в ограничении — объединение множеств типов."
   }
 }

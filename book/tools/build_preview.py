@@ -22,18 +22,24 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, XPreformatted, Table, TableStyle, KeepTogether
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, XPreformatted, Table, TableStyle, KeepTogether, Image
 from reportlab.lib.enums import TA_LEFT
 from reportlab.graphics import renderPDF
 from reportlab.platypus import Flowable
 from diagrams import render_svg, drawing
 from highlighting import PALETTE, highlight_tree, css as highlighting_css
+from transitions import render_transitions
+from pdf_text import escaped_text
 from frontmatter import front_pages
+from screenshot_audit import audit as audit_screenshots
+from sample_boundary import audit as audit_boundary
 
 ROOT = Path(__file__).resolve().parents[1]
+audit_screenshots(ROOT)
+audit_boundary(ROOT)
 OUT = ROOT/'build/preview'
 OUT.mkdir(parents=True, exist_ok=True)
-WEB = OUT/'html'; WEB.mkdir(exist_ok=True)
+WEB = OUT/'html'
 META = json.loads((ROOT/'book.json').read_text())
 verification = json.loads((ROOT/'research/verification.json').read_text())
 current_sources = {
@@ -46,17 +52,22 @@ if verification.get('status') != 'passed' or verification.get('source_sha256') !
 
 TITLE = META['title']
 PUBLICATION = META['publication']
+COVER_NAME = Path(PUBLICATION['cover']).name
+COVER_MIME = {'.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.png':'image/png'}[Path(COVER_NAME).suffix.lower()]
+if WEB.exists(): shutil.rmtree(WEB)
+WEB.mkdir()
+
 FRONT = front_pages(META)
-EDITION = 'Рабочая редакция '+META['edition']+' · вступление и главы 1–'+str(max(int(c['id']) for c in META['chapters']))
+EDITION = 'Ознакомительный фрагмент '+META['edition']+' · вступление и главы 1–'+str(max(int(c['id']) for c in META['chapters']))
 CSS = '''@font-face{font-family:Noto;src:url(fonts/NotoSans-Regular.ttf)}
 @font-face{font-family:Noto;src:url(fonts/NotoSans-Bold.ttf);font-weight:700}
 @font-face{font-family:NotoMono;src:url(fonts/NotoSansMono-Regular.ttf)}
-:root{color-scheme:light}body{font-family:Noto,sans-serif;line-height:1.7;margin:auto;max-width:52rem;padding:1.5rem;color:#182f35;background:#ffffff}
+:root{color-scheme:light}*,*::before,*::after{box-sizing:border-box}body{overflow-wrap:anywhere;font-family:Noto,sans-serif;line-height:1.7;margin:auto;max-width:52rem;padding:1.5rem;color:#182f35;background:#ffffff}
 h1,h2,h3{line-height:1.25;color:#00758D}h1{font-size:2rem}h2{margin-top:2rem}
 a{color:#00758D;text-underline-offset:.15em}nav{border-bottom:1px solid #b9cdcb;padding-bottom:1rem;margin-bottom:2rem}
 pre{background:#ffffff;border:1px solid #DBD9D6;padding:1rem;border-left:3px solid #00ADD8;overflow:auto;line-height:1.5}
 code{font-family:NotoMono,monospace;font-size:.88em}pre code{font-size:.8rem}
-img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:.9em}td,th{padding:.55rem;border:1px solid #aabfbc;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+img{max-width:100%;height:auto}.figure-caption{font-size:.85em;color:#526669;margin-top:.4rem}table{border-collapse:collapse;width:100%;font-size:.9em}td,th{padding:.55rem;border:1px solid #aabfbc;text-align:left;vertical-align:top;overflow-wrap:anywhere}
 blockquote{margin-left:0;padding-left:1rem;border-left:3px solid #b08242}.status{color:#64543b;font-size:.9em}.skip{display:block}
 input{font:inherit;width:95%;padding:.5rem}li{margin-bottom:.5rem}
 
@@ -67,20 +78,26 @@ CSS += """
 .front-cover{max-width:42rem;padding:0 1rem;text-align:center}
 .front-cover .book-cover{display:block;width:100%;height:auto;margin:0 auto}
 .titlepage{text-align:center;max-width:42rem;padding:3rem 1.5rem}
-.titlepage .author{font-size:1.45rem;margin:0 0 5rem}
-.titlepage h1{font-size:2.5rem}.titlepage .subtitle{font-size:1.2rem}
-.titlepage .levels{margin-top:2rem}.titlepage .imprint{margin-top:5rem}
+.titlepage main{min-height:46rem;min-height:calc(100svh - 6rem);display:flex;flex-direction:column;gap:3rem}
+.titlepage .author{font-size:.725rem;margin:0}
+.titlepage .title-block{margin:auto 0}
+.titlepage h1{font-size:clamp(1.7rem,5vw,2.5rem)}.titlepage .subtitle{font-size:1.2rem}
+.titlepage .levels{margin-top:2rem}.titlepage .imprint{margin:0}
+@media(max-height:35rem){.titlepage main{min-height:40rem}}
 .copyright-page{max-width:42rem}.copyright-page p{font-size:.95rem}
 .front-nav{text-align:center;margin-top:2rem}
 """
+CSS += '\n.sample-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:1rem 0}.sample-actions a{display:inline-block;padding:.65rem 1rem;border-radius:.65rem;background:#006078;color:white;text-decoration:none}\n'
 (WEB/'book.css').write_text(CSS)
 shutil.copytree(ROOT/'assets/fonts', WEB/'fonts', dirs_exist_ok=True)
-shutil.copytree(ROOT/'assets/cover', WEB/'cover', dirs_exist_ok=True)
+(WEB/'cover').mkdir()
+shutil.copy2(ROOT/PUBLICATION['cover'], WEB/'cover'/COVER_NAME)
 (WEB/'diagrams').mkdir(exist_ok=True)
 for scene in (ROOT/'assets/diagrams').glob('*.json'):
     svg=render_svg(json.loads(scene.read_text()))
     (scene.with_suffix('.svg')).write_text(svg)
     (WEB/'diagrams'/scene.with_suffix('.svg').name).write_text(svg)
+shutil.copytree(ROOT/'assets/screenshots', WEB/'screenshots', dirs_exist_ok=True)
 chapters=[]
 for chapter in META['chapters']:
     file=ROOT/'build/reading'/Path(chapter['source']).name
@@ -88,15 +105,22 @@ for chapter in META['chapters']:
     if '<!-- include:' in text: raise RuntimeError('Unresolved source includes')
     title=text.splitlines()[0].removeprefix('# ')
     text=re.sub(r'(?:\.\./)+assets/diagrams/', 'diagrams/', text)
+    text=re.sub(r'(?:\.\./)+assets/screenshots/', 'screenshots/', text)
     body=markdown.markdown(text,extensions=['fenced_code','tables','toc'],output_format='xhtml')
     # Parsing now catches malformed XHTML before packaging EPUB.
     tree=highlight_tree(ET.fromstring('<root>'+body+'</root>'))
+    for element in list(tree):
+        picture=element.find('img') if element.tag=='p' else None
+        if picture is not None and picture.get('src','').startswith('screenshots/'):
+            caption=ET.Element('p', {'class':'figure-caption'})
+            caption.text=picture.get('alt','')
+            tree.insert(list(tree).index(element)+1,caption)
     body=''.join(ET.tostring(child,encoding='unicode',method='xml') for child in tree)
     chapters.append(dict(stem=file.stem,title=title,body=body,text=text))
 
 def page(title, body, extra=''):
     return f'''<!DOCTYPE html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><link rel="stylesheet" href="book.css"></head><body><a class="skip" href="#content">К содержимому страницы</a><nav aria-label="Навигация книги"><a href="toc.html">Оглавление книги</a></nav><p class="status">{EDITION}. Это фрагмент, не законченная книга.</p><main id="content">{body}</main>{extra}</body></html>'''
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{html.escape(title)}</title><link rel="stylesheet" href="book.css"></head><body><a class="skip" href="#content">К содержимому страницы</a><nav aria-label="Навигация книги"><a href="toc.html">Оглавление книги</a></nav><p class="status">{EDITION}. Бесплатный фрагмент: главы 1–12.</p><main id="content">{body}</main>{extra}</body></html>'''
 for i,c in enumerate(FRONT):
     previous = FRONT[i-1]['stem']+'.html' if i else None
     following = FRONT[i+1]['stem']+'.html' if i+1<len(FRONT) else 'toc.html'
@@ -111,7 +135,7 @@ for i,c in enumerate(chapters):
     else: links.append('<a href="toc.html">← Оглавление</a>')
     if i+1<len(chapters):links.append(f'<a href="{chapters[i+1]["stem"]}.html">Следующая глава →</a>')
     (WEB/(c['stem']+'.html')).write_text(page(c['title'],c['body'],'<nav aria-label="Переход между главами">'+' · '.join(links)+'</nav>'))
-index='<h1>'+html.escape(TITLE)+'</h1><p>Первые главы для чтения и технической редакции. Проверенные примеры Go входят в исходный комплект.</p><ol>'
+index='<h1>'+html.escape(TITLE)+'</h1><p>Предисловие и главы 1–12 доступны бесплатно. Продолжение: <a href="https://shanraq.org/shop/go-book">полная книга на shanraq.org</a>. Примеры этих глав входят в бесплатный архив кода.</p><ol>'
 index+=''.join(f'<li><a href="{c["stem"]}.html">{html.escape(c["title"])}</a></li>' for c in FRONT+chapters)+'</ol>'
 index+='''<section class="search" aria-labelledby="search-title"><h2 id="search-title">Поиск по написанным главам</h2><label for="query">Слово или фраза</label><input id="query" type="search" autocomplete="off"><p id="search-status" role="status" aria-live="polite"></p><ul id="results"></ul><noscript>Для поиска включите JavaScript. Оглавление и главы работают без него.</noscript></section>'''
 (WEB/'toc.html').write_text(page(TITLE,index,'<script src="search-data.js"></script><script src="search.js"></script>'))
@@ -137,26 +161,27 @@ for c in FRONT:
     epub_items[c['stem']+'.xhtml']=f'''<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="ru" xml:lang="ru"><head><title>{html.escape(c['title'])}</title><link rel="stylesheet" type="text/css" href="book.css"/></head><body class="{'front-cover' if c['kind']=='cover' else c['kind']}"><section epub:type="{c['kind']}">{c['body']}</section></body></html>'''
 for c in chapters:
     epub_items[c['stem']+'.xhtml']=f'''<?xml version="1.0" encoding="utf-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head><title>{html.escape(c['title'])}</title><link rel="stylesheet" type="text/css" href="book.css"/></head><body><p>{EDITION}. Фрагмент книги.</p>{c['body']}</body></html>'''
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru"><head><title>{html.escape(c['title'])}</title><link rel="stylesheet" type="text/css" href="book.css"/></head><body><p>{EDITION}. Полный черновик книги.</p>{c['body']}</body></html>'''
 nav=''.join(f'<li><a href="{c["stem"]}.xhtml">{html.escape(c["title"])}</a></li>' for c in FRONT+chapters)
 epub_items['nav.xhtml']=f'''<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="ru" xml:lang="ru"><head><title>Оглавление</title><link rel="stylesheet" type="text/css" href="book.css"/></head><body><nav epub:type="toc" id="toc"><h1>Оглавление</h1><ol>{nav}</ol></nav></body></html>'''
 manifest=''.join(f'<item id="c{i}" href="{c["stem"]}.xhtml" media-type="application/xhtml+xml"/>' for i,c in enumerate(chapters))
 manifest+=''.join(f'<item id="front{i}" href="{c["stem"]}.xhtml" media-type="application/xhtml+xml"/>' for i,c in enumerate(FRONT))
-manifest+='<item id="cover-image" href="cover/go-book-cover.jpg" media-type="image/jpeg" properties="cover-image"/>'
+manifest+=f'<item id="cover-image" href="cover/{COVER_NAME}" media-type="{COVER_MIME}" properties="cover-image"/>'
 spine=''.join(f'<itemref idref="c{i}"/>' for i in range(len(chapters)))
 spine=''.join(f'<itemref idref="front{i}"/>' for i in range(len(FRONT)))+'<itemref idref="nav"/>'+spine
 fonts=list((ROOT/'assets/fonts').glob('*.ttf'))
 manifest+=''.join(f'<item id="font{i}" href="fonts/{f.name}" media-type="font/ttf"/>' for i,f in enumerate(fonts))
 manifest+=''.join(f'<item id="diagram{i}" href="diagrams/{file.name}" media-type="image/svg+xml"/>' for i,file in enumerate(sorted((WEB/'diagrams').glob('*.svg'))))
+manifest+=''.join(f'<item id="screenshot{i}" href="screenshots/{file.name}" media-type="image/png"/>' for i,file in enumerate(sorted((WEB/'screenshots').glob('*.png'))))
 manifest+='<item id="font-license" href="fonts/OFL.txt" media-type="text/plain"/>'
 modified=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
-opf=f'''<?xml version="1.0" encoding="utf-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="book-id" xml:lang="ru"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="book-id">urn:shanraq:go-book:preview:{META['edition']}</dc:identifier><dc:title>{html.escape(TITLE)} — фрагмент</dc:title><dc:language>ru</dc:language><dc:creator>{html.escape(PUBLICATION["author"])}</dc:creator><dc:date>{PUBLICATION["date"]}</dc:date><dc:publisher>{html.escape(PUBLICATION["publisher"])}</dc:publisher><dc:description>{EDITION}. Незавершённая рукопись для проверки.</dc:description><meta property="dcterms:modified">{modified}</meta></metadata><manifest><item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/><item id="css" href="book.css" media-type="text/css"/>{manifest}</manifest><spine>{spine}</spine></package>'''
+opf=f'''<?xml version="1.0" encoding="utf-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="book-id" xml:lang="ru"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="book-id">urn:shanraq:go-book:preview:{META['edition']}</dc:identifier><dc:title>{html.escape(TITLE)} — рабочая редакция</dc:title><dc:language>ru</dc:language><dc:creator>{html.escape(PUBLICATION["author"])}</dc:creator><dc:date>{PUBLICATION["date"]}</dc:date><dc:publisher>{html.escape(PUBLICATION["publisher"])}</dc:publisher><dc:description>{EDITION}. Полный черновик для редакционной проверки.</dc:description><meta property="dcterms:modified">{modified}</meta></metadata><manifest><item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/><item id="css" href="book.css" media-type="text/css"/>{manifest}</manifest><spine>{spine}</spine></package>'''
 ET.fromstring(opf)
 with zipfile.ZipFile(OUT/'go-book-preview.epub','w') as archive:
     archive.writestr('mimetype','application/epub+zip',compress_type=zipfile.ZIP_STORED)
     archive.writestr('META-INF/container.xml','''<?xml version="1.0"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="EPUB/package.opf" media-type="application/oebps-package+xml"/></rootfiles></container>''')
     archive.writestr('EPUB/package.opf',opf,compress_type=zipfile.ZIP_DEFLATED)
-    archive.write(ROOT/PUBLICATION['cover'],'EPUB/cover/go-book-cover.jpg',compress_type=zipfile.ZIP_DEFLATED)
+    archive.write(ROOT/PUBLICATION['cover'],'EPUB/cover/'+COVER_NAME,compress_type=zipfile.ZIP_DEFLATED)
     archive.writestr('EPUB/book.css',CSS.replace('overflow:auto','white-space:pre-wrap;overflow-wrap:anywhere'),compress_type=zipfile.ZIP_DEFLATED)
     for path,text in epub_items.items():
         ET.fromstring(text)
@@ -165,6 +190,9 @@ with zipfile.ZipFile(OUT/'go-book-preview.epub','w') as archive:
     archive.write(ROOT/'assets/fonts/OFL.txt','EPUB/fonts/OFL.txt',compress_type=zipfile.ZIP_DEFLATED)
     for file in (WEB/'diagrams').glob('*.svg'):
         archive.write(file,'EPUB/diagrams/'+file.name,compress_type=zipfile.ZIP_DEFLATED)
+
+    for file in (WEB/'screenshots').glob('*.png'):
+        archive.write(file,'EPUB/screenshots/'+file.name,compress_type=zipfile.ZIP_DEFLATED)
 
 # PDF uses the same parsed XHTML; preserve tables and text code.
 for name,file in [('Noto','NotoSans-Regular.ttf'),('NotoBold','NotoSans-Bold.ttf'),('NotoMono','NotoSansMono-Regular.ttf')]:
@@ -179,7 +207,7 @@ styles={
 }
 
 def inline(element):
-    text=html.escape(element.text or '')
+    text=escaped_text(element.text)
     for child in element:
         content=inline(child)
         if child.tag=='code':text+='<font name="NotoMono">'+content+'</font>'
@@ -190,23 +218,47 @@ def inline(element):
         elif child.tag=='a':text+='<a href="'+html.escape(child.get('href',''),quote=True)+'" color="#00758D">'+content+'</a>'
         elif child.tag=='br':text+='<br/>'
         else:text+=content
-        text+=html.escape(child.tail or '')
+        text+=escaped_text(child.tail)
     return text
 
 title_styles={
- 'author':ParagraphStyle('title-author',fontName='Noto',fontSize=18,leading=25,alignment=1,spaceAfter=75),
+ 'author':ParagraphStyle('title-author',fontName='Noto',fontSize=9,leading=12.5,alignment=1,spaceAfter=0),
  'title':ParagraphStyle('title-title',fontName='NotoBold',fontSize=28,leading=36,alignment=1,textColor=colors.HexColor('#00758D'),spaceAfter=25),
  'subtitle':ParagraphStyle('title-subtitle',fontName='Noto',fontSize=13,leading=20,alignment=1,spaceAfter=24),
  'imprint':ParagraphStyle('title-imprint',fontName='Noto',fontSize=11,leading=17,alignment=1,spaceAfter=15),
 }
+class TitlePage(Flowable):
+    """Place author, central title block and imprint independently on one page."""
+    def __init__(self, body):
+        super().__init__()
+        self.width = 473
+        self.height = 720
+        self.root = ET.fromstring('<root>' + body + '</root>')
+
+    def paragraph(self, element, style):
+        paragraph = Paragraph(inline(element), style)
+        _, height = paragraph.wrap(self.width, self.height)
+        return paragraph, height
+
+    def draw(self):
+        author, _ = self.paragraph(self.root.find("p[@class='author']"), title_styles['author'])
+        author.drawOn(self.canv, 0, self.height - 42)
+        entries = []
+        for element in self.root.find("div[@class='title-block']"):
+            role = element.get('class', '')
+            style = title_styles['title' if element.tag == 'h1' else 'subtitle' if role == 'subtitle' else 'imprint']
+            paragraph, height = self.paragraph(element, style)
+            entries.append((paragraph, height, style.spaceAfter))
+        total = sum(height + gap for _, height, gap in entries) - entries[-1][2]
+        top = self.height / 2 + total / 2
+        for paragraph, height, gap in entries:
+            paragraph.drawOn(self.canv, 0, top - height)
+            top -= height + gap
+        imprint, _ = self.paragraph(self.root.find("p[@class='imprint']"), title_styles['imprint'])
+        imprint.drawOn(self.canv, 0, 10)
+
 # Cover is drawn by the page callback; the next two pages have no printed folios.
-story=[Spacer(1,1),PageBreak(),Spacer(1,25)]
-for element in ET.fromstring('<root>'+FRONT[1]['body']+'</root>'):
-    role=element.get('class','')
-    if role=='imprint':story.append(Spacer(1,200))
-    style=title_styles['author' if role=='author' else 'title' if element.tag=='h1' else 'subtitle' if role=='subtitle' else 'imprint']
-    story.append(Paragraph(inline(element),style))
-story.append(PageBreak())
+story = [Spacer(1, 1), PageBreak(), TitlePage(FRONT[1]['body']), PageBreak()]
 for element in ET.fromstring('<root>'+FRONT[2]['body']+'</root>'):
     story.append(Paragraph(inline(element),styles['h2'] if element.tag=='h1' else styles['body']))
 story.extend([PageBreak(),Paragraph('Оглавление',styles['h1'])])
@@ -236,7 +288,7 @@ def append_elements(root):
             size=min(8,8*475/max_width)
             if size<6:raise RuntimeError('Code line too long for legible PDF; edit source')
             code_style=ParagraphStyle('code',fontName='NotoMono',fontSize=size,leading=size*1.5,spaceBefore=5,spaceAfter=10,leftIndent=5)
-            story.append(KeepTogether([XPreformatted(inline(element).replace('\t','    ').rstrip(),code_style)]))
+            story.append(XPreformatted(inline(element).replace('\t','    ').rstrip(),code_style))
         elif tag=='table':
             rows=[]
             for row in element.findall('.//tr'):
@@ -251,8 +303,16 @@ def append_elements(root):
         elif tag=='blockquote':append_elements(element)
         elif tag=='p' and element.find('img') is not None:
             img=element.find('img')
-            scene_path=ROOT/'assets/diagrams'/(Path(img.get('src')).stem+'.json')
-            story.append(KeepTogether([Diagram(json.loads(scene_path.read_text())),Paragraph(html.escape(img.get('alt','')),styles['small'])]))
+            if img.get('src','').startswith('screenshots/'):
+                picture=Image(str(WEB/img.get('src')))
+                scale=min(485/picture.imageWidth, 540/picture.imageHeight)
+                picture.drawWidth=picture.imageWidth*scale
+                picture.drawHeight=picture.imageHeight*scale
+                story.append(KeepTogether([picture, Spacer(1,6), Paragraph(html.escape(img.get('alt','')),styles['small'])]))
+            else:
+                scene_path=ROOT/'assets/diagrams'/(Path(img.get('src')).stem+'.json')
+                story.append(KeepTogether([Diagram(json.loads(scene_path.read_text())),Paragraph(html.escape(img.get('alt','')),styles['small'])]))
+        elif tag=='p' and element.get('class')=='figure-caption':pass
         elif tag=='p':story.append(Paragraph(inline(element),styles['body']))
         else:raise RuntimeError('Unhandled PDF element: '+tag)
 for i,c in enumerate(chapters):
@@ -290,24 +350,28 @@ class BookDoc(SimpleDocTemplate):
             self.canv.bookmarkPage(key)
             self.canv.addOutlineEntry(flowable.getPlainText(), key, 0 if flowable.style.name=='h1' else 1, closed=False)
 
-doc=BookDoc(str(OUT/'go-book-preview.pdf'),pagesize=(595.28,841.89),rightMargin=55,leftMargin=55,topMargin=50,bottomMargin=50,title=TITLE+' — фрагмент',author=PUBLICATION['author'],subject=PUBLICATION['subtitle'])
+doc=BookDoc(str(OUT/'go-book-preview.pdf'),pagesize=(595.28,841.89),rightMargin=55,leftMargin=55,topMargin=50,bottomMargin=50,title=TITLE+' — рабочая редакция',author=PUBLICATION['author'],subject=PUBLICATION['subtitle'])
 doc.build(story,onFirstPage=footer,onLaterPages=footer)
 code_archive = OUT/'go-book-preview-code.zip'
 with zipfile.ZipFile(code_archive, 'w', zipfile.ZIP_DEFLATED) as archive:
     for folder in ('examples', 'research/reproductions/map-value'):
         for file in sorted((ROOT/folder).rglob('*')):
-            if file.is_file() and file.suffix in ('.go', '.mod', '.txt'):
+            if file.is_file() and (file.name in ('.gitignore', '.gitkeep') or file.suffix in ('.go', '.mod', '.sum', '.txt', '.html', '.css', '.sql', '.json', '.png', '.ico', '.yml', '.conf', '.service')):
                 archive.write(file, 'book/'+file.relative_to(ROOT).as_posix())
     archive.write(ROOT/'book.json', 'book/book.json')
     archive.write(ROOT.parent/'LICENSE', 'LICENSE')
+    archive.write(ROOT/'assets/brand/NOTICE.txt', 'ASSET-NOTICES.txt')
+    archive.write(ROOT.parent/'.editorconfig', '.editorconfig')
+    archive.writestr('book/TRANSITIONS.md', render_transitions(ROOT, META))
     archive.writestr('README.txt', 'Код рабочей книги '+META['edition']+'\n'
         'Требуется Go '+META['go_version']+'. Распакуйте архив.\n'
         'Откройте терминал в book/examples/02-first-program и выполните go run .\n'
-        'Для другой главы откройте её папку. Начиная с главы 5: go test ./...\n'
+        'Для другой главы откройте её папку. С главы 10 запускайте go run ./cmd/shop. Начиная с главы 5: go test ./...\n'
         'У каждой папки свой go.mod: повторный go mod init не нужен.\n'
+        'Точный список новых, изменённых и удалённых файлов каждой главы: book/TRANSITIONS.md.\n'
         'Сохраняйте задания в копиях папок. Python, npm, Docker не нужны.\n'
-        'Это главы 2–9, не законченный магазин.\n')
+        'Состав глав указан в book/book.json; это рабочая редакция.\n')
 paths=[OUT/'go-book-preview.pdf',OUT/'go-book-preview.epub',OUT/'go-book-preview-html.zip', code_archive]
 (OUT/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in paths))
-(OUT/'README.txt').write_text(EDITION+'\nPDF и EPUB открываются в соответствующей программе. HTML ZIP распакуйте и откройте index.html.\nЭто не готовая книга. Полные проверки доступности, EPUBCheck и проверка во всех читалках ещё не завершены.\nШрифты Noto используются по SIL OFL 1.1; лицензия включена в EPUB/HTML и доступна в assets/fonts/OFL.txt исходного комплекта.\n')
+(OUT/'README.txt').write_text(EDITION+'\nPDF и EPUB открываются в соответствующей программе. HTML ZIP распакуйте и откройте index.html.\nЭто ознакомительный фрагмент: предисловие и главы 1–12. Полная книга: https://shanraq.org/shop/go-book. Полная проверка доступности и совместимости со всеми читалками ещё не завершена.\nШрифты Noto используются по SIL OFL 1.1; лицензия включена в EPUB/HTML и доступна в assets/fonts/OFL.txt исходного комплекта.\n')
 print('Built PDF, EPUB, offline HTML and SHA-256 manifest')

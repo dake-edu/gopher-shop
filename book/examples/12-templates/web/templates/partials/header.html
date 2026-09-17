@@ -1,0 +1,10 @@
+{{define "header"}}
+<header>
+    <a class="brand" href="/" aria-label="{{brand_name}} — на главную">
+        <img src="/assets/brand/gopher-cart.png" width="80" height="80" alt="">
+    </a>
+    <nav aria-label="Главное меню">
+        <a href="/"{{if nav_active "catalog"}} aria-current="true"{{end}}>{{brand_name}}</a>
+    </nav>
+</header>
+{{end}}

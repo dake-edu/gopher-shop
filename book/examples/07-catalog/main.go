@@ -9,7 +9,7 @@ func main() {
 	ids := []string{"go-shop"}
 	ids = append(ids, "sql-notes")
 	titles := map[string]string{
-		"go-shop":   "Go: от первой строки до книжного магазина",
+		"go-shop":   "Go: от первой строки до интернет-магазина",
 		"sql-notes": "Заметки о SQL",
 	}
 	ordered, ok := catalogTitles(ids, titles)

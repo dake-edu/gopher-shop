@@ -13,8 +13,11 @@ import hashlib
 import json
 import zipfile
 import xml.etree.ElementTree as ET
+from transitions import render_transitions
+from screenshot_audit import audit as audit_screenshots
 
 ROOT = Path(__file__).resolve().parents[1]
+audit_screenshots(ROOT)
 OUT = ROOT/'build/preview'
 META=json.loads((ROOT/'book.json').read_text())
 class Links(HTMLParser):
@@ -56,12 +59,19 @@ with zipfile.ZipFile(OUT/'go-book-preview.epub') as archive:
     assert order[:5]==['index.xhtml','title-page.xhtml','publication-details.xhtml','nav.xhtml','00-preface.xhtml']
     covers=[item for item in items.values() if 'cover-image' in item.get('properties','').split()]
     assert len(covers)==1
+    expected_mime={'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg'}[Path(META['publication']['cover']).suffix.lower()]
+    assert covers[0].get('media-type')==expected_mime
+    title=opf.find('o:metadata/{http://purl.org/dc/elements/1.1/}title',ns)
+    assert title is not None and title.text==META['title']+' — рабочая редакция'
     assert archive.read('EPUB/'+covers[0].get('href'))==(ROOT/META['publication']['cover']).read_bytes()
+    for file in (ROOT/'assets/screenshots').glob('*.png'):
+        assert archive.read('EPUB/screenshots/'+file.name)==file.read_bytes()
+        assert (OUT/'html/screenshots'/file.name).read_bytes()==file.read_bytes()
     creator=opf.find('o:metadata/{http://purl.org/dc/elements/1.1/}creator',ns)
     assert creator is not None and creator.text==META['publication']['author']
     for name in archive.namelist():
         if name.endswith(('.xhtml','.xml','.opf','.svg')): ET.fromstring(archive.read(name))
-assert (OUT/'html/cover/go-book-cover.jpg').read_bytes()==(ROOT/META['publication']['cover']).read_bytes()
+assert (OUT/'html/cover'/Path(META['publication']['cover']).name).read_bytes()==(ROOT/META['publication']['cover']).read_bytes()
 assert 'title-page.html' in pages['index.html'].links
 assert 'publication-details.html' in pages['title-page.html'].links
 assert 'toc.html' in pages['publication-details.html'].links
@@ -79,17 +89,23 @@ report={'status':'passed','html_pages':len(pages),'local_links':count,
 
 # The reader bundle must contain exactly the source used for this edition.
 with zipfile.ZipFile(OUT/'go-book-preview-code.zip') as archive:
-    expected = {'README.txt', 'LICENSE', 'book/book.json'}
+    expected = {'README.txt', 'LICENSE', 'ASSET-NOTICES.txt', '.editorconfig', 'book/book.json', 'book/TRANSITIONS.md'}
+    assert archive.read('book/TRANSITIONS.md').decode('utf-8') == render_transitions(ROOT, META)
+    assert archive.read('.editorconfig') == (ROOT.parent/'.editorconfig').read_bytes()
     for folder in ('examples', 'research/reproductions/map-value'):
         for file in sorted((ROOT/folder).rglob('*')):
-            if file.is_file() and file.suffix in ('.go', '.mod', '.txt'):
+            if file.is_file() and (file.name in ('.gitignore', '.gitkeep') or file.suffix in ('.go', '.mod', '.sum', '.txt', '.html', '.css', '.sql', '.json', '.png', '.ico', '.yml', '.conf', '.service')):
                 name = 'book/'+file.relative_to(ROOT).as_posix()
                 expected.add(name)
                 assert archive.read(name) == file.read_bytes(), name
     assert set(archive.namelist()) == expected
+    assert archive.read('ASSET-NOTICES.txt') == (ROOT/'assets/brand/NOTICE.txt').read_bytes()
     assert archive.read('book/book.json') == (ROOT/'book.json').read_bytes()
 print('PASS: reader source bundle matches the current checkpoints')
 
 report['checks'].append('Reader code ZIP matches current sources')
 (OUT/'validation.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
 print(f'PASS: {len(pages)} HTML pages, {count} local links, EPUB structure and artifact hashes')
+
+from sample_boundary import audit_packages
+audit_packages(ROOT)

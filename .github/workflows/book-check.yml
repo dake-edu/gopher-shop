@@ -1,4 +1,4 @@
-name: Book checkpoints
+name: Public book sample checks and release
 
 on:
   push:
@@ -46,3 +46,54 @@ jobs:
       - name: Validate review packages
         if: runner.os == 'Linux'
         run: python book/tools/validate_preview.py
+
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.1'
+          cache: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: python -m pip install -r book/requirements-build.txt
+      - run: python book/tools/check.py
+      - run: python book/tools/build_preview.py
+      - run: python book/tools/validate_preview.py
+      - name: Check sample HTML on mobile and desktop
+        shell: bash
+        run: |
+          export BOOK_CHROME
+          BOOK_CHROME="$(command -v google-chrome)"
+          node book/tools/check_book.mjs book/build/preview/html
+      - run: python book/tools/prepare_sample_site.py
+      - name: Release only the authorized sample
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/$GITHUB_REPOSITORY" --jq '.full_name')" = 'dake-edu/gopher-shop'
+          python book/tools/sample_boundary.py
+          edition=$(python -c 'import json; print(json.load(open("book/book.json"))["edition"])')
+          tag="sample-v${edition}-${GITHUB_SHA:0:12}"
+          printf '%s\n' 'Бесплатный ознакомительный фрагмент: предисловие и главы 1–12 включительно. PDF, EPUB, HTML, примеры и комплект для чтения на сайте. Полная книга: https://shanraq.org/shop/go-book.' > sample-notes.txt
+          if gh release view "$tag" >/dev/null 2>&1; then exit 0; fi
+          gh release create "$tag" --target "$GITHUB_SHA" \
+            --title "Ознакомительные главы 1–12 · ${edition}" --notes-file sample-notes.txt \
+            book/build/preview/go-book-preview.pdf \
+            book/build/preview/go-book-preview.epub \
+            book/build/preview/go-book-preview-html.zip \
+            book/build/preview/go-book-preview-code.zip \
+            book/build/preview/go-book-sample-site.zip \
+            book/build/preview/SHA256SUMS.txt

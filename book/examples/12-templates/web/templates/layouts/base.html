@@ -1,0 +1,19 @@
+{{define "base"}}
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{template "title" .}} — {{brand_name}}</title>
+        <link rel="icon" href="/favicon.ico" sizes="16x16 32x32">
+        <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" sizes="180x180">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+        <a href="#content">Перейти к содержимому</a>
+        {{template "header" .}}
+        <main id="content">{{template "content" .}}</main>
+        {{template "footer" .}}
+    </body>
+</html>
+{{end}}

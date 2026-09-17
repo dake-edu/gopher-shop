@@ -1,0 +1,9 @@
+Go gopher: original character by Renee French.
+Source: https://go.dev/blog/gopher
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/
+The book cover, shopping-cart mascot and icons are adaptations prepared for shanraq.org with AI assistance.
+Changes include the cart, book, colours, composition and icon simplification.
+These images do not imply endorsement by Renee French, the Go project or Google.
+When reusing the images in a website, retain this attribution in a visible credits section.
+The code license does not replace the artwork attribution.

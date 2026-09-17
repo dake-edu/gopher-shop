@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"go/scanner"
 	"go/token"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"sort"
@@ -54,7 +55,16 @@ func audit() error {
 		if ch.Checkpoint == "" {
 			continue
 		}
-		paths, err := filepath.Glob(filepath.Join(ch.Checkpoint, "*.go"))
+		var paths []string
+		err := filepath.WalkDir(ch.Checkpoint, func(path string, entry fs.DirEntry, walkErr error) error {
+			if walkErr != nil {
+				return walkErr
+			}
+			if !entry.IsDir() && filepath.Ext(path) == ".go" {
+				paths = append(paths, path)
+			}
+			return nil
+		})
 		if err != nil {
 			return err
 		}

@@ -1,6 +1,6 @@
 {
-  "title": "Go: от первой строки до книжного магазина",
-  "edition": "0.5.1-draft",
+  "title": "Go: от первой строки до интернет-магазина",
+  "edition": "0.19.0-sample",
   "language": "ru",
   "repository": "https://github.com/dake-edu/gopher-shop",
   "go_version": "1.27.1",
@@ -85,18 +85,55 @@
       "status": "draft",
       "checkpoint": "examples/09-errors",
       "module": "github.com/dake-edu/gopher-shop/book/examples/09-errors"
+    },
+    {
+      "id": "10",
+      "title": "10. Пакеты: у каждого правила свой адрес",
+      "source": "manuscript/10-packages.md",
+      "status": "draft",
+      "checkpoint": "examples/10-packages",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/10-packages",
+      "run_target": "./cmd/shop"
+    },
+    {
+      "id": "11",
+      "title": "11. Каталог отвечает браузеру",
+      "source": "manuscript/11-http.md",
+      "status": "draft",
+      "checkpoint": "examples/11-http",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/11-http",
+      "run_args": [
+        "-check"
+      ],
+      "run_target": "./cmd/shop"
+    },
+    {
+      "id": "12",
+      "title": "12. HTML-шаблон превращает каталог в страницу",
+      "source": "manuscript/12-templates.md",
+      "status": "draft",
+      "checkpoint": "examples/12-templates",
+      "module": "github.com/dake-edu/gopher-shop/book/examples/12-templates",
+      "run_args": [
+        "-check"
+      ],
+      "run_target": "./cmd/shop"
     }
   ],
   "publication": {
     "author": "Баймурзин Даулет Абузарович",
     "publisher": "shanraq.org",
-    "date": "2026-09-16",
-    "date_label": "16 сентября 2026 года",
-    "subtitle": "Один проект: от основ Go до работающего магазина цифровых книг",
-    "levels": "Junior · Middle · Senior",
+    "date": "2026-09-17",
+    "date_label": "17 сентября 2026 года",
+    "subtitle": "Ознакомительный фрагмент · предисловие и главы 1–12",
+    "levels": "Основы Go · пакеты · HTTP · HTML-шаблоны",
     "description": "Практическая книга о Go. Читатель шаг за шагом создаёт магазин цифровых книг: от первой программы и каталога до заказов, выдачи файлов и эксплуатации приложения. Материал организован в три уровня и использует опорные образы, проверяемые примеры и самостоятельные задания.",
-    "cover": "assets/cover/go-book-cover.jpg",
+    "cover": "assets/cover/go-book-cover-v3.png",
     "author_bio": "По образованию — инженер-технолог по ОПИ, по призванию — инженер-программист.",
     "audience": "Дополнительный учебный материал для студентов бакалавриата ИТ-университетов, технических и многопрофильных вузов по направлениям «Программная инженерия», «Компьютерные науки», «Информационные системы», «Вычислительная техника и программное обеспечение». Отдельные разделы полезны студентам информационной безопасности и прикладной информатики, преподавателям практических дисциплин и разработчикам, изучающим Go самостоятельно."
+  },
+  "sample": {
+    "last_chapter": 12,
+    "product_url": "https://shanraq.org/shop/go-book"
   }
 }

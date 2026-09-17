@@ -1,0 +1,13 @@
+{
+  "kind": "approved-sample-images",
+  "screenshots": [
+    {
+      "file": "catalog-desktop.png",
+      "sha256": "64ccaf42024cc367208f04d931b310917acf8160bdab04dab27c0d00ee5cd77b"
+    },
+    {
+      "file": "catalog-mobile.png",
+      "sha256": "ee8b7c04c2cb122881d1f8a165650d91f9e932d7bd6d7b287d61877dfe88ee38"
+    }
+  ]
+}

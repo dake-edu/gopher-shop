@@ -16,10 +16,18 @@ import json
 import hashlib
 import platform
 from datetime import datetime, timezone
+from reader_audit import audit as audit_reader_commands
 
 ROOT = Path(__file__).resolve().parents[1]
 ENV = dict(os.environ, GOWORK='off')
 records = []
+def source_hashes():
+    return {f.relative_to(ROOT).as_posix(): hashlib.sha256(f.read_bytes()).hexdigest()
+            for folder in ('manuscript', 'examples')
+            for f in sorted((ROOT/folder).rglob('*')) if f.is_file()}
+
+initial_sources = source_hashes()
+initial_registry = (ROOT/'book.json').read_bytes()
 metadata = json.loads((ROOT/'book.json').read_text())
 registered = {c['source'] for c in metadata['chapters']}
 actual = {f.relative_to(ROOT).as_posix() for f in (ROOT/'manuscript').glob('*.md')}
@@ -49,6 +57,8 @@ def run(args, cwd, expected=0):
 version = run(['go', 'version'], ROOT).stdout.strip()
 if 'go'+metadata['go_version']+' ' not in version:
     raise RuntimeError('Use Go '+metadata['go_version']+' for this edition; got '+version)
+print('Checking reader commands and navigation', flush=True)
+reader_commands = audit_reader_commands(ROOT, metadata, run)
 # The scanner uses only the standard library, independent of the legacy root module.
 with tempfile.TemporaryDirectory(prefix='book-syntax-') as tmp:
     directory = Path(tmp)
@@ -68,12 +78,16 @@ if 'go'+metadata['go_version']+' ' not in version:
     raise RuntimeError('Use Go '+metadata['go_version']+' for this edition')
 for directory in sorted((ROOT/'examples').iterdir()):
     if not (directory/'go.mod').exists(): continue
-    dependencies=run(['go','list','-deps','-test','-f','{{if and (not .Standard) .Module}}{{.Module.Path}}{{end}}','./...'],directory).stdout
+    print('Checking '+directory.name, flush=True)
+    dependencies=run(['go','list','-deps','-test','-f','{{if and (not .Standard) .Module}}{{.Module.Path}}@{{.Module.Version}}{{end}}','./...'],directory).stdout
     own_module=(directory/'go.mod').read_text().splitlines()[0].removeprefix('module ')
-    assert set(dependencies.split()) <= {own_module}, 'External dependency in book checkpoint: '+directory.name
+    chapter = next(c for c in metadata['chapters'] if c.get('checkpoint') == directory.relative_to(ROOT).as_posix())
+    allowed = {own_module+'@'} | {path+'@'+version for path, version in chapter.get('dependencies', {}).items()}
+    assert set(dependencies.split()) <= allowed, 'Unreviewed dependency or version in checkpoint: '+directory.name
     formatting = run(['gofmt', '-l', '.'], directory).stdout
     if formatting.strip(): raise RuntimeError(f'Unformatted Go files: {formatting}')
-    output = run(['go', 'run', '.'], directory).stdout
+    chapter = next(c for c in metadata['chapters'] if c.get('checkpoint') == directory.relative_to(ROOT).as_posix())
+    output = run(['go', 'run', chapter.get('run_target', '.'), *chapter.get('run_args', [])], directory).stdout
     assert output == (directory/'stdout.txt').read_text(), f'Output mismatch: {directory.name}'
     run(['go', 'vet', './...'], directory)
     run(['go', 'test', '-count=1', './...'], directory)
@@ -82,9 +96,9 @@ for directory in sorted((ROOT/'examples').iterdir()):
 scenarios = [
  ('02-first-program', 'fmt.Println("Форматы: PDF, EPUB, HTML")',
   'fmt.Println("Форматы: PDF, EPUB, HTML")\n\tfmt.Println("Статус: готовится")',
-  'Go: от первой строки до книжного магазина\nФорматы: PDF, EPUB, HTML\nСтатус: готовится\n'),
+  'Go: от первой строки до интернет-магазина\nФорматы: PDF, EPUB, HTML\nСтатус: готовится\n'),
  ('03-values', '249900', '350050',
-  'Go: от первой строки до книжного магазина\nЦена: 3500.50 KZT\nОпубликована: false\nОпубликована: true\n'),
+  'Go: от первой строки до интернет-магазина\nЦена: 3500.50 KZT\nОпубликована: false\nОпубликована: true\n'),
  ('04-conditions', 'published := true', 'published := false', 'Книга готовится\n'),
  ('04-conditions', 'edition <= 3', 'edition < 3',
   'Доступно издание 1\nИздание 2 снято с продажи\n'),
@@ -140,7 +154,7 @@ func TestInternalSpaces(t *testing.T) {
     changed=original.replace('ids = append(ids, "sql-notes")','ids = append(ids, "sql-notes", "go-tests")').replace('"sql-notes": "Заметки о SQL",','"sql-notes": "Заметки о SQL",\n        "go-tests": "Тесты на Go",')
     file.write_text(changed)
     result=run(['go','run','.'],directory)
-    assert result.stdout == 'Форматы: [PDF EPUB HTML]\n1 Go: от первой строки до книжного магазина\n2 Заметки о SQL\n3 Тесты на Go\nНеизвестная книга найдена: false\n'
+    assert result.stdout == 'Форматы: [PDF EPUB HTML]\n1 Go: от первой строки до интернет-магазина\n2 Заметки о SQL\n3 Тесты на Go\nНеизвестная книга найдена: false\n'
     file.write_text(changed.replace('"go-tests": "Тесты на Go",',''))
     assert run(['go','run','.'],directory).stdout == 'Форматы: [PDF EPUB HTML]\nКаталог неполон\n'
     directory=Path(tmp)/'books';shutil.copytree(ROOT/'examples/08-books',directory)
@@ -216,7 +230,7 @@ def include(match):
     if region:
         if region != 'first-test': raise ValueError(region)
         code=code.split('\nfunc TestNoDiscount',1)[0].rstrip()
-    language='go' if file.suffix=='.go' else 'text'
+    language={'.go':'go', '.html':'html', '.css':'css', '.json':'json'}.get(file.suffix, 'text')
     return f'```{language}\n{code}\n```'
 rendered=ROOT/'build/reading';rendered.mkdir(parents=True,exist_ok=True)
 for file in sorted((ROOT/'manuscript').glob('*.md')):
@@ -224,13 +238,15 @@ for file in sorted((ROOT/'manuscript').glob('*.md')):
     if any(ord(c) < 32 and c not in '\n\t\r' for c in text):
         raise ValueError(f'Unexpected control character: {file.name}')
     (rendered/file.name).write_text(pattern.sub(include,text).replace('../assets/', '../../assets/'))
+if source_hashes() != initial_sources or (ROOT/'book.json').read_bytes() != initial_registry:
+    raise RuntimeError('Sources changed during verification; rerun on a stable working tree')
 report={'checked_at':datetime.now(timezone.utc).isoformat(),'go_version':version,
         'status':'passed','commands':records,
         'platform':platform.platform(),
         'checked_chapters':[c['id'] for c in metadata['chapters']],
-        'source_sha256':{f.relative_to(ROOT).as_posix():hashlib.sha256(f.read_bytes()).hexdigest() for folder in ('manuscript','examples') for f in sorted((ROOT/folder).rglob('*')) if f.is_file()},
+        'source_sha256':initial_sources, 'reader_commands':reader_commands,
         'limits':['This report records only the current platform; remote CI must be confirmed separately.',
-                  'Checks cover registered draft chapters, not the completed book.']}
+                  'Checks cover all registered chapters; they do not prove pedagogical effectiveness or production readiness.']}
 (ROOT/'research').mkdir(exist_ok=True)
 (ROOT/'research/verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
 print(f'PASS: {version}; {len(records)} commands; rendered {len(list(rendered.glob("*.md")))} chapters')

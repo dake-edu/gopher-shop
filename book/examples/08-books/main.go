@@ -5,7 +5,7 @@ import "fmt"
 func main() {
 	book := Book{
 		ID:         "go-shop",
-		Title:      "  Go: от первой строки до книжного магазина  ",
+		Title:      "  Go: от первой строки до интернет-магазина  ",
 		PriceMinor: 249900,
 		Currency:   "KZT",
 	}

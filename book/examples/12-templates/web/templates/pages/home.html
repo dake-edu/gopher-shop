@@ -1,0 +1,14 @@
+{{define "title"}}{{.Title}}{{end}}
+{{define "content"}}
+<h1>{{.Title}}</h1>
+{{range .Books}}
+    <article>
+        <h2>
+            <a href="/books/{{.ID}}">{{.Title}}</a>
+        </h2>
+        <p>{{money .PriceMinor}} {{.Currency}}</p>
+    </article>
+{{else}}
+    <p>Каталог пока пуст.</p>
+{{end}}
+{{end}}

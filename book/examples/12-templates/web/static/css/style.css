@@ -1,0 +1,229 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --color-primary: #006078;
+    --color-on-primary: #fff;
+}
+
+html {
+    height: 100%;
+    overflow-wrap: anywhere;
+}
+
+body {
+    min-height: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 0.75rem;
+    font: 1rem/1.6 system-ui, sans-serif;
+    color: #182f35;
+    background: #fff;
+}
+
+h1 {
+    font-size: clamp(1.5rem, 5vw, 2.25rem);
+    line-height: 1.25;
+}
+
+h2 {
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    line-height: 1.35;
+}
+
+a {
+    color: var(--color-primary);
+    text-underline-offset: 0.2em;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 3px solid #9c3b00;
+    outline-offset: 3px;
+}
+
+header, nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+}
+
+header a, nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+}
+
+header, footer {
+    padding: 0.75rem 0;
+}
+
+footer {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: auto;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+article {
+    min-width: 0;
+    padding: 1rem 0;
+    border-bottom: 1px solid #bac7cb;
+}
+
+form {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+label {
+    display: block;
+    min-width: 0;
+}
+
+input, button {
+    max-width: 100%;
+    min-width: 0;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #647a80;
+    border-radius: 0.5rem;
+    font: inherit;
+}
+
+input:not([type="checkbox"]):not([type="hidden"]) {
+    display: block;
+    width: 100%;
+    background: #fff;
+    color: #182f35;
+}
+
+input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    min-height: 0;
+    margin: 0 0.5rem 0 0;
+    vertical-align: middle;
+}
+
+label:has(input[type="checkbox"]) {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+}
+
+button {
+    cursor: pointer;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+}
+
+img, svg {
+    max-width: 100%;
+    height: auto;
+}
+
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.error, [role="alert"] {
+    color: #9b1c1c;
+}
+
+@media (min-width: 40rem) {
+    body {
+        padding: 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    form {
+        max-width: 36rem;
+    }
+
+    button {
+        justify-self: start;
+    }
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 100%;
+}
+
+.brand img {
+    flex: 0 0 auto;
+    width: 5rem;
+    height: 5rem;
+    object-fit: contain;
+}
+
+/* Keep the logo at the left edge and let only the menu links wrap. */
+header {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+
+header .brand {
+    flex: 0 0 auto;
+}
+
+header nav {
+    flex: 1 1 0;
+    min-width: 0;
+    margin-inline-start: auto;
+    justify-content: flex-end;
+}
+
+main {
+    flex: 0 0 auto;
+    min-width: 0;
+}
+
+@media (max-width: 39.999rem) {
+    header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    header nav {
+        flex: 0 1 auto;
+        width: 100%;
+        margin-inline-start: 0;
+        justify-content: center;
+    }
+}
+
+header nav a {
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+}
+
+header nav a:hover {
+    background: #e5edf0;
+}
+
+header nav a[aria-current="true"] {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+}
+
+@media (max-width: 39.999rem) {
+    header nav {
+        column-gap: 0.25rem;
+    }
+}
