@@ -91,6 +91,17 @@ for directory in sorted((ROOT/'examples').iterdir()):
     assert output == (directory/'stdout.txt').read_text(), f'Output mismatch: {directory.name}'
     run(['go', 'vet', './...'], directory)
     run(['go', 'test', '-count=1', './...'], directory)
+    actual_labs = {p.parent.relative_to(directory).as_posix() for p in (directory/'labs').glob('*/main.go')}
+    registered_labs = set(chapter.get('learning_labs', []))
+    if actual_labs != registered_labs:
+        raise ValueError('Learning lab registry differs from files: '+directory.name)
+    for lab in chapter.get('learning_labs', []):
+        target = './'+lab
+        if target not in chapter.get('additional_run_targets', []):
+            raise ValueError('Learning lab is not a documented run target: '+target)
+        output = run(['go', 'run', target], directory).stdout
+        if output != (directory/lab/'stdout.txt').read_text():
+            raise ValueError('Learning lab output differs: '+directory.name+'/'+lab)
 
 # Exercise solutions are checked as changes to temporary checkpoints.
 scenarios = [

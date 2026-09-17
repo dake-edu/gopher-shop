@@ -1,0 +1,4 @@
+3 PDF TXT
+0 PDF
+1 EPUB
+2 HTML

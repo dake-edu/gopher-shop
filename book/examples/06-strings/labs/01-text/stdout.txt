@@ -1,0 +1,9 @@
+4 3
+int32 Ә 1240
+Первый байт: 211
+0 Ә
+2 G
+3 o
+"Go\nshop"
+"Go\\nshop"
+ӘGo Go shop

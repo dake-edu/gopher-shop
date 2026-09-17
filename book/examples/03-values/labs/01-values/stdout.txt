@@ -1,0 +1,5 @@
+title=[], price=0, published=false
+Go shop
+Go
+int int64 300
+10

@@ -1,6 +1,6 @@
 {
   "title": "Go: от первой строки до интернет-магазина",
-  "edition": "0.19.0-sample",
+  "edition": "0.20.0-sample",
   "language": "ru",
   "repository": "https://github.com/dake-edu/gopher-shop",
   "go_version": "1.27.1",
@@ -36,7 +36,13 @@
       "source": "manuscript/03-values.md",
       "status": "draft",
       "checkpoint": "examples/03-values",
-      "module": "github.com/dake-edu/gopher-shop/book/examples/03-values"
+      "module": "github.com/dake-edu/gopher-shop/book/examples/03-values",
+      "learning_labs": [
+        "labs/01-values"
+      ],
+      "additional_run_targets": [
+        "./labs/01-values"
+      ]
     },
     {
       "id": "04",
@@ -44,7 +50,15 @@
       "source": "manuscript/04-conditions.md",
       "status": "draft",
       "checkpoint": "examples/04-conditions",
-      "module": "github.com/dake-edu/gopher-shop/book/examples/04-conditions"
+      "module": "github.com/dake-edu/gopher-shop/book/examples/04-conditions",
+      "learning_labs": [
+        "labs/01-choices",
+        "labs/02-loops"
+      ],
+      "additional_run_targets": [
+        "./labs/01-choices",
+        "./labs/02-loops"
+      ]
     },
     {
       "id": "05",
@@ -52,7 +66,13 @@
       "source": "manuscript/05-functions.md",
       "status": "draft",
       "checkpoint": "examples/05-functions",
-      "module": "github.com/dake-edu/gopher-shop/book/examples/05-functions"
+      "module": "github.com/dake-edu/gopher-shop/book/examples/05-functions",
+      "learning_labs": [
+        "labs/01-functions"
+      ],
+      "additional_run_targets": [
+        "./labs/01-functions"
+      ]
     },
     {
       "id": "06",
@@ -60,7 +80,13 @@
       "source": "manuscript/06-strings.md",
       "status": "draft",
       "checkpoint": "examples/06-strings",
-      "module": "github.com/dake-edu/gopher-shop/book/examples/06-strings"
+      "module": "github.com/dake-edu/gopher-shop/book/examples/06-strings",
+      "learning_labs": [
+        "labs/01-text"
+      ],
+      "additional_run_targets": [
+        "./labs/01-text"
+      ]
     },
     {
       "id": "07",
@@ -68,7 +94,17 @@
       "source": "manuscript/07-catalog.md",
       "status": "draft",
       "checkpoint": "examples/07-catalog",
-      "module": "github.com/dake-edu/gopher-shop/book/examples/07-catalog"
+      "module": "github.com/dake-edu/gopher-shop/book/examples/07-catalog",
+      "learning_labs": [
+        "labs/01-arrays",
+        "labs/02-slices",
+        "labs/03-maps"
+      ],
+      "additional_run_targets": [
+        "./labs/01-arrays",
+        "./labs/02-slices",
+        "./labs/03-maps"
+      ]
     },
     {
       "id": "08",
