@@ -1,6 +1,6 @@
 {
   "title": "Go: от первой строки до интернет-магазина",
-  "edition": "0.20.0-sample",
+  "edition": "0.21.0-sample",
   "language": "ru",
   "repository": "https://github.com/dake-edu/gopher-shop",
   "go_version": "1.27.1",
@@ -112,7 +112,17 @@
       "source": "manuscript/08-books.md",
       "status": "draft",
       "checkpoint": "examples/08-books",
-      "module": "github.com/dake-edu/gopher-shop/book/examples/08-books"
+      "module": "github.com/dake-edu/gopher-shop/book/examples/08-books",
+      "learning_labs": [
+        "labs/01-structs",
+        "labs/02-pointers",
+        "labs/03-methods"
+      ],
+      "additional_run_targets": [
+        "./labs/01-structs",
+        "./labs/02-pointers",
+        "./labs/03-methods"
+      ]
     },
     {
       "id": "09",
@@ -120,7 +130,17 @@
       "source": "manuscript/09-errors.md",
       "status": "draft",
       "checkpoint": "examples/09-errors",
-      "module": "github.com/dake-edu/gopher-shop/book/examples/09-errors"
+      "module": "github.com/dake-edu/gopher-shop/book/examples/09-errors",
+      "learning_labs": [
+        "labs/01-functions",
+        "labs/02-defer",
+        "labs/03-errors"
+      ],
+      "additional_run_targets": [
+        "./labs/01-functions",
+        "./labs/02-defer",
+        "./labs/03-errors"
+      ]
     },
     {
       "id": "10",
@@ -129,7 +149,13 @@
       "status": "draft",
       "checkpoint": "examples/10-packages",
       "module": "github.com/dake-edu/gopher-shop/book/examples/10-packages",
-      "run_target": "./cmd/shop"
+      "run_target": "./cmd/shop",
+      "learning_labs": [
+        "labs/01-package"
+      ],
+      "additional_run_targets": [
+        "./labs/01-package"
+      ]
     },
     {
       "id": "11",
@@ -141,7 +167,13 @@
       "run_args": [
         "-check"
       ],
-      "run_target": "./cmd/shop"
+      "run_target": "./cmd/shop",
+      "learning_labs": [
+        "labs/01-handler"
+      ],
+      "additional_run_targets": [
+        "./labs/01-handler"
+      ]
     },
     {
       "id": "12",
@@ -153,7 +185,15 @@
       "run_args": [
         "-check"
       ],
-      "run_target": "./cmd/shop"
+      "run_target": "./cmd/shop",
+      "learning_labs": [
+        "labs/01-template",
+        "labs/02-layout"
+      ],
+      "additional_run_targets": [
+        "./labs/01-template",
+        "./labs/02-layout"
+      ]
     }
   ],
   "publication": {
